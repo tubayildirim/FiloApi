@@ -1,0 +1,698 @@
+2026-07-01 09:58:17.005 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/scalar/v1 - null null
+2026-07-01 09:58:17.045 +03:00 [INF] Executing endpoint 'HTTP: GET /scalar/{documentName?}'
+2026-07-01 09:58:17.059 +03:00 [INF] Write content with HTTP Response ContentType of text/html
+2026-07-01 09:58:17.060 +03:00 [INF] Executed endpoint 'HTTP: GET /scalar/{documentName?}'
+2026-07-01 09:58:17.061 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/scalar/v1 - 200 624 text/html 58.6397ms
+2026-07-01 09:58:17.089 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/scalar/scalar.js - null null
+2026-07-01 09:58:17.089 +03:00 [INF] Executing endpoint 'HTTP: GET /scalar/scalar.js'
+2026-07-01 09:58:17.090 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/scalar/scalar.aspnetcore.js - null null
+2026-07-01 09:58:17.090 +03:00 [INF] CORS policy execution successful.
+2026-07-01 09:58:17.091 +03:00 [INF] Executing endpoint 'HTTP: GET /scalar/scalar.aspnetcore.js'
+2026-07-01 09:58:17.091 +03:00 [INF] Sending file with download name ''.
+2026-07-01 09:58:17.091 +03:00 [INF] Sending file with download name ''.
+2026-07-01 09:58:17.093 +03:00 [INF] Executed endpoint 'HTTP: GET /scalar/scalar.js'
+2026-07-01 09:58:17.093 +03:00 [INF] Executed endpoint 'HTTP: GET /scalar/scalar.aspnetcore.js'
+2026-07-01 09:58:17.093 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/scalar/scalar.aspnetcore.js - 304 null null 3.2497ms
+2026-07-01 09:58:17.093 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/scalar/scalar.js - 304 null null 3.8358ms
+2026-07-01 09:58:17.157 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/openapi/v1.json - null null
+2026-07-01 09:58:17.158 +03:00 [INF] Executing endpoint 'HTTP: GET /openapi/{documentName}.json'
+2026-07-01 09:58:17.190 +03:00 [INF] Executed endpoint 'HTTP: GET /openapi/{documentName}.json'
+2026-07-01 09:58:17.190 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/openapi/v1.json - 200 null application/json;charset=utf-8 33.1866ms
+2026-07-01 09:58:17.482 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/scalar/favicon.svg - null null
+2026-07-01 09:58:17.485 +03:00 [INF] Executing endpoint 'HTTP: GET /scalar/favicon.svg'
+2026-07-01 09:58:17.489 +03:00 [INF] Sending file with download name ''.
+2026-07-01 09:58:17.493 +03:00 [INF] Executed endpoint 'HTTP: GET /scalar/favicon.svg'
+2026-07-01 09:58:17.493 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/scalar/favicon.svg - 200 533 image/svg+xml 10.7666ms
+2026-07-01 09:58:24.028 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/api/v1/vehicles - null null
+2026-07-01 09:58:24.030 +03:00 [INF] Executing endpoint 'HTTP: GET /api/v{version:apiVersion}/vehicles/'
+2026-07-01 09:58:24.064 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM "Vehicles" AS "v"
+WHERE NOT ("v"."IsDeleted")
+2026-07-01 09:58:24.068 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "v"."Id", "v"."Brand", "v"."ChassisNumber", "v"."Color", "v"."CreatedAt", "v"."CreatedBy", "v"."DeletedAt", "v"."EngineNumber", "v"."FuelType", "v"."IsDeleted", "v"."Model", "v"."PersonId", "v"."PlateNumber", "v"."RegistrationDate", "v"."TransmissionType", "v"."UpdatedAt", "v"."UpdatedBy", "v"."Year"
+FROM "Vehicles" AS "v"
+WHERE NOT ("v"."IsDeleted")
+LIMIT @p1 OFFSET @p
+2026-07-01 09:58:24.071 +03:00 [INF] Setting HTTP status code 200.
+2026-07-01 09:58:24.071 +03:00 [INF] Writing value of type 'ApiResponse`1' as Json.
+2026-07-01 09:58:24.071 +03:00 [INF] Executed endpoint 'HTTP: GET /api/v{version:apiVersion}/vehicles/'
+2026-07-01 09:58:24.072 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/api/v1/vehicles - 200 null application/json; charset=utf-8 44.321ms
+2026-07-01 09:59:24.667 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5221/api/v1/person - application/json 103
+2026-07-01 09:59:24.671 +03:00 [INF] CORS policy execution successful.
+2026-07-01 09:59:24.671 +03:00 [INF] Executing endpoint 'HTTP: POST /api/v{version:apiVersion}/person/'
+2026-07-01 09:59:24.726 +03:00 [INF] Executed endpoint 'HTTP: POST /api/v{version:apiVersion}/person/'
+2026-07-01 09:59:24.727 +03:00 [ERR] Uygulama calisirken beklenmeyen bir hata olustu: Bir veya birden fazla doğrulama hatası oluştu.
+Filo.Application.Exceptions.ValidationException: Bir veya birden fazla doğrulama hatası oluştu.
+   at Filo.Api.Endpoints.PersonEndpoints.<>c.<<MapPersonEndpoints>b__0_2>d.MoveNext() in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Endpoints/PersonEndpoints.cs:line 52
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Filo.Api.Middlewares.CorrelationIdMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/CorrelationIdMiddleware.cs:line 24
+   at Filo.Api.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/ExceptionHandlingMiddleware.cs:line 23
+2026-07-01 09:59:24.744 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5221/api/v1/person - 400 null application/json 77.9611ms
+2026-07-01 09:59:56.394 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/api/v1/person - null null
+2026-07-01 09:59:56.399 +03:00 [INF] Executing endpoint 'HTTP: GET /api/v{version:apiVersion}/person/'
+2026-07-01 09:59:56.409 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM "Person" AS "p"
+WHERE NOT ("p"."IsDeleted")
+2026-07-01 09:59:56.411 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."Id", "p"."Age", "p"."CreatedAt", "p"."CreatedBy", "p"."DeletedAt", "p"."Gender", "p"."IsDeleted", "p"."Name", "p"."Surname", "p"."Tckn", "p"."UpdatedAt", "p"."UpdatedBy"
+FROM "Person" AS "p"
+WHERE NOT ("p"."IsDeleted")
+LIMIT @p1 OFFSET @p
+2026-07-01 09:59:56.415 +03:00 [INF] Setting HTTP status code 200.
+2026-07-01 09:59:56.415 +03:00 [INF] Writing value of type 'ApiResponse`1' as Json.
+2026-07-01 09:59:56.415 +03:00 [INF] Executed endpoint 'HTTP: GET /api/v{version:apiVersion}/person/'
+2026-07-01 09:59:56.416 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/api/v1/person - 200 null application/json; charset=utf-8 21.6001ms
+2026-07-01 10:00:11.908 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5221/api/v1/person - application/json 108
+2026-07-01 10:00:11.909 +03:00 [INF] CORS policy execution successful.
+2026-07-01 10:00:11.910 +03:00 [INF] Executing endpoint 'HTTP: POST /api/v{version:apiVersion}/person/'
+2026-07-01 10:00:11.951 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@tckn='?' (Size = 11)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."Id", "p"."Age", "p"."CreatedAt", "p"."CreatedBy", "p"."DeletedAt", "p"."Gender", "p"."IsDeleted", "p"."Name", "p"."Surname", "p"."Tckn", "p"."UpdatedAt", "p"."UpdatedBy"
+FROM "Person" AS "p"
+WHERE NOT ("p"."IsDeleted") AND "p"."Tckn" = @tckn
+LIMIT 1
+2026-07-01 10:00:12.014 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?', @p3='?' (DbType = DateTime), @p4='?' (Size = 5), @p5='?' (DbType = Boolean), @p6='?' (Size = 4), @p7='?' (Size = 8), @p8='?' (Size = 11), @p9='?' (DbType = DateTime), @p10='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Person" ("Age", "CreatedAt", "CreatedBy", "DeletedAt", "Gender", "IsDeleted", "Name", "Surname", "Tckn", "UpdatedAt", "UpdatedBy")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10)
+RETURNING "Id";
+2026-07-01 10:00:12.070 +03:00 [INF] Setting HTTP status code 201.
+2026-07-01 10:00:12.070 +03:00 [INF] Writing value of type 'ApiResponse`1' as Json.
+2026-07-01 10:00:12.070 +03:00 [INF] Executed endpoint 'HTTP: POST /api/v{version:apiVersion}/person/'
+2026-07-01 10:00:12.070 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5221/api/v1/person - 201 null application/json; charset=utf-8 162.2335ms
+2026-07-01 10:00:44.459 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/api/v1/person?PageNumber=1&PageSize=10 - null null
+2026-07-01 10:00:44.466 +03:00 [INF] Executing endpoint 'HTTP: GET /api/v{version:apiVersion}/person/'
+2026-07-01 10:00:44.471 +03:00 [INF] Executed endpoint 'HTTP: GET /api/v{version:apiVersion}/person/'
+2026-07-01 10:00:44.472 +03:00 [ERR] Uygulama calisirken beklenmeyen bir hata olustu: Each parameter in the deserialization constructor on type 'Filo.Common.Models.PagedList`1[Filo.Application.DTOs.PersonDto]' must bind to an object property or field on deserialization. Each parameter name and type must match with a property or field on the object. Fields are only considered when 'JsonSerializerOptions.IncludeFields' is enabled. The name match can be case-insensitive.
+System.InvalidOperationException: Each parameter in the deserialization constructor on type 'Filo.Common.Models.PagedList`1[Filo.Application.DTOs.PersonDto]' must bind to an object property or field on deserialization. Each parameter name and type must match with a property or field on the object. Fields are only considered when 'JsonSerializerOptions.IncludeFields' is enabled. The name match can be case-insensitive.
+   at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_ConstructorParameterIncompleteBinding(Type parentType)
+   at System.Text.Json.Serialization.Converters.ObjectWithParameterizedConstructorConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.Deserialize(Utf8JsonReader& reader, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo`1 jsonTypeInfo, Nullable`1 actualByteCount)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo`1 jsonTypeInfo)
+   at Filo.Infrastructure.Caching.DistributedCacheService.GetAsync[T](String key) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Infrastructure/Caching/DistributedCacheService.cs:line 26
+   at Filo.Application.Features.Person.Queries.GetPagedPersonQueryHandler.Handle(GetPagedPersonQuery request, CancellationToken cancellationToken) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Application/Features/Person/Queries/GetPagedPersonQuery.cs:line 33
+   at Filo.Api.Endpoints.PersonEndpoints.<>c.<<MapPersonEndpoints>b__0_0>d.MoveNext() in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Endpoints/PersonEndpoints.cs:line 26
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Filo.Api.Middlewares.CorrelationIdMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/CorrelationIdMiddleware.cs:line 24
+   at Filo.Api.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/ExceptionHandlingMiddleware.cs:line 23
+2026-07-01 10:00:44.478 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/api/v1/person?PageNumber=1&PageSize=10 - 500 null application/json 19.5197ms
+2026-07-01 10:00:57.076 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/api/v1/person/5 - null null
+2026-07-01 10:00:57.078 +03:00 [INF] Executing endpoint 'HTTP: GET /api/v{version:apiVersion}/person/{id:int}'
+2026-07-01 10:00:57.098 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."Id", "p"."Age", "p"."CreatedAt", "p"."CreatedBy", "p"."DeletedAt", "p"."Gender", "p"."IsDeleted", "p"."Name", "p"."Surname", "p"."Tckn", "p"."UpdatedAt", "p"."UpdatedBy"
+FROM "Person" AS "p"
+WHERE NOT ("p"."IsDeleted") AND "p"."Id" = @p
+LIMIT 1
+2026-07-01 10:00:57.099 +03:00 [INF] Setting HTTP status code 200.
+2026-07-01 10:00:57.099 +03:00 [INF] Writing value of type 'ApiResponse`1' as Json.
+2026-07-01 10:00:57.099 +03:00 [INF] Executed endpoint 'HTTP: GET /api/v{version:apiVersion}/person/{id:int}'
+2026-07-01 10:00:57.099 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/api/v1/person/5 - 200 null application/json; charset=utf-8 23.453ms
+2026-07-01 10:01:02.308 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/api/v1/person/6 - null null
+2026-07-01 10:01:02.311 +03:00 [INF] Executing endpoint 'HTTP: GET /api/v{version:apiVersion}/person/{id:int}'
+2026-07-01 10:01:02.317 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."Id", "p"."Age", "p"."CreatedAt", "p"."CreatedBy", "p"."DeletedAt", "p"."Gender", "p"."IsDeleted", "p"."Name", "p"."Surname", "p"."Tckn", "p"."UpdatedAt", "p"."UpdatedBy"
+FROM "Person" AS "p"
+WHERE NOT ("p"."IsDeleted") AND "p"."Id" = @p
+LIMIT 1
+2026-07-01 10:01:02.318 +03:00 [INF] Setting HTTP status code 200.
+2026-07-01 10:01:02.318 +03:00 [INF] Writing value of type 'ApiResponse`1' as Json.
+2026-07-01 10:01:02.318 +03:00 [INF] Executed endpoint 'HTTP: GET /api/v{version:apiVersion}/person/{id:int}'
+2026-07-01 10:01:02.318 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/api/v1/person/6 - 200 null application/json; charset=utf-8 9.8431ms
+2026-07-01 10:01:10.177 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/api/v1/person/7 - null null
+2026-07-01 10:01:10.178 +03:00 [INF] Executing endpoint 'HTTP: GET /api/v{version:apiVersion}/person/{id:int}'
+2026-07-01 10:01:10.182 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."Id", "p"."Age", "p"."CreatedAt", "p"."CreatedBy", "p"."DeletedAt", "p"."Gender", "p"."IsDeleted", "p"."Name", "p"."Surname", "p"."Tckn", "p"."UpdatedAt", "p"."UpdatedBy"
+FROM "Person" AS "p"
+WHERE NOT ("p"."IsDeleted") AND "p"."Id" = @p
+LIMIT 1
+2026-07-01 10:01:10.183 +03:00 [INF] Executed endpoint 'HTTP: GET /api/v{version:apiVersion}/person/{id:int}'
+2026-07-01 10:01:10.183 +03:00 [ERR] Uygulama calisirken beklenmeyen bir hata olustu: ID'si 7 olan kişi bulunamadı.
+Filo.Application.Exceptions.NotFoundException: ID'si 7 olan kişi bulunamadı.
+   at Filo.Application.Features.Person.Queries.GetPersonByIdQueryHandler.Handle(GetPersonByIdQuery request, CancellationToken cancellationToken) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Application/Features/Person/Queries/GetPersonByIdQuery.cs:line 39
+   at Filo.Api.Endpoints.PersonEndpoints.<>c.<<MapPersonEndpoints>b__0_1>d.MoveNext() in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Endpoints/PersonEndpoints.cs:line 33
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Filo.Api.Middlewares.CorrelationIdMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/CorrelationIdMiddleware.cs:line 24
+   at Filo.Api.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/ExceptionHandlingMiddleware.cs:line 23
+2026-07-01 10:01:10.185 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/api/v1/person/7 - 404 null application/json 7.8589ms
+2026-07-01 10:01:22.830 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/api/v1/person?PageNumber=&PageSize= - null null
+2026-07-01 10:01:22.833 +03:00 [INF] Executing endpoint 'HTTP: GET /api/v{version:apiVersion}/person/'
+2026-07-01 10:01:22.834 +03:00 [INF] Executed endpoint 'HTTP: GET /api/v{version:apiVersion}/person/'
+2026-07-01 10:01:22.835 +03:00 [ERR] Uygulama calisirken beklenmeyen bir hata olustu: Failed to bind parameter "Nullable<int> PageNumber" from "".
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to bind parameter "Nullable<int> PageNumber" from "".
+   at lambda_method27(Closure, Object, HttpContext)
+   at Asp.Versioning.Routing.ReportApiVersionsDecorator.<>c__DisplayClass4_0.<op_Implicit>b__0(HttpContext context)
+   at Asp.Versioning.Builder.EndpointBuilderFinalizer.<>c__DisplayClass2_0.<Finialize>b__0(HttpContext context)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Filo.Api.Middlewares.CorrelationIdMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/CorrelationIdMiddleware.cs:line 24
+   at Filo.Api.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/ExceptionHandlingMiddleware.cs:line 23
+2026-07-01 10:01:22.842 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/api/v1/person?PageNumber=&PageSize= - 500 null application/json 13.9756ms
+2026-07-01 10:01:26.576 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/api/v1/person?PageNumber=&PageSize= - null null
+2026-07-01 10:01:26.579 +03:00 [INF] Executing endpoint 'HTTP: GET /api/v{version:apiVersion}/person/'
+2026-07-01 10:01:26.580 +03:00 [INF] Executed endpoint 'HTTP: GET /api/v{version:apiVersion}/person/'
+2026-07-01 10:01:26.580 +03:00 [ERR] Uygulama calisirken beklenmeyen bir hata olustu: Failed to bind parameter "Nullable<int> PageNumber" from "".
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to bind parameter "Nullable<int> PageNumber" from "".
+   at lambda_method27(Closure, Object, HttpContext)
+   at Asp.Versioning.Routing.ReportApiVersionsDecorator.<>c__DisplayClass4_0.<op_Implicit>b__0(HttpContext context)
+   at Asp.Versioning.Builder.EndpointBuilderFinalizer.<>c__DisplayClass2_0.<Finialize>b__0(HttpContext context)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Filo.Api.Middlewares.CorrelationIdMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/CorrelationIdMiddleware.cs:line 24
+   at Filo.Api.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/ExceptionHandlingMiddleware.cs:line 23
+2026-07-01 10:01:26.582 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/api/v1/person?PageNumber=&PageSize= - 500 null application/json 6.1013ms
+2026-07-01 10:47:12.994 +03:00 [INF] Configured endpoint VehicleCreatedEvent, Consumer: Filo.Infrastructure.Queues.VehicleCreatedEventConsumer
+2026-07-01 10:47:13.220 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
+2026-07-01 10:47:13.295 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Person" AS "p"
+    WHERE NOT ("p"."IsDeleted"))
+2026-07-01 10:47:13.298 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Vehicles" AS "v"
+    WHERE NOT ("v"."IsDeleted"))
+2026-07-01 10:47:13.303 +03:00 [INF] Filo API baslatiliyor...
+2026-07-01 10:47:13.309 +03:00 [INF] User profile is available. Using '/Users/yildirim/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-07-01 10:47:13.327 +03:00 [INF] Bus started: "loopback://localhost/"
+2026-07-01 10:47:13.360 +03:00 [INF] Now listening on: http://localhost:5221
+2026-07-01 10:47:13.361 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-07-01 10:47:13.361 +03:00 [INF] Hosting environment: Development
+2026-07-01 10:47:13.361 +03:00 [INF] Content root path: /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api
+2026-07-01 10:48:44.768 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/ - null null
+2026-07-01 10:48:44.819 +03:00 [WRN] Failed to determine the https port for redirect.
+2026-07-01 10:48:44.836 +03:00 [INF] Executing endpoint 'HTTP: GET /'
+2026-07-01 10:48:44.839 +03:00 [INF] Executing RedirectResult, redirecting to /scalar/v1.
+2026-07-01 10:48:44.839 +03:00 [INF] Executed endpoint 'HTTP: GET /'
+2026-07-01 10:48:44.841 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/ - 302 0 null 74.9177ms
+2026-07-01 10:48:44.844 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/scalar/v1 - null null
+2026-07-01 10:48:44.845 +03:00 [INF] Executing endpoint 'HTTP: GET /scalar/{documentName?}'
+2026-07-01 10:48:44.885 +03:00 [INF] Write content with HTTP Response ContentType of text/html
+2026-07-01 10:48:44.885 +03:00 [INF] Executed endpoint 'HTTP: GET /scalar/{documentName?}'
+2026-07-01 10:48:44.885 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/scalar/v1 - 200 624 text/html 41.171ms
+2026-07-01 10:48:44.948 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/scalar/scalar.js - null null
+2026-07-01 10:48:44.950 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/scalar/scalar.aspnetcore.js - null null
+2026-07-01 10:48:44.950 +03:00 [INF] CORS policy execution successful.
+2026-07-01 10:48:44.951 +03:00 [INF] Executing endpoint 'HTTP: GET /scalar/scalar.aspnetcore.js'
+2026-07-01 10:48:44.951 +03:00 [INF] Executing endpoint 'HTTP: GET /scalar/scalar.js'
+2026-07-01 10:48:44.955 +03:00 [INF] Sending file with download name ''.
+2026-07-01 10:48:44.955 +03:00 [INF] Sending file with download name ''.
+2026-07-01 10:48:44.957 +03:00 [INF] Executed endpoint 'HTTP: GET /scalar/scalar.aspnetcore.js'
+2026-07-01 10:48:44.957 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/scalar/scalar.aspnetcore.js - 200 1111 text/javascript 6.6261ms
+2026-07-01 10:48:44.969 +03:00 [INF] Executed endpoint 'HTTP: GET /scalar/scalar.js'
+2026-07-01 10:48:44.969 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/scalar/scalar.js - 200 1045290 text/javascript 21.1988ms
+2026-07-01 10:48:45.153 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/openapi/v1.json - null null
+2026-07-01 10:48:45.153 +03:00 [INF] Executing endpoint 'HTTP: GET /openapi/{documentName}.json'
+2026-07-01 10:48:45.166 +03:00 [INF] No action descriptors found. This may indicate an incorrectly configured application or missing application parts. To learn more, visit https://aka.ms/aspnet/mvc/app-parts
+2026-07-01 10:48:45.217 +03:00 [INF] Executed endpoint 'HTTP: GET /openapi/{documentName}.json'
+2026-07-01 10:48:45.217 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/openapi/v1.json - 200 null application/json;charset=utf-8 64.1175ms
+2026-07-01 10:48:51.470 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/api/v1/vehicles - null null
+2026-07-01 10:48:51.480 +03:00 [INF] Executing endpoint 'HTTP: GET /api/v{version:apiVersion}/vehicles/'
+2026-07-01 10:48:51.486 +03:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-01 10:48:51.539 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM "Vehicles" AS "v"
+WHERE NOT ("v"."IsDeleted")
+2026-07-01 10:48:51.547 +03:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-07-01 10:48:51.547 +03:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-07-01 10:48:51.577 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "v0"."Id", "v0"."Brand", "v0"."ChassisNumber", "v0"."Color", "v0"."CreatedAt", "v0"."CreatedBy", "v0"."DeletedAt", "v0"."EngineNumber", "v0"."FuelType", "v0"."IsDeleted", "v0"."Model", "v0"."PersonId", "v0"."PlateNumber", "v0"."RegistrationDate", "v0"."TransmissionType", "v0"."UpdatedAt", "v0"."UpdatedBy", "v0"."Year", "p0"."Id", "p0"."Age", "p0"."CreatedAt", "p0"."CreatedBy", "p0"."DeletedAt", "p0"."Gender", "p0"."IsDeleted", "p0"."Name", "p0"."Surname", "p0"."Tckn", "p0"."UpdatedAt", "p0"."UpdatedBy"
+FROM (
+    SELECT "v"."Id", "v"."Brand", "v"."ChassisNumber", "v"."Color", "v"."CreatedAt", "v"."CreatedBy", "v"."DeletedAt", "v"."EngineNumber", "v"."FuelType", "v"."IsDeleted", "v"."Model", "v"."PersonId", "v"."PlateNumber", "v"."RegistrationDate", "v"."TransmissionType", "v"."UpdatedAt", "v"."UpdatedBy", "v"."Year"
+    FROM "Vehicles" AS "v"
+    WHERE NOT ("v"."IsDeleted")
+    LIMIT @p1 OFFSET @p
+) AS "v0"
+LEFT JOIN (
+    SELECT "p"."Id", "p"."Age", "p"."CreatedAt", "p"."CreatedBy", "p"."DeletedAt", "p"."Gender", "p"."IsDeleted", "p"."Name", "p"."Surname", "p"."Tckn", "p"."UpdatedAt", "p"."UpdatedBy"
+    FROM "Person" AS "p"
+    WHERE NOT ("p"."IsDeleted")
+) AS "p0" ON "v0"."PersonId" = "p0"."Id"
+2026-07-01 10:48:51.625 +03:00 [INF] Setting HTTP status code 200.
+2026-07-01 10:48:51.626 +03:00 [INF] Writing value of type 'ApiResponse`1' as Json.
+2026-07-01 10:48:51.627 +03:00 [INF] Executed endpoint 'HTTP: GET /api/v{version:apiVersion}/vehicles/'
+2026-07-01 10:48:51.627 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/api/v1/vehicles - 200 null application/json; charset=utf-8 156.882ms
+2026-07-01 10:51:29.889 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5221/api/v1/vehicles - application/json 291
+2026-07-01 10:51:29.895 +03:00 [INF] CORS policy execution successful.
+2026-07-01 10:51:29.896 +03:00 [INF] Executing endpoint 'HTTP: POST /api/v{version:apiVersion}/vehicles/'
+2026-07-01 10:51:29.913 +03:00 [INF] Executed endpoint 'HTTP: POST /api/v{version:apiVersion}/vehicles/'
+2026-07-01 10:51:29.913 +03:00 [ERR] Uygulama calisirken beklenmeyen bir hata olustu: Failed to read parameter "CreateVehicleCommand request" from the request body as JSON.
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "CreateVehicleCommand request" from the request body as JSON.
+ ---> System.Text.Json.JsonException: 'G' is an invalid start of a value. Path: $.color | LineNumber: 5 | BytePositionInLine: 11.
+ ---> System.Text.Json.JsonReaderException: 'G' is an invalid start of a value. LineNumber: 5 | BytePositionInLine: 11.
+   at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& state, JsonReaderException ex)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Filo.Api.Middlewares.CorrelationIdMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/CorrelationIdMiddleware.cs:line 24
+   at Filo.Api.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/ExceptionHandlingMiddleware.cs:line 23
+2026-07-01 10:51:29.937 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5221/api/v1/vehicles - 500 null application/json 48.1595ms
+2026-07-01 10:51:42.582 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5221/api/v1/vehicles - application/json 291
+2026-07-01 10:51:42.583 +03:00 [INF] CORS policy execution successful.
+2026-07-01 10:51:42.583 +03:00 [INF] Executing endpoint 'HTTP: POST /api/v{version:apiVersion}/vehicles/'
+2026-07-01 10:51:42.585 +03:00 [INF] Executed endpoint 'HTTP: POST /api/v{version:apiVersion}/vehicles/'
+2026-07-01 10:51:42.585 +03:00 [ERR] Uygulama calisirken beklenmeyen bir hata olustu: Failed to read parameter "CreateVehicleCommand request" from the request body as JSON.
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "CreateVehicleCommand request" from the request body as JSON.
+ ---> System.Text.Json.JsonException: 'G' is an invalid start of a value. Path: $.color | LineNumber: 5 | BytePositionInLine: 11.
+ ---> System.Text.Json.JsonReaderException: 'G' is an invalid start of a value. LineNumber: 5 | BytePositionInLine: 11.
+   at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& state, JsonReaderException ex)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Filo.Api.Middlewares.CorrelationIdMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/CorrelationIdMiddleware.cs:line 24
+   at Filo.Api.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/ExceptionHandlingMiddleware.cs:line 23
+2026-07-01 10:51:42.587 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5221/api/v1/vehicles - 500 null application/json 4.4955ms
+2026-07-01 10:51:43.883 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5221/api/v1/vehicles - application/json 291
+2026-07-01 10:51:43.884 +03:00 [INF] CORS policy execution successful.
+2026-07-01 10:51:43.884 +03:00 [INF] Executing endpoint 'HTTP: POST /api/v{version:apiVersion}/vehicles/'
+2026-07-01 10:51:43.885 +03:00 [INF] Executed endpoint 'HTTP: POST /api/v{version:apiVersion}/vehicles/'
+2026-07-01 10:51:43.885 +03:00 [ERR] Uygulama calisirken beklenmeyen bir hata olustu: Failed to read parameter "CreateVehicleCommand request" from the request body as JSON.
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "CreateVehicleCommand request" from the request body as JSON.
+ ---> System.Text.Json.JsonException: 'G' is an invalid start of a value. Path: $.color | LineNumber: 5 | BytePositionInLine: 11.
+ ---> System.Text.Json.JsonReaderException: 'G' is an invalid start of a value. LineNumber: 5 | BytePositionInLine: 11.
+   at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& state, JsonReaderException ex)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Filo.Api.Middlewares.CorrelationIdMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/CorrelationIdMiddleware.cs:line 24
+   at Filo.Api.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/ExceptionHandlingMiddleware.cs:line 23
+2026-07-01 10:51:43.888 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5221/api/v1/vehicles - 500 null application/json 5.1651ms
+2026-07-01 10:53:12.584 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5221/api/v1/vehicles - application/json 293
+2026-07-01 10:53:12.587 +03:00 [INF] CORS policy execution successful.
+2026-07-01 10:53:12.587 +03:00 [INF] Executing endpoint 'HTTP: POST /api/v{version:apiVersion}/vehicles/'
+2026-07-01 10:53:12.591 +03:00 [INF] Executed endpoint 'HTTP: POST /api/v{version:apiVersion}/vehicles/'
+2026-07-01 10:53:12.591 +03:00 [ERR] Uygulama calisirken beklenmeyen bir hata olustu: Failed to read parameter "CreateVehicleCommand request" from the request body as JSON.
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "CreateVehicleCommand request" from the request body as JSON.
+ ---> System.Text.Json.JsonException: 'G' is an invalid start of a value. Path: $.fuelType | LineNumber: 6 | BytePositionInLine: 14.
+ ---> System.Text.Json.JsonReaderException: 'G' is an invalid start of a value. LineNumber: 6 | BytePositionInLine: 14.
+   at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& state, JsonReaderException ex)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Filo.Api.Middlewares.CorrelationIdMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/CorrelationIdMiddleware.cs:line 24
+   at Filo.Api.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/ExceptionHandlingMiddleware.cs:line 23
+2026-07-01 10:53:12.594 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5221/api/v1/vehicles - 500 null application/json 10.7679ms
+2026-07-01 10:54:03.904 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5221/api/v1/vehicles - application/json 297
+2026-07-01 10:54:03.908 +03:00 [INF] CORS policy execution successful.
+2026-07-01 10:54:03.909 +03:00 [INF] Executing endpoint 'HTTP: POST /api/v{version:apiVersion}/vehicles/'
+2026-07-01 10:54:03.912 +03:00 [INF] Executed endpoint 'HTTP: POST /api/v{version:apiVersion}/vehicles/'
+2026-07-01 10:54:03.912 +03:00 [ERR] Uygulama calisirken beklenmeyen bir hata olustu: Failed to read parameter "CreateVehicleCommand request" from the request body as JSON.
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "CreateVehicleCommand request" from the request body as JSON.
+ ---> System.Text.Json.JsonException: The JSON value could not be converted to System.String. Path: $.engineNumber | LineNumber: 8 | BytePositionInLine: 34.
+ ---> System.InvalidOperationException: Cannot get the value of a token type 'Number' as a string.
+   at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_ExpectedString(JsonTokenType tokenType)
+   at System.Text.Json.Utf8JsonReader.GetString()
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& state, Utf8JsonReader& reader, Exception ex)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Filo.Api.Middlewares.CorrelationIdMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/CorrelationIdMiddleware.cs:line 24
+   at Filo.Api.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/ExceptionHandlingMiddleware.cs:line 23
+2026-07-01 10:54:03.916 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5221/api/v1/vehicles - 500 null application/json 12.3629ms
+2026-07-01 10:54:35.622 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5221/api/v1/vehicles - application/json 314
+2026-07-01 10:54:35.632 +03:00 [INF] CORS policy execution successful.
+2026-07-01 10:54:35.634 +03:00 [INF] Executing endpoint 'HTTP: POST /api/v{version:apiVersion}/vehicles/'
+2026-07-01 10:54:35.710 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@plateNumber='?' (Size = 8)], CommandType='"Text"', CommandTimeout='30']
+SELECT "v"."Id", "v"."Brand", "v"."ChassisNumber", "v"."Color", "v"."CreatedAt", "v"."CreatedBy", "v"."DeletedAt", "v"."EngineNumber", "v"."FuelType", "v"."IsDeleted", "v"."Model", "v"."PersonId", "v"."PlateNumber", "v"."RegistrationDate", "v"."TransmissionType", "v"."UpdatedAt", "v"."UpdatedBy", "v"."Year", "p0"."Id", "p0"."Age", "p0"."CreatedAt", "p0"."CreatedBy", "p0"."DeletedAt", "p0"."Gender", "p0"."IsDeleted", "p0"."Name", "p0"."Surname", "p0"."Tckn", "p0"."UpdatedAt", "p0"."UpdatedBy"
+FROM "Vehicles" AS "v"
+LEFT JOIN (
+    SELECT "p"."Id", "p"."Age", "p"."CreatedAt", "p"."CreatedBy", "p"."DeletedAt", "p"."Gender", "p"."IsDeleted", "p"."Name", "p"."Surname", "p"."Tckn", "p"."UpdatedAt", "p"."UpdatedBy"
+    FROM "Person" AS "p"
+    WHERE NOT ("p"."IsDeleted")
+) AS "p0" ON "v"."PersonId" = "p0"."Id"
+WHERE NOT ("v"."IsDeleted") AND "v"."PlateNumber" = @plateNumber
+LIMIT 1
+2026-07-01 10:54:35.749 +03:00 [ERR] Failed executing DbCommand (1ms) [Parameters=[@p0='?' (Size = 6), @p1='?' (Size = 14), @p2='?' (Size = 4), @p3='?' (DbType = DateTime), @p4='?', @p5='?' (DbType = DateTime), @p6='?' (Size = 16), @p7='?' (Size = 8), @p8='?' (DbType = Boolean), @p9='?' (Size = 12), @p10='?' (DbType = Int32), @p11='?' (Size = 8), @p12='?' (DbType = DateTime), @p13='?' (Size = 9), @p14='?' (DbType = DateTime), @p15='?', @p16='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Vehicles" ("Brand", "ChassisNumber", "Color", "CreatedAt", "CreatedBy", "DeletedAt", "EngineNumber", "FuelType", "IsDeleted", "Model", "PersonId", "PlateNumber", "RegistrationDate", "TransmissionType", "UpdatedAt", "UpdatedBy", "Year")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16)
+RETURNING "Id";
+2026-07-01 10:54:35.752 +03:00 [ERR] An exception occurred in the database while saving changes for context type 'Filo.Infrastructure.Persistence.AppDbContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: main.People'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: main.People'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-07-01 10:54:35.752 +03:00 [INF] Executed endpoint 'HTTP: POST /api/v{version:apiVersion}/vehicles/'
+2026-07-01 10:54:35.752 +03:00 [ERR] Uygulama calisirken beklenmeyen bir hata olustu: An error occurred while saving the entity changes. See the inner exception for details.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: main.People'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Filo.Infrastructure.Persistence.AppDbContext.SaveChangesAsync(CancellationToken cancellationToken) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Infrastructure/Persistence/AppDbContext.cs:line 41
+   at Filo.Infrastructure.Persistence.UnitOfWork.SaveChangesAsync(CancellationToken cancellationToken) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Infrastructure/Persistence/UnitOfWork.cs:line 22
+   at Filo.Application.Features.Vehicles.Commands.CreateVehicleCommandHandler.Handle(CreateVehicleCommand request, CancellationToken cancellationToken) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Application/Features/Vehicles/Commands/CreateVehicleCommand.cs:line 56
+   at Filo.Api.Endpoints.VehicleEndpoints.<>c.<<MapVehicleEndpoints>b__0_2>d.MoveNext() in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Endpoints/VehicleEndpoints.cs:line 61
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Filo.Api.Middlewares.CorrelationIdMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/CorrelationIdMiddleware.cs:line 24
+   at Filo.Api.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/ExceptionHandlingMiddleware.cs:line 23
+2026-07-01 10:54:35.754 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5221/api/v1/vehicles - 500 null application/json 133.1748ms
+2026-07-01 10:55:40.057 +03:00 [INF] Configured endpoint VehicleCreatedEvent, Consumer: Filo.Infrastructure.Queues.VehicleCreatedEventConsumer
+2026-07-01 10:55:40.299 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+PRAGMA journal_mode = 'wal';
+2026-07-01 10:55:40.338 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Person" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Person" PRIMARY KEY AUTOINCREMENT,
+    "Name" TEXT NOT NULL,
+    "Surname" TEXT NOT NULL,
+    "Tckn" TEXT NOT NULL,
+    "Age" INTEGER NOT NULL,
+    "Gender" TEXT NOT NULL,
+    "CreatedAt" TEXT NOT NULL,
+    "CreatedBy" TEXT NULL,
+    "UpdatedAt" TEXT NULL,
+    "UpdatedBy" TEXT NULL,
+    "IsDeleted" INTEGER NOT NULL,
+    "DeletedAt" TEXT NULL
+);
+2026-07-01 10:55:40.338 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Vehicles" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Vehicles" PRIMARY KEY AUTOINCREMENT,
+    "Brand" TEXT NOT NULL,
+    "Model" TEXT NOT NULL,
+    "Year" INTEGER NOT NULL,
+    "PlateNumber" TEXT NOT NULL,
+    "Color" TEXT NULL,
+    "FuelType" TEXT NULL,
+    "TransmissionType" TEXT NULL,
+    "EngineNumber" TEXT NULL,
+    "ChassisNumber" TEXT NULL,
+    "RegistrationDate" TEXT NULL,
+    "PersonId" INTEGER NULL,
+    "CreatedAt" TEXT NOT NULL,
+    "CreatedBy" TEXT NULL,
+    "UpdatedAt" TEXT NULL,
+    "UpdatedBy" TEXT NULL,
+    "IsDeleted" INTEGER NOT NULL,
+    "DeletedAt" TEXT NULL,
+    CONSTRAINT "FK_Vehicles_Person_PersonId" FOREIGN KEY ("PersonId") REFERENCES "Person" ("Id") ON DELETE SET NULL
+);
+2026-07-01 10:55:40.338 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX "IX_Person_Tckn" ON "Person" ("Tckn");
+2026-07-01 10:55:40.338 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_Vehicles_PersonId" ON "Vehicles" ("PersonId");
+2026-07-01 10:55:40.338 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX "IX_Vehicles_PlateNumber" ON "Vehicles" ("PlateNumber");
+2026-07-01 10:55:40.410 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Person" AS "p"
+    WHERE NOT ("p"."IsDeleted"))
+2026-07-01 10:55:40.458 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (Size = 6), @p3='?' (DbType = DateTime), @p4='?' (Size = 5), @p5='?' (DbType = Boolean), @p6='?' (Size = 5), @p7='?' (Size = 8), @p8='?' (Size = 11), @p9='?' (DbType = DateTime), @p10='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Person" ("Age", "CreatedAt", "CreatedBy", "DeletedAt", "Gender", "IsDeleted", "Name", "Surname", "Tckn", "UpdatedAt", "UpdatedBy")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10)
+RETURNING "Id";
+2026-07-01 10:55:40.462 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (Size = 6), @p3='?' (DbType = DateTime), @p4='?' (Size = 5), @p5='?' (DbType = Boolean), @p6='?' (Size = 4), @p7='?' (Size = 5), @p8='?' (Size = 11), @p9='?' (DbType = DateTime), @p10='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Person" ("Age", "CreatedAt", "CreatedBy", "DeletedAt", "Gender", "IsDeleted", "Name", "Surname", "Tckn", "UpdatedAt", "UpdatedBy")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10)
+RETURNING "Id";
+2026-07-01 10:55:40.462 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (Size = 6), @p3='?' (DbType = DateTime), @p4='?' (Size = 5), @p5='?' (DbType = Boolean), @p6='?' (Size = 6), @p7='?' (Size = 4), @p8='?' (Size = 11), @p9='?' (DbType = DateTime), @p10='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Person" ("Age", "CreatedAt", "CreatedBy", "DeletedAt", "Gender", "IsDeleted", "Name", "Surname", "Tckn", "UpdatedAt", "UpdatedBy")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10)
+RETURNING "Id";
+2026-07-01 10:55:40.462 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (Size = 6), @p3='?' (DbType = DateTime), @p4='?' (Size = 5), @p5='?' (DbType = Boolean), @p6='?' (Size = 6), @p7='?' (Size = 5), @p8='?' (Size = 11), @p9='?' (DbType = DateTime), @p10='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Person" ("Age", "CreatedAt", "CreatedBy", "DeletedAt", "Gender", "IsDeleted", "Name", "Surname", "Tckn", "UpdatedAt", "UpdatedBy")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10)
+RETURNING "Id";
+2026-07-01 10:55:40.462 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (Size = 6), @p3='?' (DbType = DateTime), @p4='?' (Size = 5), @p5='?' (DbType = Boolean), @p6='?' (Size = 4), @p7='?' (Size = 5), @p8='?' (Size = 11), @p9='?' (DbType = DateTime), @p10='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Person" ("Age", "CreatedAt", "CreatedBy", "DeletedAt", "Gender", "IsDeleted", "Name", "Surname", "Tckn", "UpdatedAt", "UpdatedBy")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10)
+RETURNING "Id";
+2026-07-01 10:55:40.465 +03:00 [INF] Database successfully seeded with initial person data.
+2026-07-01 10:55:40.467 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Vehicles" AS "v"
+    WHERE NOT ("v"."IsDeleted"))
+2026-07-01 10:55:40.477 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."Id", "p"."Age", "p"."CreatedAt", "p"."CreatedBy", "p"."DeletedAt", "p"."Gender", "p"."IsDeleted", "p"."Name", "p"."Surname", "p"."Tckn", "p"."UpdatedAt", "p"."UpdatedBy"
+FROM "Person" AS "p"
+WHERE NOT ("p"."IsDeleted")
+2026-07-01 10:55:40.492 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 3), @p1='?', @p2='?' (Size = 5), @p3='?' (DbType = DateTime), @p4='?' (Size = 6), @p5='?' (DbType = DateTime), @p6='?', @p7='?' (Size = 8), @p8='?' (DbType = Boolean), @p9='?' (Size = 4), @p10='?' (DbType = Int32), @p11='?' (Size = 8), @p12='?' (DbType = DateTime), @p13='?' (Size = 9), @p14='?' (DbType = DateTime), @p15='?', @p16='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Vehicles" ("Brand", "ChassisNumber", "Color", "CreatedAt", "CreatedBy", "DeletedAt", "EngineNumber", "FuelType", "IsDeleted", "Model", "PersonId", "PlateNumber", "RegistrationDate", "TransmissionType", "UpdatedAt", "UpdatedBy", "Year")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16)
+RETURNING "Id";
+2026-07-01 10:55:40.493 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 4), @p1='?', @p2='?' (Size = 5), @p3='?' (DbType = DateTime), @p4='?' (Size = 6), @p5='?' (DbType = DateTime), @p6='?', @p7='?' (Size = 6), @p8='?' (DbType = Boolean), @p9='?' (Size = 2), @p10='?' (DbType = Int32), @p11='?' (Size = 8), @p12='?' (DbType = DateTime), @p13='?' (Size = 9), @p14='?' (DbType = DateTime), @p15='?', @p16='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Vehicles" ("Brand", "ChassisNumber", "Color", "CreatedAt", "CreatedBy", "DeletedAt", "EngineNumber", "FuelType", "IsDeleted", "Model", "PersonId", "PlateNumber", "RegistrationDate", "TransmissionType", "UpdatedAt", "UpdatedBy", "Year")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16)
+RETURNING "Id";
+2026-07-01 10:55:40.493 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 13), @p1='?', @p2='?' (Size = 4), @p3='?' (DbType = DateTime), @p4='?' (Size = 6), @p5='?' (DbType = DateTime), @p6='?', @p7='?' (Size = 8), @p8='?' (DbType = Boolean), @p9='?' (Size = 4), @p10='?' (DbType = Int32), @p11='?' (Size = 8), @p12='?' (DbType = DateTime), @p13='?' (Size = 9), @p14='?' (DbType = DateTime), @p15='?', @p16='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Vehicles" ("Brand", "ChassisNumber", "Color", "CreatedAt", "CreatedBy", "DeletedAt", "EngineNumber", "FuelType", "IsDeleted", "Model", "PersonId", "PlateNumber", "RegistrationDate", "TransmissionType", "UpdatedAt", "UpdatedBy", "Year")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16)
+RETURNING "Id";
+2026-07-01 10:55:40.493 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 6), @p1='?', @p2='?' (Size = 4), @p3='?' (DbType = DateTime), @p4='?' (Size = 6), @p5='?' (DbType = DateTime), @p6='?', @p7='?' (Size = 6), @p8='?' (DbType = Boolean), @p9='?' (Size = 7), @p10='?' (DbType = Int32), @p11='?' (Size = 8), @p12='?' (DbType = DateTime), @p13='?' (Size = 9), @p14='?' (DbType = DateTime), @p15='?', @p16='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Vehicles" ("Brand", "ChassisNumber", "Color", "CreatedAt", "CreatedBy", "DeletedAt", "EngineNumber", "FuelType", "IsDeleted", "Model", "PersonId", "PlateNumber", "RegistrationDate", "TransmissionType", "UpdatedAt", "UpdatedBy", "Year")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16)
+RETURNING "Id";
+2026-07-01 10:55:40.493 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 10), @p1='?', @p2='?' (Size = 3), @p3='?' (DbType = DateTime), @p4='?' (Size = 6), @p5='?' (DbType = DateTime), @p6='?', @p7='?' (Size = 8), @p8='?' (DbType = Boolean), @p9='?' (Size = 4), @p10='?' (DbType = Int32), @p11='?' (Size = 7), @p12='?' (DbType = DateTime), @p13='?' (Size = 6), @p14='?' (DbType = DateTime), @p15='?', @p16='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Vehicles" ("Brand", "ChassisNumber", "Color", "CreatedAt", "CreatedBy", "DeletedAt", "EngineNumber", "FuelType", "IsDeleted", "Model", "PersonId", "PlateNumber", "RegistrationDate", "TransmissionType", "UpdatedAt", "UpdatedBy", "Year")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16)
+RETURNING "Id";
+2026-07-01 10:55:40.493 +03:00 [INF] Database successfully seeded with initial vehicle data.
+2026-07-01 10:55:40.499 +03:00 [INF] Filo API baslatiliyor...
+2026-07-01 10:55:40.505 +03:00 [INF] User profile is available. Using '/Users/yildirim/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-07-01 10:55:40.528 +03:00 [INF] Bus started: "loopback://localhost/"
+2026-07-01 10:55:40.567 +03:00 [INF] Now listening on: http://localhost:5221
+2026-07-01 10:55:40.567 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-07-01 10:55:40.567 +03:00 [INF] Hosting environment: Development
+2026-07-01 10:55:40.567 +03:00 [INF] Content root path: /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api
+2026-07-01 10:55:58.323 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/scalar/v1 - null null
+2026-07-01 10:55:58.356 +03:00 [WRN] Failed to determine the https port for redirect.
+2026-07-01 10:55:58.368 +03:00 [INF] Executing endpoint 'HTTP: GET /scalar/{documentName?}'
+2026-07-01 10:55:58.404 +03:00 [INF] Write content with HTTP Response ContentType of text/html
+2026-07-01 10:55:58.405 +03:00 [INF] Executed endpoint 'HTTP: GET /scalar/{documentName?}'
+2026-07-01 10:55:58.405 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/scalar/v1 - 200 624 text/html 83.9166ms
+2026-07-01 10:55:58.423 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/scalar/scalar.js - null null
+2026-07-01 10:55:58.424 +03:00 [INF] Executing endpoint 'HTTP: GET /scalar/scalar.js'
+2026-07-01 10:55:58.424 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/scalar/scalar.aspnetcore.js - null null
+2026-07-01 10:55:58.425 +03:00 [INF] CORS policy execution successful.
+2026-07-01 10:55:58.426 +03:00 [INF] Sending file with download name ''.
+2026-07-01 10:55:58.426 +03:00 [INF] Executing endpoint 'HTTP: GET /scalar/scalar.aspnetcore.js'
+2026-07-01 10:55:58.426 +03:00 [INF] Sending file with download name ''.
+2026-07-01 10:55:58.427 +03:00 [INF] Executed endpoint 'HTTP: GET /scalar/scalar.aspnetcore.js'
+2026-07-01 10:55:58.427 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/scalar/scalar.aspnetcore.js - 200 1111 text/javascript 2.2071ms
+2026-07-01 10:55:58.432 +03:00 [INF] Executed endpoint 'HTTP: GET /scalar/scalar.js'
+2026-07-01 10:55:58.433 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/scalar/scalar.js - 200 1045290 text/javascript 9.7057ms
+2026-07-01 10:55:58.548 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/openapi/v1.json - null null
+2026-07-01 10:55:58.548 +03:00 [INF] Executing endpoint 'HTTP: GET /openapi/{documentName}.json'
+2026-07-01 10:55:58.558 +03:00 [INF] No action descriptors found. This may indicate an incorrectly configured application or missing application parts. To learn more, visit https://aka.ms/aspnet/mvc/app-parts
+2026-07-01 10:55:58.585 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/scalar/favicon.svg - null null
+2026-07-01 10:55:58.585 +03:00 [INF] Executing endpoint 'HTTP: GET /scalar/favicon.svg'
+2026-07-01 10:55:58.586 +03:00 [INF] Sending file with download name ''.
+2026-07-01 10:55:58.586 +03:00 [INF] Executed endpoint 'HTTP: GET /scalar/favicon.svg'
+2026-07-01 10:55:58.586 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/scalar/favicon.svg - 200 533 image/svg+xml 1.4475ms
+2026-07-01 10:55:58.606 +03:00 [INF] Executed endpoint 'HTTP: GET /openapi/{documentName}.json'
+2026-07-01 10:55:58.607 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/openapi/v1.json - 200 null application/json;charset=utf-8 59.0558ms
+2026-07-01 10:56:19.398 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5221/api/v1/vehicles - null null
+2026-07-01 10:56:19.410 +03:00 [INF] Executing endpoint 'HTTP: GET /api/v{version:apiVersion}/vehicles/'
+2026-07-01 10:56:19.414 +03:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-01 10:56:19.452 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM "Vehicles" AS "v"
+WHERE NOT ("v"."IsDeleted")
+2026-07-01 10:56:19.461 +03:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-07-01 10:56:19.461 +03:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-07-01 10:56:19.481 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "v0"."Id", "v0"."Brand", "v0"."ChassisNumber", "v0"."Color", "v0"."CreatedAt", "v0"."CreatedBy", "v0"."DeletedAt", "v0"."EngineNumber", "v0"."FuelType", "v0"."IsDeleted", "v0"."Model", "v0"."PersonId", "v0"."PlateNumber", "v0"."RegistrationDate", "v0"."TransmissionType", "v0"."UpdatedAt", "v0"."UpdatedBy", "v0"."Year", "p0"."Id", "p0"."Age", "p0"."CreatedAt", "p0"."CreatedBy", "p0"."DeletedAt", "p0"."Gender", "p0"."IsDeleted", "p0"."Name", "p0"."Surname", "p0"."Tckn", "p0"."UpdatedAt", "p0"."UpdatedBy"
+FROM (
+    SELECT "v"."Id", "v"."Brand", "v"."ChassisNumber", "v"."Color", "v"."CreatedAt", "v"."CreatedBy", "v"."DeletedAt", "v"."EngineNumber", "v"."FuelType", "v"."IsDeleted", "v"."Model", "v"."PersonId", "v"."PlateNumber", "v"."RegistrationDate", "v"."TransmissionType", "v"."UpdatedAt", "v"."UpdatedBy", "v"."Year"
+    FROM "Vehicles" AS "v"
+    WHERE NOT ("v"."IsDeleted")
+    LIMIT @p1 OFFSET @p
+) AS "v0"
+LEFT JOIN (
+    SELECT "p"."Id", "p"."Age", "p"."CreatedAt", "p"."CreatedBy", "p"."DeletedAt", "p"."Gender", "p"."IsDeleted", "p"."Name", "p"."Surname", "p"."Tckn", "p"."UpdatedAt", "p"."UpdatedBy"
+    FROM "Person" AS "p"
+    WHERE NOT ("p"."IsDeleted")
+) AS "p0" ON "v0"."PersonId" = "p0"."Id"
+2026-07-01 10:56:19.510 +03:00 [INF] Setting HTTP status code 200.
+2026-07-01 10:56:19.511 +03:00 [INF] Writing value of type 'ApiResponse`1' as Json.
+2026-07-01 10:56:19.512 +03:00 [INF] Executed endpoint 'HTTP: GET /api/v{version:apiVersion}/vehicles/'
+2026-07-01 10:56:19.513 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5221/api/v1/vehicles - 200 null application/json; charset=utf-8 114.5575ms

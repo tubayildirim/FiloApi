@@ -1,0 +1,255 @@
+2026-06-18 10:04:38.627 +03:00 [INF] Filo API baslatiliyor...
+2026-06-18 10:04:38.653 +03:00 [INF] Kuyruk Tüketici Arka Plan Servisi basladi.
+2026-06-18 10:04:38.664 +03:00 [INF] Now listening on: http://localhost:5220
+2026-06-18 10:04:38.664 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-18 10:04:38.664 +03:00 [INF] Hosting environment: Development
+2026-06-18 10:04:38.664 +03:00 [INF] Content root path: /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api
+2026-06-18 10:04:48.849 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5220/vehicles - null null
+2026-06-18 10:04:48.875 +03:00 [WRN] Failed to determine the https port for redirect.
+2026-06-18 10:04:48.876 +03:00 [INF] Executing endpoint 'HTTP: GET /vehicles/'
+2026-06-18 10:04:48.877 +03:00 [INF] Executed endpoint 'HTTP: GET /vehicles/'
+2026-06-18 10:04:48.877 +03:00 [ERR] Uygulama calisirken beklenmeyen bir hata olustu: Required parameter "int PageNumber" was not provided from query string.
+Microsoft.AspNetCore.Http.BadHttpRequestException: Required parameter "int PageNumber" was not provided from query string.
+   at lambda_method1(Closure, Object, HttpContext)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware.Invoke(HttpContext context)
+   at Filo.Api.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/ExceptionHandlingMiddleware.cs:line 23
+2026-06-18 10:04:48.884 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5220/vehicles - 500 null application/json 35.7152ms
+2026-06-18 10:05:44.906 +03:00 [INF] Filo API baslatiliyor...
+2026-06-18 10:05:44.932 +03:00 [INF] Kuyruk Tüketici Arka Plan Servisi basladi.
+2026-06-18 10:05:44.942 +03:00 [INF] Now listening on: http://localhost:5220
+2026-06-18 10:05:44.943 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-18 10:05:44.943 +03:00 [INF] Hosting environment: Development
+2026-06-18 10:05:44.943 +03:00 [INF] Content root path: /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api
+2026-06-18 10:06:01.733 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5220/vehicles - null null
+2026-06-18 10:06:01.789 +03:00 [WRN] Failed to determine the https port for redirect.
+2026-06-18 10:06:01.790 +03:00 [INF] Executing endpoint 'HTTP: GET /vehicles/'
+2026-06-18 10:06:01.962 +03:00 [INF] Setting HTTP status code 200.
+2026-06-18 10:06:01.965 +03:00 [INF] Writing value of type 'ApiResponse`1' as Json.
+2026-06-18 10:06:01.967 +03:00 [INF] Executed endpoint 'HTTP: GET /vehicles/'
+2026-06-18 10:06:01.968 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5220/vehicles - 200 null application/json; charset=utf-8 236.182ms
+2026-06-18 10:06:14.053 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5220/vehicles - application/json 72
+2026-06-18 10:06:14.054 +03:00 [INF] Executing endpoint 'HTTP: POST /vehicles/'
+2026-06-18 10:06:14.115 +03:00 [INF] Saved 1 entities to in-memory store.
+2026-06-18 10:06:14.117 +03:00 [INF] Setting HTTP status code 201.
+2026-06-18 10:06:14.118 +03:00 [INF] Writing value of type 'ApiResponse`1' as Json.
+2026-06-18 10:06:14.118 +03:00 [INF] Executed endpoint 'HTTP: POST /vehicles/'
+2026-06-18 10:06:14.118 +03:00 [INF] Kuyruktan yeni olay alindi. Olay Adi: vehicle.created, Veri: {"Id":1,"Brand":"Tesla","Model":"Model Y","Year":2023,"PlateNumber":"34TES123","CreatedAt":"2026-06-18T07:06:14.0881570Z","$type":"VehicleDto"}
+2026-06-18 10:06:14.118 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5220/vehicles - 201 null application/json; charset=utf-8 65.3618ms
+2026-06-18 10:06:29.507 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5220/vehicles - null null
+2026-06-18 10:06:29.507 +03:00 [INF] Executing endpoint 'HTTP: GET /vehicles/'
+2026-06-18 10:06:29.518 +03:00 [INF] Setting HTTP status code 200.
+2026-06-18 10:06:29.519 +03:00 [INF] Writing value of type 'ApiResponse`1' as Json.
+2026-06-18 10:06:29.519 +03:00 [INF] Executed endpoint 'HTTP: GET /vehicles/'
+2026-06-18 10:06:29.519 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5220/vehicles - 200 null application/json; charset=utf-8 11.6343ms
+2026-06-18 10:06:41.057 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5220/vehicles - application/json 67
+2026-06-18 10:06:41.057 +03:00 [INF] Executing endpoint 'HTTP: POST /vehicles/'
+2026-06-18 10:06:41.060 +03:00 [INF] Executed endpoint 'HTTP: POST /vehicles/'
+2026-06-18 10:06:41.060 +03:00 [ERR] Uygulama calisirken beklenmeyen bir hata olustu: Bir veya birden fazla doğrulama hatası oluştu.
+Filo.Application.Exceptions.ValidationException: Bir veya birden fazla doğrulama hatası oluştu.
+   at Filo.Api.Endpoints.VehicleEndpoints.<>c.<<MapVehicleEndpoints>b__0_2>d.MoveNext() in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Endpoints/VehicleEndpoints.cs:line 36
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Filo.Api.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/ExceptionHandlingMiddleware.cs:line 23
+2026-06-18 10:06:41.068 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5220/vehicles - 400 null application/json 10.9392ms
+2026-06-18 10:06:44.790 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5220/vehicles/1 - null null
+2026-06-18 10:06:44.790 +03:00 [INF] Executing endpoint 'HTTP: GET /vehicles/{id:int}'
+2026-06-18 10:06:44.798 +03:00 [INF] Setting HTTP status code 200.
+2026-06-18 10:06:44.798 +03:00 [INF] Writing value of type 'ApiResponse`1' as Json.
+2026-06-18 10:06:44.798 +03:00 [INF] Executed endpoint 'HTTP: GET /vehicles/{id:int}'
+2026-06-18 10:06:44.798 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5220/vehicles/1 - 200 null application/json; charset=utf-8 8.6184ms
+2026-06-18 10:06:53.076 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5220/vehicles/999 - null null
+2026-06-18 10:06:53.076 +03:00 [INF] Executing endpoint 'HTTP: GET /vehicles/{id:int}'
+2026-06-18 10:06:53.077 +03:00 [INF] Executed endpoint 'HTTP: GET /vehicles/{id:int}'
+2026-06-18 10:06:53.077 +03:00 [ERR] Uygulama calisirken beklenmeyen bir hata olustu: ID'si 999 olan araç bulunamadı.
+Filo.Application.Exceptions.NotFoundException: ID'si 999 olan araç bulunamadı.
+   at Filo.Application.Services.VehicleService.GetByIdAsync(Int32 id) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Application/Services/VehicleService.cs:line 37
+   at Filo.Api.Endpoints.VehicleEndpoints.<>c.<<MapVehicleEndpoints>b__0_1>d.MoveNext() in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Endpoints/VehicleEndpoints.cs:line 25
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Filo.Api.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Middlewares/ExceptionHandlingMiddleware.cs:line 23
+2026-06-18 10:06:53.078 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5220/vehicles/999 - 404 null application/json 2.4614ms
+2026-06-18 10:14:56.277 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+PRAGMA journal_mode = 'wal';
+2026-06-18 10:14:56.330 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Vehicles" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Vehicles" PRIMARY KEY AUTOINCREMENT,
+    "Brand" TEXT NOT NULL,
+    "Model" TEXT NOT NULL,
+    "Year" INTEGER NOT NULL,
+    "PlateNumber" TEXT NOT NULL,
+    "CreatedAt" TEXT NOT NULL,
+    "UpdatedAt" TEXT NULL
+);
+2026-06-18 10:14:56.330 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX "IX_Vehicles_PlateNumber" ON "Vehicles" ("PlateNumber");
+2026-06-18 10:14:56.334 +03:00 [INF] Filo API baslatiliyor...
+2026-06-18 10:14:56.338 +03:00 [INF] Kuyruk Tüketici Arka Plan Servisi basladi.
+2026-06-18 10:14:56.349 +03:00 [INF] Now listening on: http://localhost:5220
+2026-06-18 10:14:56.349 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-18 10:14:56.349 +03:00 [INF] Hosting environment: Development
+2026-06-18 10:14:56.349 +03:00 [INF] Content root path: /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api
+2026-06-18 15:01:46.558 +03:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
+2026-06-18 15:01:46.587 +03:00 [INF] Filo API baslatiliyor...
+2026-06-18 15:01:46.593 +03:00 [INF] Kuyruk Tüketici Arka Plan Servisi basladi.
+2026-06-18 15:01:46.738 +03:00 [WRN] The ASP.NET Core developer certificate is not trusted. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert
+2026-06-18 15:01:46.796 +03:00 [INF] Now listening on: https://localhost:7009
+2026-06-18 15:01:46.796 +03:00 [INF] Now listening on: http://localhost:5220
+2026-06-18 15:01:46.796 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-18 15:01:46.796 +03:00 [INF] Hosting environment: Development
+2026-06-18 15:01:46.797 +03:00 [INF] Content root path: /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api
+2026-06-18 15:02:37.996 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
+2026-06-18 15:02:38.025 +03:00 [INF] Filo API baslatiliyor...
+2026-06-18 15:02:38.030 +03:00 [INF] Kuyruk Tüketici Arka Plan Servisi basladi.
+2026-06-18 15:02:38.190 +03:00 [WRN] The ASP.NET Core developer certificate is not trusted. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert
+2026-06-18 15:02:38.616 +03:00 [ERR] Hosting failed to start
+System.IO.IOException: Failed to bind to address https://127.0.0.1:7009: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Address already in use
+ ---> System.Net.Sockets.SocketException (48): Address already in use
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2026-06-18 15:02:38.699 +03:00 [ERR] BackgroundService failed
+System.OperationCanceledException: The operation was canceled.
+   at System.Threading.Channels.AsyncOperation`2.GetResult(Int16 token)
+   at Filo.Infrastructure.Queues.QueueConsumerBackgroundService.ExecuteAsync(CancellationToken stoppingToken) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Infrastructure/Queues/QueueConsumerBackgroundService.cs:line 21
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2026-06-18 15:02:38.716 +03:00 [FTL] API baslatilirken kritik hata olustu.
+System.IO.IOException: Failed to bind to address https://127.0.0.1:7009: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Address already in use
+ ---> System.Net.Sockets.SocketException (48): Address already in use
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+   at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Run(IHost host)
+   at Program.<Main>$(String[] args) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Program.cs:line 44
+2026-06-18 15:02:38.719 +03:00 [FTL] The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted.
+System.OperationCanceledException: The operation was canceled.
+   at System.Threading.Channels.AsyncOperation`2.GetResult(Int16 token)
+   at Filo.Infrastructure.Queues.QueueConsumerBackgroundService.ExecuteAsync(CancellationToken stoppingToken) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Infrastructure/Queues/QueueConsumerBackgroundService.cs:line 21
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2026-06-18 15:15:38.443 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
+2026-06-18 15:15:38.478 +03:00 [INF] Filo API baslatiliyor...
+2026-06-18 15:15:38.483 +03:00 [INF] Kuyruk Tüketici Arka Plan Servisi basladi.
+2026-06-18 15:15:38.649 +03:00 [WRN] The ASP.NET Core developer certificate is not trusted. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert
+2026-06-18 15:15:39.075 +03:00 [ERR] Hosting failed to start
+System.IO.IOException: Failed to bind to address https://127.0.0.1:7009: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Address already in use
+ ---> System.Net.Sockets.SocketException (48): Address already in use
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2026-06-18 15:15:39.159 +03:00 [ERR] BackgroundService failed
+System.OperationCanceledException: The operation was canceled.
+   at System.Threading.Channels.AsyncOperation`2.GetResult(Int16 token)
+   at Filo.Infrastructure.Queues.QueueConsumerBackgroundService.ExecuteAsync(CancellationToken stoppingToken) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Infrastructure/Queues/QueueConsumerBackgroundService.cs:line 21
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2026-06-18 15:15:39.197 +03:00 [FTL] API baslatilirken kritik hata olustu.
+System.IO.IOException: Failed to bind to address https://127.0.0.1:7009: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Address already in use
+ ---> System.Net.Sockets.SocketException (48): Address already in use
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+   at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Run(IHost host)
+   at Program.<Main>$(String[] args) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api/Program.cs:line 44
+2026-06-18 15:15:39.200 +03:00 [FTL] The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted.
+System.OperationCanceledException: The operation was canceled.
+   at System.Threading.Channels.AsyncOperation`2.GetResult(Int16 token)
+   at Filo.Infrastructure.Queues.QueueConsumerBackgroundService.ExecuteAsync(CancellationToken stoppingToken) in /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Infrastructure/Queues/QueueConsumerBackgroundService.cs:line 21
+   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
+2026-06-18 15:29:06.661 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
+2026-06-18 15:29:06.692 +03:00 [INF] Filo API baslatiliyor...
+2026-06-18 15:29:06.698 +03:00 [INF] Kuyruk Tüketici Arka Plan Servisi basladi.
+2026-06-18 15:29:06.861 +03:00 [WRN] The ASP.NET Core developer certificate is not trusted. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert
+2026-06-18 15:29:06.870 +03:00 [INF] Now listening on: https://localhost:7009
+2026-06-18 15:29:06.870 +03:00 [INF] Now listening on: http://localhost:5220
+2026-06-18 15:29:06.870 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-18 15:29:06.870 +03:00 [INF] Hosting environment: Development
+2026-06-18 15:29:06.870 +03:00 [INF] Content root path: /Users/yildirim/DeveloperLab/FiloApi/src/Filo.Api

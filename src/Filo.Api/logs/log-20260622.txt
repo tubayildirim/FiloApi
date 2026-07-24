@@ -1,0 +1,3 @@
+2026-06-22 17:23:32.074 +03:00 [INF] Configured endpoint VehicleCreatedEvent, Consumer: Filo.Infrastructure.Queues.VehicleCreatedEventConsumer
+2026-06-22 17:24:06.717 +03:00 [INF] Configured endpoint VehicleCreatedEvent, Consumer: Filo.Infrastructure.Queues.VehicleCreatedEventConsumer
+2026-06-22 17:24:36.669 +03:00 [INF] Configured endpoint VehicleCreatedEvent, Consumer: Filo.Infrastructure.Queues.VehicleCreatedEventConsumer
