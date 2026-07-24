@@ -14,7 +14,7 @@ public class PersonCreatedEvent : BaseEvent
     public PersonCreatedEvent(PersonDto person) => Person = person;
 }
 
-public class CreatePersonCommand : IRequest<PersonDto>
+public sealed class CreatePersonCommand : IRequest<PersonDto>
 {
     public required string Name { get; set; }
     public required string Surname { get; set; }
@@ -48,6 +48,9 @@ public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, P
         person.AddDomainEvent(new PersonCreatedEvent(dto));
         
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        Filo.Common.Telemetry.ApplicationTelemetry.PersonsCreatedCounter.Add(1, 
+            new KeyValuePair<string, object?>("gender", person.Gender));
 
         return person.Adapt<PersonDto>();
     }

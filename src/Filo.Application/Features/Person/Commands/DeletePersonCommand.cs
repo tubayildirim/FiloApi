@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Filo.Application.Features.Person.Commands;
 
-public class DeletePersonCommand : IRequest
+public sealed class DeletePersonCommand : IRequest
 {
     public int Id { get; set; }
     public DeletePersonCommand(int id) => Id = id;

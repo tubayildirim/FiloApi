@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Filo.Application.Features.Vehicles.Queries;
 
-public class GetPagedVehiclesQuery : IRequest<PagedList<VehicleDto>>
+public sealed class GetPagedVehiclesQuery : IRequest<PagedList<VehicleDto>>
 {
     public PaginationParams PaginationParams { get; set; }
     public GetPagedVehiclesQuery(PaginationParams paginationParams) => PaginationParams = paginationParams;
@@ -30,18 +30,11 @@ public class GetPagedVehiclesQueryHandler : IRequestHandler<GetPagedVehiclesQuer
         int pageSize = paginationParams.PageSize ?? 10;
         string cacheKey = $"vehicles_paged_{pageNumber}_{pageSize}";
 
-        var cachedResult = await _cacheService.GetAsync<PagedList<VehicleDto>>(cacheKey);
-        if (cachedResult != null)
+        return await _cacheService.GetOrCreateAsync(cacheKey, async ct =>
         {
-            return cachedResult;
-        }
-
-        var (items, count) = await _unitOfWork.Vehicles.GetPagedAsync(pageNumber, pageSize);
-        var dtos = items.Adapt<IEnumerable<VehicleDto>>();
-        var pagedList = new PagedList<VehicleDto>(dtos, count, pageNumber, pageSize);
-
-        await _cacheService.SetAsync(cacheKey, pagedList, TimeSpan.FromMinutes(2));
-
-        return pagedList;
+            var (items, count) = await _unitOfWork.Vehicles.GetPagedAsync(pageNumber, pageSize);
+            var dtos = items.Adapt<IEnumerable<VehicleDto>>();
+            return new PagedList<VehicleDto>(dtos, count, pageNumber, pageSize);
+        }, TimeSpan.FromMinutes(2));
     }
 }

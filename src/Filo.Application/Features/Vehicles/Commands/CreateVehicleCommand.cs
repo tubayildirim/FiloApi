@@ -14,7 +14,7 @@ public class VehicleCreatedEvent : BaseEvent
     public VehicleCreatedEvent(VehicleDto vehicle) => Vehicle = vehicle;
 }
 
-public class CreateVehicleCommand : IRequest<VehicleDto>
+public sealed class CreateVehicleCommand : IRequest<VehicleDto>
 {
     public required string Brand { get; set; }
     public required string Model { get; set; }
@@ -54,6 +54,9 @@ public class CreateVehicleCommandHandler : IRequestHandler<CreateVehicleCommand,
         vehicle.AddDomainEvent(new VehicleCreatedEvent(dto));
         
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        Filo.Common.Telemetry.ApplicationTelemetry.VehiclesCreatedCounter.Add(1, 
+            new KeyValuePair<string, object?>("brand", vehicle.Brand));
 
         return vehicle.Adapt<VehicleDto>();
     }

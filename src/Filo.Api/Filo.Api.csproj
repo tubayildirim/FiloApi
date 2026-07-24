@@ -26,6 +26,7 @@
     <ProjectReference Include="..\Filo.Application\Filo.Application.csproj" />
     <ProjectReference Include="..\Filo.Infrastructure\Filo.Infrastructure.csproj" />
     <ProjectReference Include="..\Filo.Common\Filo.Common.csproj" />
+    <ProjectReference Include="..\Filo.ServiceDefaults\Filo.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>

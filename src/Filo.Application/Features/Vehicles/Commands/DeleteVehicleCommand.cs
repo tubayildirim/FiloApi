@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Filo.Application.Features.Vehicles.Commands;
 
-public class DeleteVehicleCommand : IRequest
+public sealed class DeleteVehicleCommand : IRequest
 {
     public int Id { get; set; }
     public DeleteVehicleCommand(int id) => Id = id;

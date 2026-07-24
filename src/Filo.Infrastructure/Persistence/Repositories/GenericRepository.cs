@@ -41,6 +41,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
         int totalCount = await query.CountAsync();
         var items = await query
+            .OrderBy(x => EF.Property<object>(x, "Id"))
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();

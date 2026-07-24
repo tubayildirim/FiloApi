@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Filo.Application.Features.Person.Commands;
 
-public class UpdatePersonCommand : IRequest
+public sealed class UpdatePersonCommand : IRequest
 {
     public int Id { get; set; }
     public required string Name { get; set; }

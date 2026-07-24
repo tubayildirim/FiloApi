@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Filo.Application.Features.Vehicles.Commands;
 
-public class UpdateVehicleCommand : IRequest
+public sealed class UpdateVehicleCommand : IRequest
 {
     public int Id { get; set; }
     public required string Brand { get; set; }

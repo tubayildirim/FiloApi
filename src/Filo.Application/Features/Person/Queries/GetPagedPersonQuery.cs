@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Filo.Application.Features.Person.Queries;
 
-public class GetPagedPersonQuery : IRequest<PagedList<PersonDto>>
+public sealed class GetPagedPersonQuery : IRequest<PagedList<PersonDto>>
 {
     public PaginationParams PaginationParams { get; set; }
     public GetPagedPersonQuery(PaginationParams paginationParams) => PaginationParams = paginationParams;
@@ -30,18 +30,11 @@ public class GetPagedPersonQueryHandler : IRequestHandler<GetPagedPersonQuery, P
         int pageSize = paginationParams.PageSize ?? 10;
         string cacheKey = $"person_paged_{pageNumber}_{pageSize}";
 
-        var cachedResult = await _cacheService.GetAsync<PagedList<PersonDto>>(cacheKey);
-        if (cachedResult != null)
+        return await _cacheService.GetOrCreateAsync(cacheKey, async ct =>
         {
-            return cachedResult;
-        }
-
-        var (items, count) = await _unitOfWork.Person.GetPagedAsync(pageNumber, pageSize);
-        var dtos = items.Adapt<IEnumerable<PersonDto>>();
-        var pagedList = new PagedList<PersonDto>(dtos, count, pageNumber, pageSize);
-
-        await _cacheService.SetAsync(cacheKey, pagedList, TimeSpan.FromMinutes(2));
-
-        return pagedList;
+            var (items, count) = await _unitOfWork.Person.GetPagedAsync(pageNumber, pageSize);
+            var dtos = items.Adapt<IEnumerable<PersonDto>>();
+            return new PagedList<PersonDto>(dtos, count, pageNumber, pageSize);
+        }, TimeSpan.FromMinutes(2));
     }
 }

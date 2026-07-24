@@ -32,6 +32,7 @@ public class VehicleRepository : GenericRepository<Vehicle>, IVehicleRepository
 
         int totalCount = await query.CountAsync();
         var items = await query
+            .OrderBy(v => v.Id)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();

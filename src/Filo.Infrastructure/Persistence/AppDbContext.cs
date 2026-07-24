@@ -1,17 +1,15 @@
 using Filo.Domain.Common;
 using Filo.Domain.Entities;
 using Filo.Domain.Interfaces;
+using Filo.Infrastructure.Persistence.Outbox;
 using Microsoft.EntityFrameworkCore;
 
 namespace Filo.Infrastructure.Persistence;
 
 public class AppDbContext : DbContext
 {
-    private readonly IEventBus _eventBus;
-
-    public AppDbContext(DbContextOptions<AppDbContext> options, IEventBus eventBus) : base(options)
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
-        _eventBus = eventBus;
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -38,11 +36,16 @@ public class AppDbContext : DbContext
             .SelectMany(x => x.Entity.DomainEvents)
             .ToList();
 
-        var result = await base.SaveChangesAsync(cancellationToken);
-
         foreach (var domainEvent in events)
         {
-            await _eventBus.PublishAsync(domainEvent.GetType().Name, domainEvent);
+            var outboxMessage = new OutboxMessage
+            {
+                Id = Guid.NewGuid(),
+                OccurredOnUtc = DateTime.UtcNow,
+                Type = domainEvent.GetType().AssemblyQualifiedName ?? domainEvent.GetType().FullName ?? domainEvent.GetType().Name,
+                Content = System.Text.Json.JsonSerializer.Serialize(domainEvent, domainEvent.GetType())
+            };
+            Set<OutboxMessage>().Add(outboxMessage);
         }
 
         foreach (var entry in ChangeTracker.Entries<BaseEntity>())
@@ -50,11 +53,14 @@ public class AppDbContext : DbContext
             entry.Entity.ClearDomainEvents();
         }
 
+        var result = await base.SaveChangesAsync(cancellationToken);
+
         return result;
     }
 
     public DbSet<Vehicle> Vehicles => Set<Vehicle>();
     public DbSet<Person> Person => Set<Person>();
+    public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -89,6 +95,14 @@ public class AppDbContext : DbContext
                 .HasForeignKey(e => e.PersonId)
                 .OnDelete(DeleteBehavior.SetNull);
             entity.HasQueryFilter(e => !e.IsDeleted);
+        });
+
+        modelBuilder.Entity<OutboxMessage>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Type).IsRequired().HasMaxLength(500);
+            entity.Property(e => e.Content).IsRequired();
+            entity.Property(e => e.Error).HasMaxLength(2000);
         });
     }
 }

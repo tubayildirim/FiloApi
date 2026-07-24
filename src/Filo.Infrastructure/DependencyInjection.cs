@@ -22,7 +22,10 @@ public static class DependencyInjection
         services.AddScoped<IPersonRepository, PersonRepository>();
         
         services.AddDistributedMemoryCache();
-        services.AddScoped<ICacheService, DistributedCacheService>();
+#pragma warning disable EXTEXP0018
+        services.AddHybridCache();
+#pragma warning restore EXTEXP0018
+        services.AddScoped<ICacheService, Filo.Infrastructure.Caching.HybridCacheService>();
 
         services.AddMassTransit(x =>
         {
@@ -35,6 +38,7 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IEventBus, Filo.Infrastructure.Queues.MassTransitEventBus>();
+        services.AddHostedService<Filo.Infrastructure.Persistence.Outbox.ProcessOutboxMessagesJob>();
 
         services.AddHttpClient("DefaultClient")
             .AddPolicyHandler(Filo.Infrastructure.Resilience.ResilienceExtensions.CreateRetryPolicy());

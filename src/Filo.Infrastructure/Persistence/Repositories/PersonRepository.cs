@@ -32,6 +32,7 @@ public class PersonRepository : GenericRepository<Person>, IPersonRepository
 
         int totalCount = await query.CountAsync();
         var items = await query
+            .OrderBy(p => p.Id)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();

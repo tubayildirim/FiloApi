@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.AddServiceDefaults();
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -87,7 +88,7 @@ app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapHealthChecks("/health");
+app.MapDefaultEndpoints();
 app.MapVehicleEndpoints();
 app.MapPersonEndpoints();
 app.MapGet("/", (HttpContext context) => Results.Redirect("/scalar/v1"));
