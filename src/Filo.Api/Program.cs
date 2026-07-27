@@ -66,6 +66,66 @@ using (var scope = app.Services.CreateScope())
             context.SaveChanges();
             Log.Information("Database successfully seeded with initial vehicle data.");
         }
+
+        if (!context.VehicleMatchPersons.Any())
+        {
+            var vehicles = context.Vehicles.ToList();
+            var persons = context.Person.ToList();
+            if (vehicles.Count >= 2 && persons.Count >= 4)
+            {
+                context.VehicleMatchPersons.AddRange(new List<Filo.Domain.Entities.VehicleMatchPerson>
+                {
+                    new() { VehicleId = vehicles[0].Id, PersonId = persons[1].Id, AssignmentDate = DateTime.UtcNow, AssignmentKm = 1000, CreatedBy = "System", CreatedAt = DateTime.UtcNow },
+                    new() { VehicleId = vehicles[1].Id, PersonId = persons[3].Id, AssignmentDate = DateTime.UtcNow, AssignmentKm = 1000, CreatedBy = "System", CreatedAt = DateTime.UtcNow }
+                });
+                context.SaveChanges();
+                Log.Information("Database successfully seeded with initial vehicle-match-person data.");
+            }
+        }
+
+        if (!context.VehicleFuels.Any())
+        {
+            var vehicles = context.Vehicles.ToList();
+            if (vehicles.Count >= 2)
+            {
+                context.VehicleFuels.AddRange(new List<Filo.Domain.Entities.VehicleFuel>
+                {
+                    new() { VehicleId = vehicles[0].Id, RefuelingDate = DateTime.UtcNow.AddDays(-3), Odometer = 1200, Liters = 50, PricePerLiter = 42.50m, TotalPrice = 2125m, ReceiptNumber = "RCP-001", CreatedBy = "System", CreatedAt = DateTime.UtcNow },
+                    new() { VehicleId = vehicles[1].Id, RefuelingDate = DateTime.UtcNow.AddDays(-2), Odometer = 1500, Liters = 45, PricePerLiter = 43.10m, TotalPrice = 1939.50m, ReceiptNumber = "RCP-002", CreatedBy = "System", CreatedAt = DateTime.UtcNow }
+                });
+                context.SaveChanges();
+                Log.Information("Database successfully seeded with initial fuel data.");
+            }
+        }
+
+        if (!context.VehicleMaintenances.Any())
+        {
+            var vehicles = context.Vehicles.ToList();
+            if (vehicles.Count >= 1)
+            {
+                context.VehicleMaintenances.AddRange(new List<Filo.Domain.Entities.VehicleMaintenance>
+                {
+                    new() { VehicleId = vehicles[0].Id, MaintenanceDate = DateTime.UtcNow.AddDays(-10), Odometer = 1000, Description = "15.000 KM periyodik bakımı yapıldı.", Cost = 7500m, MaintenanceType = "Periyodik", NextMaintenanceDate = DateTime.UtcNow.AddMonths(12), NextMaintenanceKm = 15000, CreatedBy = "System", CreatedAt = DateTime.UtcNow }
+                });
+                context.SaveChanges();
+                Log.Information("Database successfully seeded with initial maintenance data.");
+            }
+        }
+
+        if (!context.VehicleServices.Any())
+        {
+            var vehicles = context.Vehicles.ToList();
+            if (vehicles.Count >= 4)
+            {
+                context.VehicleServices.AddRange(new List<Filo.Domain.Entities.VehicleService>
+                {
+                    new() { VehicleId = vehicles[2].Id, EntryDate = DateTime.UtcNow.AddDays(-5), ExitDate = DateTime.UtcNow.AddDays(-3), Odometer = 3000, ServiceCompany = "Maslak Doğuş Oto", FailureDescription = "Far değişimi ve lokal boya yapıldı.", Cost = 4500m, Status = "Tamamlandı", InvoiceNumber = "INV-001", CreatedBy = "System", CreatedAt = DateTime.UtcNow },
+                    new() { VehicleId = vehicles[3].Id, EntryDate = DateTime.UtcNow, ExitDate = null, Odometer = 5000, ServiceCompany = "Oto Teknik Servis", FailureDescription = "Şanzıman arıza tespiti ve kontrolü.", Cost = null, Status = "Aktif", InvoiceNumber = null, CreatedBy = "System", CreatedAt = DateTime.UtcNow }
+                });
+                context.SaveChanges();
+                Log.Information("Database successfully seeded with initial service data.");
+            }
+        }
     }
     catch (Exception ex)
     {
