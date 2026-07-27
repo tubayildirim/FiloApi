@@ -5,6 +5,7 @@ namespace Filo.Domain.Entities;
 
 public class VehicleMatchPerson : BaseEntity
 {
+    [System.ComponentModel.DataAnnotations.Schema.NotMapped]
     public int VehiclePersonId
     {
         get => Id;
