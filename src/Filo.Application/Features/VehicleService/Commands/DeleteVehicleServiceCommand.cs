@@ -34,7 +34,9 @@ public class DeleteVehicleServiceCommandHandler : IRequestHandler<DeleteVehicleS
         _unitOfWork.VehicleServices.Delete(service);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        // Invalidate cache
+        // Invalidate single item and paged list caches
         await _cacheService.RemoveAsync($"vehicleservice:{request.Id}");
+        for (int page = 1; page <= 5; page++)
+            await _cacheService.RemoveAsync($"vehicleservices_paged_{page}_100");
     }
 }

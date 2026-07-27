@@ -19,12 +19,10 @@ public sealed class GetPagedVehicleServiceQuery : IRequest<PagedList<VehicleServ
 public class GetPagedVehicleServiceQueryHandler : IRequestHandler<GetPagedVehicleServiceQuery, PagedList<VehicleServiceDto>>
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ICacheService _cacheService;
 
-    public GetPagedVehicleServiceQueryHandler(IUnitOfWork unitOfWork, ICacheService cacheService)
+    public GetPagedVehicleServiceQueryHandler(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _cacheService = cacheService;
     }
 
     public async Task<PagedList<VehicleServiceDto>> Handle(GetPagedVehicleServiceQuery request, CancellationToken cancellationToken)
@@ -32,13 +30,9 @@ public class GetPagedVehicleServiceQueryHandler : IRequestHandler<GetPagedVehicl
         var paginationParams = request.PaginationParams;
         int pageNumber = paginationParams.PageNumber ?? 1;
         int pageSize = paginationParams.PageSize ?? 10;
-        string cacheKey = $"vehicleservices_paged_{pageNumber}_{pageSize}";
 
-        return await _cacheService.GetOrCreateAsync(cacheKey, async ct =>
-        {
-            var (items, count) = await _unitOfWork.VehicleServices.GetPagedAsync(pageNumber, pageSize);
-            var dtos = items.Adapt<IEnumerable<VehicleServiceDto>>();
-            return new PagedList<VehicleServiceDto>(dtos, count, pageNumber, pageSize);
-        }, TimeSpan.FromMinutes(2));
+        var (items, count) = await _unitOfWork.VehicleServices.GetPagedAsync(pageNumber, pageSize);
+        var dtos = items.Adapt<IEnumerable<VehicleServiceDto>>();
+        return new PagedList<VehicleServiceDto>(dtos, count, pageNumber, pageSize);
     }
 }

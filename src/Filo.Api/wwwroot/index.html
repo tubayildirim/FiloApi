@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FleetPro - Filo Yönetim Paneli</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Chart.js -->
@@ -32,6 +33,9 @@
                 </a>
                 <a class="nav-item" data-page="expenses">
                     <i class="fa-solid fa-wallet"></i> Gider Girişi
+                </a>
+                <a class="nav-item" data-page="reports">
+                    <i class="fa-solid fa-chart-pie"></i> Raporlar
                 </a>
                 <a href="/docs" target="_blank" class="nav-item">
                     <i class="fa-solid fa-book"></i> API Docs (Scalar)
@@ -289,6 +293,156 @@
                     </div>
                 </div>
             </section>
+
+            <!-- ================= REPORTS PAGE ================= -->
+            <section id="page-reports" class="page-view">
+                <div class="sub-tabs">
+                    <button class="sub-tab-btn active" data-report="all-vehicles" onclick="switchReportTab('all-vehicles')">Araç Raporu</button>
+                    <button class="sub-tab-btn" data-report="free-vehicles" onclick="switchReportTab('free-vehicles')">Boştaki Araçlar</button>
+                    <button class="sub-tab-btn" data-report="assigned-vehicles" onclick="switchReportTab('assigned-vehicles')">Atanmış Araçlar</button>
+                    <button class="sub-tab-btn" data-report="expenses" onclick="switchReportTab('expenses')">Gider Raporu</button>
+                </div>
+
+                <!-- Araç Raporu -->
+                <div id="report-all-vehicles" class="panel-card report-panel active">
+                    <div class="panel-header">
+                        <h3>Tüm Araçlar Raporu</h3>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn-secondary" onclick="exportTableToExcel('table-all-vehicles', 'Tum-Araclar-Raporu.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                            <button class="btn-primary" onclick="loadReportAllVehicles()"><i class="fa-solid fa-arrows-rotate"></i> Yenile</button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="modern-table" id="table-all-vehicles">
+                            <thead>
+                                <tr>
+                                    <th>Plaka</th>
+                                    <th>Marka/Model</th>
+                                    <th>Yıl</th>
+                                    <th>Renk</th>
+                                    <th>Yakıt</th>
+                                    <th>Şanzıman</th>
+                                    <th>Durum</th>
+                                </tr>
+                            </thead>
+                            <tbody id="report-all-vehicles-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Boştaki Araçlar -->
+                <div id="report-free-vehicles" class="panel-card report-panel" style="display:none;">
+                    <div class="panel-header">
+                        <h3>Boştaki Araçlar Raporu</h3>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn-secondary" onclick="exportTableToExcel('table-free-vehicles', 'Bostaki-Araclar-Raporu.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                            <button class="btn-primary" onclick="loadReportFreeVehicles()"><i class="fa-solid fa-arrows-rotate"></i> Yenile</button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="modern-table" id="table-free-vehicles">
+                            <thead>
+                                <tr>
+                                    <th>Plaka</th>
+                                    <th>Marka/Model</th>
+                                    <th>Yıl</th>
+                                    <th>Renk</th>
+                                    <th>Yakıt</th>
+                                </tr>
+                            </thead>
+                            <tbody id="report-free-vehicles-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Atanmış Araçlar -->
+                <div id="report-assigned-vehicles" class="panel-card report-panel" style="display:none;">
+                    <div class="panel-header">
+                        <h3>Atanmış Araçlar Raporu</h3>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn-secondary" onclick="exportTableToExcel('table-assigned-vehicles', 'Atanmis-Araclar-Raporu.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                            <button class="btn-primary" onclick="loadReportAssignedVehicles()"><i class="fa-solid fa-arrows-rotate"></i> Yenile</button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="modern-table" id="table-assigned-vehicles">
+                            <thead>
+                                <tr>
+                                    <th>Plaka</th>
+                                    <th>Marka/Model</th>
+                                    <th>Sürücü (Atanmış)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="report-assigned-vehicles-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Gider Raporu -->
+                <div id="report-expenses" class="report-panel" style="display:none; display: flex; flex-direction: column; gap: 1.5rem;">
+                    
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <h3>Yakıt Giderleri <span style="font-size: 0.9rem; color: var(--text-secondary);" id="report-fuel-total"></span></h3>
+                            <button class="btn-secondary" onclick="exportTableToExcel('table-report-fuel', 'Yakit-Giderleri.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="modern-table" id="table-report-fuel">
+                                <thead>
+                                    <tr>
+                                        <th>Araç</th>
+                                        <th>Tarih</th>
+                                        <th>Litre</th>
+                                        <th>Tutar</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="report-expenses-fuel-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <h3>Bakım Giderleri <span style="font-size: 0.9rem; color: var(--text-secondary);" id="report-maint-total"></span></h3>
+                            <button class="btn-secondary" onclick="exportTableToExcel('table-report-maint', 'Bakim-Giderleri.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="modern-table" id="table-report-maint">
+                                <thead>
+                                    <tr>
+                                        <th>Araç</th>
+                                        <th>Tarih</th>
+                                        <th>Türü</th>
+                                        <th>Tutar</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="report-expenses-maint-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <h3>Servis/Hasar Giderleri <span style="font-size: 0.9rem; color: var(--text-secondary);" id="report-service-total"></span></h3>
+                            <button class="btn-secondary" onclick="exportTableToExcel('table-report-service', 'Servis-Hasar-Giderleri.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="modern-table" id="table-report-service">
+                                <thead>
+                                    <tr>
+                                        <th>Araç</th>
+                                        <th>Tarih</th>
+                                        <th>Servis/Firma</th>
+                                        <th>Tutar</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="report-expenses-service-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
         </main>
     </div>
 
@@ -419,6 +573,22 @@
         </div>
     </div>
 
+    <!-- Assignment Details Modal -->
+    <div id="modal-assignment-details" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Eşleştirme Detayları</h3>
+                <button class="modal-close" onclick="closeModal('modal-assignment-details')">&times;</button>
+            </div>
+            <div id="assignment-details-content" style="display: flex; flex-direction: column; gap: 1rem; color: var(--text-primary); font-size: 0.95rem; line-height: 1.5;">
+                <!-- JS fills this -->
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn-primary" onclick="closeModal('modal-assignment-details')">Kapat</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Add Fuel Modal -->
     <div id="modal-fuel" class="modal-overlay">
         <div class="modal-content">
@@ -427,6 +597,7 @@
                 <button class="modal-close" onclick="closeModal('modal-fuel')">&times;</button>
             </div>
             <form id="fuel-form" onsubmit="handleFuelSubmit(event)">
+                <input type="hidden" id="fuel-id">
                 <div class="form-group">
                     <label>Araç *</label>
                     <select id="fuel-vehicle-select" class="form-select" required></select>
@@ -467,6 +638,7 @@
                 <button class="modal-close" onclick="closeModal('modal-maintenance')">&times;</button>
             </div>
             <form id="maintenance-form" onsubmit="handleMaintenanceSubmit(event)">
+                <input type="hidden" id="maintenance-id">
                 <div class="form-group">
                     <label>Araç *</label>
                     <select id="maintenance-vehicle-select" class="form-select" required></select>
@@ -519,6 +691,7 @@
                 <button class="modal-close" onclick="closeModal('modal-service')">&times;</button>
             </div>
             <form id="service-form" onsubmit="handleServiceSubmit(event)">
+                <input type="hidden" id="service-id">
                 <div class="form-group">
                     <label>Servise Girecek Araç *</label>
                     <select id="service-vehicle-select" class="form-select" required></select>

@@ -29,10 +29,12 @@ public sealed class CreateVehicleServiceCommand : IRequest<VehicleServiceDto>
 public class CreateVehicleServiceCommandHandler : IRequestHandler<CreateVehicleServiceCommand, VehicleServiceDto>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ICacheService _cacheService;
 
-    public CreateVehicleServiceCommandHandler(IUnitOfWork unitOfWork)
+    public CreateVehicleServiceCommandHandler(IUnitOfWork unitOfWork, ICacheService cacheService)
     {
         _unitOfWork = unitOfWork;
+        _cacheService = cacheService;
     }
 
     public async Task<VehicleServiceDto> Handle(CreateVehicleServiceCommand request, CancellationToken cancellationToken)
@@ -78,6 +80,10 @@ public class CreateVehicleServiceCommandHandler : IRequestHandler<CreateVehicleS
 
         service.AddDomainEvent(new VehicleServiceCreatedEvent(dto));
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        // Invalidate paged list cache so new entry appears immediately
+        for (int page = 1; page <= 5; page++)
+            await _cacheService.RemoveAsync($"vehicleservices_paged_{page}_100");
 
         return dto;
     }

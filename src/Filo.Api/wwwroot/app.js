@@ -27,7 +27,8 @@ function switchPage(pageName) {
         'vehicles': 'Araçlar',
         'drivers': 'Sürücüler',
         'assignments': 'Atamalar',
-        'expenses': 'Gider Girişi'
+        'expenses': 'Gider Girişi',
+        'reports': 'Filo Raporları'
     };
     document.getElementById('page-title').innerText = titleMap[pageName] || 'Yönetim Paneli';
 
@@ -37,6 +38,9 @@ function switchPage(pageName) {
     if (pageName === 'drivers') loadDrivers();
     if (pageName === 'assignments') loadAssignments();
     if (pageName === 'expenses') loadAllExpenses();
+    if (pageName === 'reports') {
+        switchReportTab('all-vehicles');
+    }
 }
 
 // Sub tab switching inside Expenses
@@ -45,7 +49,11 @@ function switchSubTab(subTabName) {
     document.querySelector(`#page-expenses .sub-tab-btn[data-subtab="${subTabName}"]`).classList.add('active');
 
     document.querySelectorAll('#page-expenses .sub-panel').forEach(panel => panel.classList.remove('active'));
-    document.getElementById(`subpanel-${subTabName}`).classList.add('active');
+    const targetPanel = document.getElementById(`subpanel-${subTabName}`);
+    targetPanel.classList.add('active');
+    
+    // İlgili panele pürüzsüz şekilde kaydır
+    targetPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // Universal API fetch wrapper with notifications
@@ -391,11 +399,55 @@ async function loadAssignments() {
             <td>${assignDateStr}</td>
             <td>${m.assignmentKm} KM</td>
             <td>
-                <button class="btn-action delete" onclick="deleteAssignment(${m.vehiclePersonId})"><i class="fa-solid fa-link-slash"></i></button>
+                <button class="btn-action edit" onclick="openAssignmentDetailsModal(${m.vehiclePersonId})" title="Detay"><i class="fa-solid fa-circle-info"></i></button>
+                <button class="btn-action delete" onclick="deleteAssignment(${m.vehiclePersonId})" title="Sil"><i class="fa-solid fa-link-slash"></i></button>
             </td>
         `;
         tbody.appendChild(tr);
     });
+    window._assignmentData = data.items;
+}
+
+function openAssignmentDetailsModal(id) {
+    const m = window._assignmentData.find(x => x.vehiclePersonId === id);
+    if (!m) return;
+    
+    const content = document.getElementById('assignment-details-content');
+    
+    // Araç detayları
+    const v = m.vehicle;
+    let vHtml = v ? `
+        <div style="background: rgba(6,182,212,0.1); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--color-accent-teal);">
+            <h4 style="margin-bottom: 0.5rem; color: var(--color-accent-teal);">Araç Bilgileri</h4>
+            <p><strong>Plaka:</strong> ${v.plateNumber}</p>
+            <p><strong>Marka/Model:</strong> ${v.brand} ${v.model}</p>
+            <p><strong>Yıl / Renk:</strong> ${v.year} / ${v.color || '-'}</p>
+            <p><strong>Yakıt / Şanzıman:</strong> ${v.fuelType || '-'} / ${v.transmission || '-'}</p>
+        </div>
+    ` : '<p style="color: var(--color-danger);">Araç bilgisi bulunamadı (Silinmiş olabilir).</p>';
+    
+    // Sürücü detayları
+    const p = m.person;
+    let pHtml = p ? `
+        <div style="background: rgba(139,92,246,0.1); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--color-accent-violet);">
+            <h4 style="margin-bottom: 0.5rem; color: var(--color-accent-violet);">Sürücü Bilgileri</h4>
+            <p><strong>Ad Soyad:</strong> ${p.name} ${p.surname}</p>
+            <p><strong>TCKN:</strong> ${p.tckn}</p>
+            <p><strong>Cinsiyet / Yaş:</strong> ${p.gender || '-'} / ${p.age}</p>
+        </div>
+    ` : '<p style="color: var(--color-danger);">Sürücü bilgisi bulunamadı (Silinmiş olabilir).</p>';
+    
+    // Atama detayları
+    let aHtml = `
+        <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px;">
+            <h4 style="margin-bottom: 0.5rem; color: var(--text-primary);">Atama Özeti</h4>
+            <p><strong>Tarih:</strong> ${new Date(m.assignmentDate).toLocaleDateString('tr-TR')}</p>
+            <p><strong>Başlangıç KM:</strong> ${m.assignmentKm} KM</p>
+        </div>
+    `;
+    
+    content.innerHTML = aHtml + vHtml + pHtml;
+    openModal('modal-assignment-details');
 }
 
 async function openAddAssignmentModal() {
@@ -480,11 +532,37 @@ async function loadFuelExpenses() {
             <td><strong>${f.totalPrice.toFixed(2)} TL</strong></td>
             <td>${f.receiptNumber || '-'}</td>
             <td>
+                <button class="btn-action edit" onclick="openEditFuelModal(${f.vehicleFuelId})"><i class="fa-solid fa-pen"></i></button>
                 <button class="btn-action delete" onclick="deleteFuel(${f.vehicleFuelId})"><i class="fa-solid fa-trash-can"></i></button>
             </td>
         `;
         tbody.appendChild(tr);
     });
+    window._fuelData = data.items;
+}
+
+async function openEditFuelModal(id) {
+    const f = window._fuelData.find(x => x.vehicleFuelId === id);
+    if (!f) return;
+    
+    const vehicles = await apiFetch('/vehicles?PageSize=100');
+    const select = document.getElementById('fuel-vehicle-select');
+    select.innerHTML = '';
+    if (vehicles?.items) {
+        vehicles.items.forEach(v => {
+            select.innerHTML += `<option value="${v.id}">${v.brand} ${v.model} [${v.plateNumber}]</option>`;
+        });
+    }
+    
+    document.getElementById('fuel-id').value = f.vehicleFuelId;
+    document.getElementById('fuel-vehicle-select').value = f.vehicleId;
+    document.getElementById('fuel-date').value = f.refuelingDate.split('T')[0];
+    document.getElementById('fuel-odometer').value = f.odometer;
+    document.getElementById('fuel-liters').value = f.liters;
+    document.getElementById('fuel-price').value = f.pricePerLiter;
+    document.getElementById('fuel-receipt').value = f.receiptNumber || '';
+    
+    openModal('modal-fuel');
 }
 
 async function openAddFuelModal() {
@@ -496,13 +574,15 @@ async function openAddFuelModal() {
             select.innerHTML += `<option value="${v.id}">${v.brand} ${v.model} [${v.plateNumber}]</option>`;
         });
     }
-    document.getElementById('fuel-date').valueAsDate = new Date();
     document.getElementById('fuel-form').reset();
+    document.getElementById('fuel-id').value = '';
+    document.getElementById('fuel-date').valueAsDate = new Date();
     openModal('modal-fuel');
 }
 
 async function handleFuelSubmit(e) {
     e.preventDefault();
+    const id = document.getElementById('fuel-id').value;
     const body = {
         vehicleId: parseInt(document.getElementById('fuel-vehicle-select').value),
         refuelingDate: new Date(document.getElementById('fuel-date').value).toISOString(),
@@ -512,7 +592,14 @@ async function handleFuelSubmit(e) {
         receiptNumber: document.getElementById('fuel-receipt').value
     };
 
-    const result = await apiFetch('/vehicle-fuels', { method: 'POST', body: JSON.stringify(body) });
+    let result;
+    if (id) {
+        body.id = parseInt(id);
+        result = await apiFetch(`/vehicle-fuels/${id}`, { method: 'PUT', body: JSON.stringify(body) });
+    } else {
+        result = await apiFetch('/vehicle-fuels', { method: 'POST', body: JSON.stringify(body) });
+    }
+    
     if (result !== null) {
         closeModal('modal-fuel');
         loadFuelExpenses();
@@ -554,11 +641,39 @@ async function loadMaintenanceExpenses() {
             <td><strong>${m.cost.toFixed(2)} TL</strong></td>
             <td>${nextKmStr} / ${nextDateStr}</td>
             <td>
+                <button class="btn-action edit" onclick="openEditMaintenanceModal(${m.vehicleMaintenanceId})"><i class="fa-solid fa-pen"></i></button>
                 <button class="btn-action delete" onclick="deleteMaintenance(${m.vehicleMaintenanceId})"><i class="fa-solid fa-trash-can"></i></button>
             </td>
         `;
         tbody.appendChild(tr);
     });
+    window._maintenanceData = data.items;
+}
+
+async function openEditMaintenanceModal(id) {
+    const m = window._maintenanceData.find(x => x.vehicleMaintenanceId === id);
+    if (!m) return;
+    
+    const vehicles = await apiFetch('/vehicles?PageSize=100');
+    const select = document.getElementById('maintenance-vehicle-select');
+    select.innerHTML = '';
+    if (vehicles?.items) {
+        vehicles.items.forEach(v => {
+            select.innerHTML += `<option value="${v.id}">${v.brand} ${v.model} [${v.plateNumber}]</option>`;
+        });
+    }
+    
+    document.getElementById('maintenance-id').value = m.vehicleMaintenanceId;
+    document.getElementById('maintenance-vehicle-select').value = m.vehicleId;
+    document.getElementById('maintenance-date').value = m.maintenanceDate.split('T')[0];
+    document.getElementById('maintenance-odometer').value = m.odometer;
+    document.getElementById('maintenance-desc').value = m.description;
+    document.getElementById('maintenance-type').value = m.maintenanceType;
+    document.getElementById('maintenance-cost').value = m.cost;
+    document.getElementById('maintenance-next-date').value = m.nextMaintenanceDate ? m.nextMaintenanceDate.split('T')[0] : '';
+    document.getElementById('maintenance-next-km').value = m.nextMaintenanceKm || '';
+    
+    openModal('modal-maintenance');
 }
 
 async function openAddMaintenanceModal() {
@@ -570,13 +685,15 @@ async function openAddMaintenanceModal() {
             select.innerHTML += `<option value="${v.id}">${v.brand} ${v.model} [${v.plateNumber}]</option>`;
         });
     }
-    document.getElementById('maintenance-date').valueAsDate = new Date();
     document.getElementById('maintenance-form').reset();
+    document.getElementById('maintenance-id').value = '';
+    document.getElementById('maintenance-date').valueAsDate = new Date();
     openModal('modal-maintenance');
 }
 
 async function handleMaintenanceSubmit(e) {
     e.preventDefault();
+    const id = document.getElementById('maintenance-id').value;
     const body = {
         vehicleId: parseInt(document.getElementById('maintenance-vehicle-select').value),
         maintenanceDate: new Date(document.getElementById('maintenance-date').value).toISOString(),
@@ -592,7 +709,14 @@ async function handleMaintenanceSubmit(e) {
             : null
     };
 
-    const result = await apiFetch('/vehicle-maintenances', { method: 'POST', body: JSON.stringify(body) });
+    let result;
+    if (id) {
+        body.id = parseInt(id);
+        result = await apiFetch(`/vehicle-maintenances/${id}`, { method: 'PUT', body: JSON.stringify(body) });
+    } else {
+        result = await apiFetch('/vehicle-maintenances', { method: 'POST', body: JSON.stringify(body) });
+    }
+    
     if (result !== null) {
         closeModal('modal-maintenance');
         loadMaintenanceExpenses();
@@ -639,11 +763,36 @@ async function loadServiceExpenses() {
             <td><span class="badge ${isCompleted ? 'success' : 'danger'}">${s.status}</span></td>
             <td>
                 ${!isCompleted ? `<button class="btn-primary" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;" onclick="openCompleteServiceModal(${s.vehicleServiceId}, ${s.vehicleId}, '${s.entryDate}', ${s.odometer}, '${s.serviceCompany}', '${s.failureDescription}')"><i class="fa-solid fa-check"></i> Çıkış</button>` : ''}
+                <button class="btn-action edit" onclick="openEditServiceModal(${s.vehicleServiceId})"><i class="fa-solid fa-pen"></i></button>
                 <button class="btn-action delete" onclick="deleteService(${s.vehicleServiceId})"><i class="fa-solid fa-trash-can"></i></button>
             </td>
         `;
         tbody.appendChild(tr);
     });
+    window._serviceData = data.items;
+}
+
+async function openEditServiceModal(id) {
+    const s = window._serviceData.find(x => x.vehicleServiceId === id);
+    if (!s) return;
+    
+    const vehicles = await apiFetch('/vehicles?PageSize=100');
+    const select = document.getElementById('service-vehicle-select');
+    select.innerHTML = '';
+    if (vehicles?.items) {
+        vehicles.items.forEach(v => {
+            select.innerHTML += `<option value="${v.id}">${v.brand} ${v.model} [${v.plateNumber}]</option>`;
+        });
+    }
+    
+    document.getElementById('service-id').value = s.vehicleServiceId;
+    document.getElementById('service-vehicle-select').value = s.vehicleId;
+    document.getElementById('service-entry-date').value = s.entryDate.split('T')[0];
+    document.getElementById('service-odometer').value = s.odometer;
+    document.getElementById('service-company').value = s.serviceCompany;
+    document.getElementById('service-desc').value = s.failureDescription;
+    
+    openModal('modal-service');
 }
 
 async function openAddServiceModal() {
@@ -655,13 +804,15 @@ async function openAddServiceModal() {
             select.innerHTML += `<option value="${v.id}">${v.brand} ${v.model} [${v.plateNumber}]</option>`;
         });
     }
-    document.getElementById('service-entry-date').valueAsDate = new Date();
     document.getElementById('service-form').reset();
+    document.getElementById('service-id').value = '';
+    document.getElementById('service-entry-date').valueAsDate = new Date();
     openModal('modal-service');
 }
 
 async function handleServiceSubmit(e) {
     e.preventDefault();
+    const id = document.getElementById('service-id').value;
     const body = {
         vehicleId: parseInt(document.getElementById('service-vehicle-select').value),
         entryDate: new Date(document.getElementById('service-entry-date').value).toISOString(),
@@ -670,7 +821,14 @@ async function handleServiceSubmit(e) {
         failureDescription: document.getElementById('service-desc').value
     };
 
-    const result = await apiFetch('/vehicle-services', { method: 'POST', body: JSON.stringify(body) });
+    let result;
+    if (id) {
+        body.id = parseInt(id);
+        result = await apiFetch(`/vehicle-services/${id}`, { method: 'PUT', body: JSON.stringify(body) });
+    } else {
+        result = await apiFetch('/vehicle-services', { method: 'POST', body: JSON.stringify(body) });
+    }
+    
     if (result !== null) {
         closeModal('modal-service');
         loadServiceExpenses();
@@ -728,3 +886,159 @@ async function deleteService(id) {
 window.addEventListener('DOMContentLoaded', () => {
     switchPage('dashboard');
 });
+
+// ================= REPORTS CONTROLLER =================
+
+function switchReportTab(tabName) {
+    document.querySelectorAll('#page-reports .sub-tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`#page-reports .sub-tab-btn[data-report="${tabName}"]`).classList.add('active');
+
+    document.querySelectorAll('#page-reports .report-panel').forEach(panel => {
+        panel.style.display = 'none';
+        panel.classList.remove('active');
+    });
+    
+    const target = document.getElementById(`report-${tabName}`);
+    target.style.display = tabName === 'expenses' ? 'flex' : 'block';
+    target.classList.add('active');
+    
+    if (tabName === 'all-vehicles') loadReportAllVehicles();
+    else if (tabName === 'free-vehicles') loadReportFreeVehicles();
+    else if (tabName === 'assigned-vehicles') loadReportAssignedVehicles();
+    else if (tabName === 'expenses') loadReportExpenses();
+}
+
+async function loadReportAllVehicles() {
+    const data = await apiFetch('/vehicles?PageSize=1000');
+    const assignmentsData = await apiFetch('/vehicle-matches?PageSize=1000');
+    const tbody = document.getElementById('report-all-vehicles-body');
+    tbody.innerHTML = '';
+    
+    if (!data?.items?.length) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align: center;">Araç bulunamadı.</td></tr>`;
+        return;
+    }
+    
+    const assignedIds = new Set(assignmentsData?.items?.map(m => m.vehicleId) || []);
+    
+    data.items.forEach(v => {
+        const isAssigned = assignedIds.has(v.id);
+        tbody.innerHTML += `
+            <tr>
+                <td><strong>${v.plateNumber}</strong></td>
+                <td>${v.brand} ${v.model}</td>
+                <td>${v.year}</td>
+                <td>${v.color || '-'}</td>
+                <td>${v.fuelType || '-'}</td>
+                <td>${v.transmissionType || '-'}</td>
+                <td><span class="badge ${isAssigned ? 'warning' : 'success'}">${isAssigned ? 'Atanmış' : 'Boşta'}</span></td>
+            </tr>
+        `;
+    });
+}
+
+async function loadReportFreeVehicles() {
+    const data = await apiFetch('/vehicles?PageSize=1000');
+    const assignmentsData = await apiFetch('/vehicle-matches?PageSize=1000');
+    const tbody = document.getElementById('report-free-vehicles-body');
+    tbody.innerHTML = '';
+    
+    const assignedIds = new Set(assignmentsData?.items?.map(m => m.vehicleId) || []);
+    const freeVehicles = data?.items?.filter(v => !assignedIds.has(v.id)) || [];
+    
+    if (freeVehicles.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">Boşta araç bulunmuyor.</td></tr>`;
+        return;
+    }
+    
+    freeVehicles.forEach(v => {
+        tbody.innerHTML += `
+            <tr>
+                <td><strong>${v.plateNumber}</strong></td>
+                <td>${v.brand} ${v.model}</td>
+                <td>${v.year}</td>
+                <td>${v.color || '-'}</td>
+                <td>${v.fuelType || '-'}</td>
+            </tr>
+        `;
+    });
+}
+
+async function loadReportAssignedVehicles() {
+    const vehiclesData = await apiFetch('/vehicles?PageSize=1000');
+    const assignmentsData = await apiFetch('/vehicle-matches?PageSize=1000');
+    
+    const tbody = document.getElementById('report-assigned-vehicles-body');
+    tbody.innerHTML = '';
+    
+    const assignedIds = new Set(assignmentsData?.items?.map(m => m.vehicleId) || []);
+    const assignedVehicles = vehiclesData?.items?.filter(v => assignedIds.has(v.id)) || [];
+    
+    if (assignedVehicles.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="3" style="text-align: center;">Atanmış araç bulunmuyor.</td></tr>`;
+        return;
+    }
+    
+    assignedVehicles.forEach(v => {
+        const match = assignmentsData?.items?.find(a => a.vehicleId === v.id);
+        const personStr = match?.person ? `${match.person.name} ${match.person.surname} (${match.person.tckn})` : `Sürücü bilgisi yüklenemedi.`;
+        
+        tbody.innerHTML += `
+            <tr>
+                <td><strong>${v.plateNumber}</strong></td>
+                <td>${v.brand} ${v.model}</td>
+                <td>${personStr}</td>
+            </tr>
+        `;
+    });
+}
+
+async function loadReportExpenses() {
+    const fuels = await apiFetch('/vehicle-fuels?PageSize=1000') || { items: [] };
+    const maints = await apiFetch('/vehicle-maintenances?PageSize=1000') || { items: [] };
+    const services = await apiFetch('/vehicle-services?PageSize=1000') || { items: [] };
+    
+    // Yakıt
+    let fuelHtml = '', fuelTotal = 0;
+    fuels.items.forEach(f => {
+        fuelTotal += f.totalPrice;
+        const vInfo = f.vehicle ? `${f.vehicle.brand} ${f.vehicle.plateNumber}` : '-';
+        fuelHtml += `<tr><td>${vInfo}</td><td>${new Date(f.refuelingDate).toLocaleDateString('tr-TR')}</td><td>${f.liters} Lt</td><td>${f.totalPrice.toFixed(2)} TL</td></tr>`;
+    });
+    document.getElementById('report-expenses-fuel-body').innerHTML = fuelHtml || `<tr><td colspan="4" style="text-align: center;">Kayıt yok.</td></tr>`;
+    document.getElementById('report-fuel-total').innerText = `(Toplam: ${fuelTotal.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} TL)`;
+    
+    // Bakım
+    let maintHtml = '', maintTotal = 0;
+    maints.items.forEach(m => {
+        maintTotal += m.cost;
+        const vInfo = m.vehicle ? `${m.vehicle.brand} ${m.vehicle.plateNumber}` : '-';
+        maintHtml += `<tr><td>${vInfo}</td><td>${new Date(m.maintenanceDate).toLocaleDateString('tr-TR')}</td><td>${m.maintenanceType}</td><td>${m.cost.toFixed(2)} TL</td></tr>`;
+    });
+    document.getElementById('report-expenses-maint-body').innerHTML = maintHtml || `<tr><td colspan="4" style="text-align: center;">Kayıt yok.</td></tr>`;
+    document.getElementById('report-maint-total').innerText = `(Toplam: ${maintTotal.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} TL)`;
+    
+    // Servis
+    let serviceHtml = '', serviceTotal = 0;
+    services.items.forEach(s => {
+        if(s.cost) serviceTotal += s.cost;
+        const vInfo = s.vehicle ? `${s.vehicle.brand} ${s.vehicle.plateNumber}` : '-';
+        serviceHtml += `<tr><td>${vInfo}</td><td>${new Date(s.entryDate).toLocaleDateString('tr-TR')}</td><td>${s.serviceCompany}</td><td>${s.cost ? s.cost.toFixed(2) + ' TL' : '-'}</td></tr>`;
+    });
+    document.getElementById('report-expenses-service-body').innerHTML = serviceHtml || `<tr><td colspan="4" style="text-align: center;">Kayıt yok.</td></tr>`;
+    document.getElementById('report-service-total').innerText = `(Toplam: ${serviceTotal.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} TL)`;
+}
+
+// Generic Excel Export logic using SheetJS
+function exportTableToExcel(tableId, filename) {
+    const table = document.getElementById(tableId);
+    if (!table) return;
+
+    // Create a new workbook and add the table as a worksheet
+    const wb = XLSX.utils.table_to_book(table, { sheet: "Rapor" });
+    
+    // Download the Excel file
+    XLSX.writeFile(wb, filename);
+}
+
+

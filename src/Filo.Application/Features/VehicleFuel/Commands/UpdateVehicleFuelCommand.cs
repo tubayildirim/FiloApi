@@ -53,7 +53,9 @@ public class UpdateVehicleFuelCommandHandler : IRequestHandler<UpdateVehicleFuel
         _unitOfWork.VehicleFuels.Update(fuel);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        // Invalidate cache
+        // Invalidate single item and paged list caches
         await _cacheService.RemoveAsync($"vehiclefuel:{request.Id}");
+        for (int page = 1; page <= 5; page++)
+            await _cacheService.RemoveAsync($"vehiclefuels_paged_{page}_100");
     }
 }

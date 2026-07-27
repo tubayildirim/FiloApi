@@ -30,10 +30,12 @@ public sealed class CreateVehicleFuelCommand : IRequest<VehicleFuelDto>
 public class CreateVehicleFuelCommandHandler : IRequestHandler<CreateVehicleFuelCommand, VehicleFuelDto>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ICacheService _cacheService;
 
-    public CreateVehicleFuelCommandHandler(IUnitOfWork unitOfWork)
+    public CreateVehicleFuelCommandHandler(IUnitOfWork unitOfWork, ICacheService cacheService)
     {
         _unitOfWork = unitOfWork;
+        _cacheService = cacheService;
     }
 
     public async Task<VehicleFuelDto> Handle(CreateVehicleFuelCommand request, CancellationToken cancellationToken)
@@ -67,6 +69,10 @@ public class CreateVehicleFuelCommandHandler : IRequestHandler<CreateVehicleFuel
 
         fuel.AddDomainEvent(new VehicleFuelCreatedEvent(dto));
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        // Invalidate paged list cache so new entry appears immediately
+        for (int page = 1; page <= 5; page++)
+            await _cacheService.RemoveAsync($"vehiclefuels_paged_{page}_100");
 
         return dto;
     }
