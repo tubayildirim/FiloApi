@@ -62,6 +62,7 @@ public class AppDbContext : DbContext
     public DbSet<Person> Person => Set<Person>();
     public DbSet<VehicleMatchPerson> VehicleMatchPersons => Set<VehicleMatchPerson>();
     public DbSet<VehicleFuel> VehicleFuels => Set<VehicleFuel>();
+    public DbSet<VehicleMaintenance> VehicleMaintenances => Set<VehicleMaintenance>();
     public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -134,6 +135,27 @@ public class AppDbContext : DbContext
 
             entity.HasOne(e => e.Vehicle)
                 .WithMany(v => v.VehicleFuels)
+                .HasForeignKey(e => e.VehicleId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasQueryFilter(e => !e.IsDeleted);
+        });
+
+        modelBuilder.Entity<VehicleMaintenance>(entity =>
+        {
+            entity.ToTable("VehicleMaintenances");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).HasColumnName("VehicleMaintenanceId");
+            entity.Property(e => e.MaintenanceDate).IsRequired();
+            entity.Property(e => e.Odometer).IsRequired();
+            entity.Property(e => e.Description).IsRequired().HasMaxLength(500);
+            entity.Property(e => e.Cost).IsRequired().HasPrecision(18, 2);
+            entity.Property(e => e.MaintenanceType).IsRequired().HasMaxLength(50);
+            entity.Property(e => e.NextMaintenanceDate);
+            entity.Property(e => e.NextMaintenanceKm);
+
+            entity.HasOne(e => e.Vehicle)
+                .WithMany(v => v.VehicleMaintenances)
                 .HasForeignKey(e => e.VehicleId)
                 .OnDelete(DeleteBehavior.Cascade);
 
