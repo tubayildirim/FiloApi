@@ -8,6 +8,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly AppDbContext _context;
     private IVehicleRepository? _vehicles;
     private IPersonRepository? _person;
+    private IVehicleMatchPersonRepository? _vehicleMatches;
 
     public UnitOfWork(AppDbContext context)
     {
@@ -16,6 +17,7 @@ public class UnitOfWork : IUnitOfWork
 
     public IVehicleRepository Vehicles => _vehicles ??= new VehicleRepository(_context);
     public IPersonRepository Person => _person ??= new PersonRepository(_context);
+    public IVehicleMatchPersonRepository VehicleMatches => _vehicleMatches ??= new VehicleMatchPersonRepository(_context);
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

@@ -91,6 +91,7 @@ app.UseAuthorization();
 app.MapDefaultEndpoints();
 app.MapVehicleEndpoints();
 app.MapPersonEndpoints();
+app.MapVehicleMatchPersonEndpoints();
 app.MapGet("/", (HttpContext context) => Results.Redirect("/scalar/v1"));
 
 try

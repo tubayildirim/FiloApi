@@ -11,4 +11,5 @@ public class Person : BaseEntity
     public required string Gender { get; set; }
 
     public ICollection<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
+    public ICollection<VehicleMatchPerson> VehicleMatches { get; set; } = new List<VehicleMatchPerson>();
 }

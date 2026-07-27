@@ -60,6 +60,7 @@ public class AppDbContext : DbContext
 
     public DbSet<Vehicle> Vehicles => Set<Vehicle>();
     public DbSet<Person> Person => Set<Person>();
+    public DbSet<VehicleMatchPerson> VehicleMatchPersons => Set<VehicleMatchPerson>();
     public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -94,6 +95,27 @@ public class AppDbContext : DbContext
                 .WithMany(p => p.Vehicles)
                 .HasForeignKey(e => e.PersonId)
                 .OnDelete(DeleteBehavior.SetNull);
+            entity.HasQueryFilter(e => !e.IsDeleted);
+        });
+
+        modelBuilder.Entity<VehicleMatchPerson>(entity =>
+        {
+            entity.ToTable("VehicleMatchPersons");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).HasColumnName("VehiclePersonId");
+            entity.Property(e => e.AssignmentDate).IsRequired();
+            entity.Property(e => e.AssignmentKm).IsRequired();
+
+            entity.HasOne(e => e.Vehicle)
+                .WithMany(v => v.VehicleMatches)
+                .HasForeignKey(e => e.VehicleId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.Person)
+                .WithMany(p => p.VehicleMatches)
+                .HasForeignKey(e => e.PersonId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             entity.HasQueryFilter(e => !e.IsDeleted);
         });
 

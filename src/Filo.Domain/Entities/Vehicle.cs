@@ -17,4 +17,5 @@ public class Vehicle : BaseEntity
 
     public int? PersonId { get; set; }
     public Person? Person { get; set; }
+    public ICollection<VehicleMatchPerson> VehicleMatches { get; set; } = new List<VehicleMatchPerson>();
 }
