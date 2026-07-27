@@ -20,4 +20,5 @@ public class Vehicle : BaseEntity
     public ICollection<VehicleMatchPerson> VehicleMatches { get; set; } = new List<VehicleMatchPerson>();
     public ICollection<VehicleFuel> VehicleFuels { get; set; } = new List<VehicleFuel>();
     public ICollection<VehicleMaintenance> VehicleMaintenances { get; set; } = new List<VehicleMaintenance>();
+    public ICollection<VehicleService> VehicleServices { get; set; } = new List<VehicleService>();
 }

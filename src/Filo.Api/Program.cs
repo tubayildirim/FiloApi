@@ -94,6 +94,7 @@ app.MapPersonEndpoints();
 app.MapVehicleMatchPersonEndpoints();
 app.MapVehicleFuelEndpoints();
 app.MapVehicleMaintenanceEndpoints();
+app.MapVehicleServiceEndpoints();
 app.MapGet("/", (HttpContext context) => Results.Redirect("/scalar/v1"));
 
 try

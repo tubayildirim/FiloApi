@@ -63,6 +63,7 @@ public class AppDbContext : DbContext
     public DbSet<VehicleMatchPerson> VehicleMatchPersons => Set<VehicleMatchPerson>();
     public DbSet<VehicleFuel> VehicleFuels => Set<VehicleFuel>();
     public DbSet<VehicleMaintenance> VehicleMaintenances => Set<VehicleMaintenance>();
+    public DbSet<VehicleService> VehicleServices => Set<VehicleService>();
     public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -156,6 +157,28 @@ public class AppDbContext : DbContext
 
             entity.HasOne(e => e.Vehicle)
                 .WithMany(v => v.VehicleMaintenances)
+                .HasForeignKey(e => e.VehicleId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasQueryFilter(e => !e.IsDeleted);
+        });
+
+        modelBuilder.Entity<VehicleService>(entity =>
+        {
+            entity.ToTable("VehicleServices");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).HasColumnName("VehicleServiceId");
+            entity.Property(e => e.EntryDate).IsRequired();
+            entity.Property(e => e.ExitDate);
+            entity.Property(e => e.Odometer).IsRequired();
+            entity.Property(e => e.ServiceCompany).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.FailureDescription).IsRequired().HasMaxLength(1000);
+            entity.Property(e => e.Cost).HasPrecision(18, 2);
+            entity.Property(e => e.Status).IsRequired().HasMaxLength(50);
+            entity.Property(e => e.InvoiceNumber).HasMaxLength(100);
+
+            entity.HasOne(e => e.Vehicle)
+                .WithMany(v => v.VehicleServices)
                 .HasForeignKey(e => e.VehicleId)
                 .OnDelete(DeleteBehavior.Cascade);
 

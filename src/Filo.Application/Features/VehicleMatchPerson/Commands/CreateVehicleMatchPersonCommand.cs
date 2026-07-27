@@ -43,6 +43,12 @@ public class CreateVehicleMatchPersonCommandHandler : IRequestHandler<CreateVehi
             throw new NotFoundException($"ID'si {request.VehicleId} olan araç bulunamadı.");
         }
 
+        var inService = await _unitOfWork.VehicleServices.IsVehicleInServiceAsync(request.VehicleId);
+        if (inService)
+        {
+            throw new ValidationException("Araç şu anda serviste olduğu için yeni bir sürücü ataması yapılamaz.");
+        }
+
         var person = await _unitOfWork.Person.GetByIdAsync(request.PersonId);
         if (person == null)
         {

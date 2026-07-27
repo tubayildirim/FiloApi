@@ -23,6 +23,7 @@ public static class DependencyInjection
         services.AddScoped<IVehicleMatchPersonRepository, VehicleMatchPersonRepository>();
         services.AddScoped<IVehicleFuelRepository, VehicleFuelRepository>();
         services.AddScoped<IVehicleMaintenanceRepository, VehicleMaintenanceRepository>();
+        services.AddScoped<IVehicleServiceRepository, VehicleServiceRepository>();
         
         services.AddDistributedMemoryCache();
 #pragma warning disable EXTEXP0018
