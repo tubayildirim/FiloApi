@@ -29,10 +29,12 @@ public sealed class CreateVehicleMatchPersonCommand : IRequest<VehicleMatchPerso
 public class CreateVehicleMatchPersonCommandHandler : IRequestHandler<CreateVehicleMatchPersonCommand, VehicleMatchPersonDto>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ICacheService _cacheService;
 
-    public CreateVehicleMatchPersonCommandHandler(IUnitOfWork unitOfWork)
+    public CreateVehicleMatchPersonCommandHandler(IUnitOfWork unitOfWork, ICacheService cacheService)
     {
         _unitOfWork = unitOfWork;
+        _cacheService = cacheService;
     }
 
     public async Task<VehicleMatchPersonDto> Handle(CreateVehicleMatchPersonCommand request, CancellationToken cancellationToken)
@@ -55,6 +57,10 @@ public class CreateVehicleMatchPersonCommandHandler : IRequestHandler<CreateVehi
             throw new NotFoundException($"ID'si {request.PersonId} olan kişi bulunamadı.");
         }
 
+        // Update vehicle's current driver
+        vehicle.PersonId = request.PersonId;
+        _unitOfWork.Vehicles.Update(vehicle);
+
         var match = request.Adapt<Domain.Entities.VehicleMatchPerson>();
         
         await _unitOfWork.VehicleMatches.AddAsync(match);
@@ -72,6 +78,24 @@ public class CreateVehicleMatchPersonCommandHandler : IRequestHandler<CreateVehi
 
         match.AddDomainEvent(new VehicleMatchPersonCreatedEvent(dto));
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        // Invalidate paged and item caches to ensure UI shows the new match immediately
+        for (int p = 1; p <= 5; p++)
+        {
+            await _cacheService.RemoveAsync($"vehiclematches_paged_{p}_10");
+            await _cacheService.RemoveAsync($"vehiclematches_paged_{p}_50");
+            await _cacheService.RemoveAsync($"vehiclematches_paged_{p}_100");
+
+            await _cacheService.RemoveAsync($"vehicles_paged_{p}_10");
+            await _cacheService.RemoveAsync($"vehicles_paged_{p}_50");
+            await _cacheService.RemoveAsync($"vehicles_paged_{p}_100");
+
+            await _cacheService.RemoveAsync($"persons_paged_{p}_10");
+            await _cacheService.RemoveAsync($"persons_paged_{p}_50");
+            await _cacheService.RemoveAsync($"persons_paged_{p}_100");
+        }
+        await _cacheService.RemoveAsync($"vehicle:{request.VehicleId}");
+        await _cacheService.RemoveAsync($"person:{request.PersonId}");
 
         return dto;
     }

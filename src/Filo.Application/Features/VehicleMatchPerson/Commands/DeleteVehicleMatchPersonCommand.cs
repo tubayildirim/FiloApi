@@ -31,10 +31,36 @@ public class DeleteVehicleMatchPersonCommandHandler : IRequestHandler<DeleteVehi
             throw new NotFoundException($"ID'si {request.Id} olan araç-kişi ataması bulunamadı.");
         }
 
+        // Dissociate vehicle's current driver if it matches the assigned person
+        var vehicle = await _unitOfWork.Vehicles.GetByIdAsync(match.VehicleId);
+        if (vehicle != null && vehicle.PersonId == match.PersonId)
+        {
+            vehicle.PersonId = null;
+            _unitOfWork.Vehicles.Update(vehicle);
+        }
+
         _unitOfWork.VehicleMatches.Delete(match);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         // Invalidate cache
         await _cacheService.RemoveAsync($"vehiclematch:{request.Id}");
+
+        // Invalidate paged and item caches
+        for (int p = 1; p <= 5; p++)
+        {
+            await _cacheService.RemoveAsync($"vehiclematches_paged_{p}_10");
+            await _cacheService.RemoveAsync($"vehiclematches_paged_{p}_50");
+            await _cacheService.RemoveAsync($"vehiclematches_paged_{p}_100");
+
+            await _cacheService.RemoveAsync($"vehicles_paged_{p}_10");
+            await _cacheService.RemoveAsync($"vehicles_paged_{p}_50");
+            await _cacheService.RemoveAsync($"vehicles_paged_{p}_100");
+
+            await _cacheService.RemoveAsync($"persons_paged_{p}_10");
+            await _cacheService.RemoveAsync($"persons_paged_{p}_50");
+            await _cacheService.RemoveAsync($"persons_paged_{p}_100");
+        }
+        await _cacheService.RemoveAsync($"vehicle:{match.VehicleId}");
+        await _cacheService.RemoveAsync($"person:{match.PersonId}");
     }
 }
