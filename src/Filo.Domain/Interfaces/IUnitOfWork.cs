@@ -5,6 +5,7 @@ public interface IUnitOfWork : IDisposable
     IVehicleRepository Vehicles { get; }
     IPersonRepository Person { get; }
     IVehicleMatchPersonRepository VehicleMatches { get; }
+    IVehicleFuelRepository VehicleFuels { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     Task BeginTransactionAsync();
     Task CommitAsync();

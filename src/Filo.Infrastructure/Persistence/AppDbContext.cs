@@ -61,6 +61,7 @@ public class AppDbContext : DbContext
     public DbSet<Vehicle> Vehicles => Set<Vehicle>();
     public DbSet<Person> Person => Set<Person>();
     public DbSet<VehicleMatchPerson> VehicleMatchPersons => Set<VehicleMatchPerson>();
+    public DbSet<VehicleFuel> VehicleFuels => Set<VehicleFuel>();
     public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -114,6 +115,26 @@ public class AppDbContext : DbContext
             entity.HasOne(e => e.Person)
                 .WithMany(p => p.VehicleMatches)
                 .HasForeignKey(e => e.PersonId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasQueryFilter(e => !e.IsDeleted);
+        });
+
+        modelBuilder.Entity<VehicleFuel>(entity =>
+        {
+            entity.ToTable("VehicleFuels");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).HasColumnName("VehicleFuelId");
+            entity.Property(e => e.RefuelingDate).IsRequired();
+            entity.Property(e => e.Odometer).IsRequired();
+            entity.Property(e => e.Liters).IsRequired();
+            entity.Property(e => e.PricePerLiter).IsRequired().HasPrecision(18, 2);
+            entity.Property(e => e.TotalPrice).IsRequired().HasPrecision(18, 2);
+            entity.Property(e => e.ReceiptNumber).HasMaxLength(50);
+
+            entity.HasOne(e => e.Vehicle)
+                .WithMany(v => v.VehicleFuels)
+                .HasForeignKey(e => e.VehicleId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasQueryFilter(e => !e.IsDeleted);
