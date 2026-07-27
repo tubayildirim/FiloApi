@@ -82,6 +82,9 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.UseRateLimiter();
@@ -95,7 +98,7 @@ app.MapVehicleMatchPersonEndpoints();
 app.MapVehicleFuelEndpoints();
 app.MapVehicleMaintenanceEndpoints();
 app.MapVehicleServiceEndpoints();
-app.MapGet("/", (HttpContext context) => Results.Redirect("/scalar/v1"));
+app.MapGet("/docs", (HttpContext context) => Results.Redirect("/scalar/v1"));
 
 try
 {

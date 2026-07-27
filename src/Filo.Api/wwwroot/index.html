@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FleetPro - Filo Yönetim Paneli</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <h1>Fleet<span>PRO</span></h1>
+            </div>
+            <nav class="nav-menu">
+                <a class="nav-item active" data-page="dashboard">
+                    <i class="fa-solid fa-chart-line"></i> Dashboard
+                </a>
+                <a class="nav-item" data-page="vehicles">
+                    <i class="fa-solid fa-car"></i> Araçlar
+                </a>
+                <a class="nav-item" data-page="drivers">
+                    <i class="fa-solid fa-user-tie"></i> Sürücüler
+                </a>
+                <a class="nav-item" data-page="assignments">
+                    <i class="fa-solid fa-handshake"></i> Atamalar
+                </a>
+                <a class="nav-item" data-page="expenses">
+                    <i class="fa-solid fa-wallet"></i> Gider Girişi
+                </a>
+                <a href="/docs" target="_blank" class="nav-item">
+                    <i class="fa-solid fa-book"></i> API Docs (Scalar)
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h2 id="page-title">Dashboard</h2>
+                <div class="user-profile">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=256&auto=format&fit=crop" alt="Kullanıcı">
+                    <span>Tuba Yıldırım</span>
+                </div>
+            </header>
+
+            <!-- ================= DASHBOARD PAGE ================= -->
+            <section id="page-dashboard" class="page-view active">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fa-solid fa-car"></i></div>
+                        <div class="metric-title">Toplam Araç</div>
+                        <div class="metric-value" id="metric-total-vehicles">0</div>
+                    </div>
+                    <div class="metric-card violet">
+                        <div class="metric-icon"><i class="fa-solid fa-user-tie"></i></div>
+                        <div class="metric-title">Kayıtlı Sürücü</div>
+                        <div class="metric-value" id="metric-total-drivers">0</div>
+                    </div>
+                    <div class="metric-card pink">
+                        <div class="metric-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+                        <div class="metric-title">Servisteki Araçlar</div>
+                        <div class="metric-value" id="metric-active-services">0</div>
+                    </div>
+                    <div class="metric-card warning">
+                        <div class="metric-icon"><i class="fa-solid fa-gas-pump"></i></div>
+                        <div class="metric-title">Son Refüel Kaydı (KM)</div>
+                        <div class="metric-value" id="metric-last-refuel">0</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-details">
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <h3>Filo Gider İstatistikleri</h3>
+                        </div>
+                        <div style="height: 300px; position: relative;">
+                            <canvas id="expenses-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <h3>Son İşlemler</h3>
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="modern-table">
+                                <thead>
+                                    <tr>
+                                        <th>İşlem</th>
+                                        <th>Araç</th>
+                                        <th>Tarih</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recent-activity-list">
+                                    <tr>
+                                        <td colspan="3" style="text-align: center; color: var(--text-secondary);">Kayıt bulunamadı.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= VEHICLES PAGE ================= -->
+            <section id="page-vehicles" class="page-view">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h3>Araç Envanteri</h3>
+                        <button class="btn-primary" onclick="openAddVehicleModal()">
+                            <i class="fa-solid fa-plus"></i> Yeni Araç Ekle
+                        </button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>Marka / Model</th>
+                                    <th>Plaka</th>
+                                    <th>Yıl</th>
+                                    <th>Renk</th>
+                                    <th>Yakıt / Şanzıman</th>
+                                    <th style="width: 100px;">İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody id="vehicles-table-body">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= DRIVERS PAGE ================= -->
+            <section id="page-drivers" class="page-view">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h3>Sürücü Yönetimi</h3>
+                        <button class="btn-primary" onclick="openAddDriverModal()">
+                            <i class="fa-solid fa-plus"></i> Yeni Sürücü Ekle
+                        </button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>Ad / Soyad</th>
+                                    <th>TCKN</th>
+                                    <th>Yaş</th>
+                                    <th>Cinsiyet</th>
+                                    <th style="width: 100px;">İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody id="drivers-table-body">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= ASSIGNMENTS PAGE ================= -->
+            <section id="page-assignments" class="page-view">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h3>Araç ve Sürücü Eşleştirme</h3>
+                        <button class="btn-primary" onclick="openAddAssignmentModal()">
+                            <i class="fa-solid fa-link"></i> Yeni Eşleştirme Yap
+                        </button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>Araç</th>
+                                    <th>Sürücü</th>
+                                    <th>Atama Tarihi</th>
+                                    <th>Başlangıç KM</th>
+                                    <th style="width: 100px;">İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody id="assignments-table-body">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= EXPENSES / LOGS PAGE ================= -->
+            <section id="page-expenses" class="page-view">
+                <div class="sub-tabs">
+                    <button class="sub-tab-btn active" data-subtab="fuel" onclick="switchSubTab('fuel')">Yakıt Alımı</button>
+                    <button class="sub-tab-btn" data-subtab="maintenance" onclick="switchSubTab('maintenance')">Periyodik Bakım</button>
+                    <button class="sub-tab-btn" data-subtab="service" onclick="switchSubTab('service')">Servis / Hasar</button>
+                </div>
+
+                <!-- Fuel Logs Panel -->
+                <div id="subpanel-fuel" class="panel-card sub-panel active">
+                    <div class="panel-header">
+                        <h3>Yakıt Harcamaları</h3>
+                        <button class="btn-primary" onclick="openAddFuelModal()">
+                            <i class="fa-solid fa-plus"></i> Yakıt Girişi Yap
+                        </button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>Araç</th>
+                                    <th>Tarih</th>
+                                    <th>Kilometre (KM)</th>
+                                    <th>Litre</th>
+                                    <th>Litre Fiyatı</th>
+                                    <th>Toplam Maliyet</th>
+                                    <th>Fatura / Fiş No</th>
+                                    <th style="width: 80px;">İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fuel-table-body">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Maintenance Panel -->
+                <div id="subpanel-maintenance" class="panel-card sub-panel">
+                    <div class="panel-header">
+                        <h3>Periyodik ve Düzeltici Bakım Kayıtları</h3>
+                        <button class="btn-primary" onclick="openAddMaintenanceModal()">
+                            <i class="fa-solid fa-plus"></i> Bakım Girişi Yap
+                        </button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>Araç</th>
+                                    <th>Tarih</th>
+                                    <th>Kilometre (KM)</th>
+                                    <th>Açıklama</th>
+                                    <th>Bakım Türü</th>
+                                    <th>Maliyet</th>
+                                    <th>Sonraki Bakım (KM / Tarih)</th>
+                                    <th style="width: 80px;">İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody id="maintenance-table-body">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Service Panel -->
+                <div id="subpanel-service" class="panel-card sub-panel">
+                    <div class="panel-header">
+                        <h3>Kaza, Hasar ve Servis Kayıtları</h3>
+                        <button class="btn-primary" onclick="openAddServiceModal()">
+                            <i class="fa-solid fa-plus"></i> Servis Girişi Yap
+                        </button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>Araç</th>
+                                    <th>Servise Giriş</th>
+                                    <th>Servisten Çıkış</th>
+                                    <th>Kilometre (KM)</th>
+                                    <th>Yetkili Servis</th>
+                                    <th>Hasar/Arıza Detayı</th>
+                                    <th>Maliyet / Fatura</th>
+                                    <th>Durum</th>
+                                    <th style="width: 100px;">İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody id="service-table-body">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ================= MODALS ================= -->
+
+    <!-- Add/Edit Vehicle Modal -->
+    <div id="modal-vehicle" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="vehicle-modal-title">Yeni Araç Ekle</h3>
+                <button class="modal-close" onclick="closeModal('modal-vehicle')">&times;</button>
+            </div>
+            <form id="vehicle-form" onsubmit="handleVehicleSubmit(event)">
+                <input type="hidden" id="vehicle-id">
+                <div class="form-group">
+                    <label>Marka *</label>
+                    <input type="text" id="vehicle-brand" class="form-input" placeholder="Örn: BMW" required>
+                </div>
+                <div class="form-group">
+                    <label>Model *</label>
+                    <input type="text" id="vehicle-model" class="form-input" placeholder="Örn: 320i" required>
+                </div>
+                <div class="form-group">
+                    <label>Plaka Numarası *</label>
+                    <input type="text" id="vehicle-plate" class="form-input" placeholder="Örn: 34XYZ123" required>
+                </div>
+                <div class="form-group">
+                    <label>Üretim Yılı *</label>
+                    <input type="number" id="vehicle-year" class="form-input" value="2023" required>
+                </div>
+                <div class="form-group">
+                    <label>Renk</label>
+                    <input type="text" id="vehicle-color" class="form-input" placeholder="Örn: Siyah">
+                </div>
+                <div class="form-group">
+                    <label>Yakıt Türü</label>
+                    <select id="vehicle-fuel-type" class="form-select">
+                        <option value="Benzin">Benzin</option>
+                        <option value="Dizel">Dizel</option>
+                        <option value="Elektrik">Elektrik</option>
+                        <option value="Hibrit">Hibrit</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Şanzıman Türü</label>
+                    <select id="vehicle-transmission" class="form-select">
+                        <option value="Otomatik">Otomatik</option>
+                        <option value="Manuel">Manuel</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('modal-vehicle')">Vazgeç</button>
+                    <button type="submit" class="btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add/Edit Driver Modal -->
+    <div id="modal-driver" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="driver-modal-title">Yeni Sürücü Ekle</h3>
+                <button class="modal-close" onclick="closeModal('modal-driver')">&times;</button>
+            </div>
+            <form id="driver-form" onsubmit="handleDriverSubmit(event)">
+                <input type="hidden" id="driver-id">
+                <div class="form-group">
+                    <label>Ad *</label>
+                    <input type="text" id="driver-name" class="form-input" placeholder="Örn: Ahmet" required>
+                </div>
+                <div class="form-group">
+                    <label>Soyad *</label>
+                    <input type="text" id="driver-surname" class="form-input" placeholder="Örn: Yılmaz" required>
+                </div>
+                <div class="form-group">
+                    <label>T.C. Kimlik Numarası *</label>
+                    <input type="text" id="driver-tckn" class="form-input" maxlength="11" placeholder="11 haneli TCKN" required>
+                </div>
+                <div class="form-group">
+                    <label>Yaş *</label>
+                    <input type="number" id="driver-age" class="form-input" min="18" value="25" required>
+                </div>
+                <div class="form-group">
+                    <label>Cinsiyet</label>
+                    <select id="driver-gender" class="form-select">
+                        <option value="Erkek">Erkek</option>
+                        <option value="Kadın">Kadın</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('modal-driver')">Vazgeç</button>
+                    <button type="submit" class="btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Assignment Modal -->
+    <div id="modal-assignment" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Yeni Araç-Sürücü Ataması</h3>
+                <button class="modal-close" onclick="closeModal('modal-assignment')">&times;</button>
+            </div>
+            <form id="assignment-form" onsubmit="handleAssignmentSubmit(event)">
+                <div class="form-group">
+                    <label>Atanacak Araç *</label>
+                    <select id="assignment-vehicle-select" class="form-select" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Sürücü *</label>
+                    <select id="assignment-driver-select" class="form-select" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Atama Tarihi *</label>
+                    <input type="date" id="assignment-date" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Başlangıç Kilometresi (Assignment Km) *</label>
+                    <input type="number" id="assignment-km" class="form-input" value="1000" min="0" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('modal-assignment')">Vazgeç</button>
+                    <button type="submit" class="btn-primary">Ata ve Kilitle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Fuel Modal -->
+    <div id="modal-fuel" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Yeni Yakıt Alım Kaydı</h3>
+                <button class="modal-close" onclick="closeModal('modal-fuel')">&times;</button>
+            </div>
+            <form id="fuel-form" onsubmit="handleFuelSubmit(event)">
+                <div class="form-group">
+                    <label>Araç *</label>
+                    <select id="fuel-vehicle-select" class="form-select" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Alım Tarihi *</label>
+                    <input type="date" id="fuel-date" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Giriş Kilometresi (Odometer) *</label>
+                    <input type="number" id="fuel-odometer" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Yakıt Miktarı (Litre) *</label>
+                    <input type="number" id="fuel-liters" step="0.01" class="form-input" placeholder="Örn: 45.5" required>
+                </div>
+                <div class="form-group">
+                    <label>Litre Fiyatı (TL) *</label>
+                    <input type="number" id="fuel-price" step="0.01" class="form-input" placeholder="Örn: 42.15" required>
+                </div>
+                <div class="form-group">
+                    <label>Fiş / Makbuz No</label>
+                    <input type="text" id="fuel-receipt" class="form-input" placeholder="Örn: FK-198273">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('modal-fuel')">Vazgeç</button>
+                    <button type="submit" class="btn-primary">Kaydı Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Maintenance Modal -->
+    <div id="modal-maintenance" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Yeni Periyodik Bakım Kaydı</h3>
+                <button class="modal-close" onclick="closeModal('modal-maintenance')">&times;</button>
+            </div>
+            <form id="maintenance-form" onsubmit="handleMaintenanceSubmit(event)">
+                <div class="form-group">
+                    <label>Araç *</label>
+                    <select id="maintenance-vehicle-select" class="form-select" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Bakım Tarihi *</label>
+                    <input type="date" id="maintenance-date" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Kilometre (Odometer) *</label>
+                    <input type="number" id="maintenance-odometer" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Açıklama / Değişen Parçalar *</label>
+                    <input type="text" id="maintenance-desc" class="form-input" placeholder="Örn: Yağ, polen, hava filtreleri değişimi." required>
+                </div>
+                <div class="form-group">
+                    <label>Bakım Türü *</label>
+                    <select id="maintenance-type" class="form-select" required>
+                        <option value="Periyodik">Periyodik Bakım</option>
+                        <option value="Onarım">Aşınma & Onarım</option>
+                        <option value="Düzeltici">Arıza & Düzeltici</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Toplam Bakım Bedeli (TL) *</label>
+                    <input type="number" id="maintenance-cost" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Sonraki Bakım Tarihi</label>
+                    <input type="date" id="maintenance-next-date" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>Sonraki Bakım Kilometresi (KM)</label>
+                    <input type="number" id="maintenance-next-km" class="form-input">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('modal-maintenance')">Vazgeç</button>
+                    <button type="submit" class="btn-primary">Kaydı Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Service Modal -->
+    <div id="modal-service" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Yeni Servis / Hasar Girişi</h3>
+                <button class="modal-close" onclick="closeModal('modal-service')">&times;</button>
+            </div>
+            <form id="service-form" onsubmit="handleServiceSubmit(event)">
+                <div class="form-group">
+                    <label>Servise Girecek Araç *</label>
+                    <select id="service-vehicle-select" class="form-select" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Giriş Tarihi *</label>
+                    <input type="date" id="service-entry-date" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Giriş Kilometresi (Odometer) *</label>
+                    <input type="number" id="service-odometer" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Servis Firması / İstasyonu *</label>
+                    <input type="text" id="service-company" class="form-input" placeholder="Örn: Maslak Doğuş Oto" required>
+                </div>
+                <div class="form-group">
+                    <label>Arıza / Hasar Detayı *</label>
+                    <input type="text" id="service-desc" class="form-input" placeholder="Örn: Sağ çamurluk lokal boya, far değişimi." required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('modal-service')">Vazgeç</button>
+                    <button type="submit" class="btn-primary">Servise Gönder (Kilitle)</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Complete Service Modal -->
+    <div id="modal-complete-service" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Servis İşlemini Tamamla</h3>
+                <button class="modal-close" onclick="closeModal('modal-complete-service')">&times;</button>
+            </div>
+            <form id="complete-service-form" onsubmit="handleCompleteServiceSubmit(event)">
+                <input type="hidden" id="complete-service-id">
+                <input type="hidden" id="complete-service-vehicle-id">
+                <input type="hidden" id="complete-service-entry-date">
+                <input type="hidden" id="complete-service-odometer">
+                <input type="hidden" id="complete-service-company">
+                <input type="hidden" id="complete-service-desc">
+                
+                <div class="form-group">
+                    <label>Servisten Çıkış Tarihi *</label>
+                    <input type="date" id="complete-service-exit-date" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Servis / Onarım Tutarı (TL) *</label>
+                    <input type="number" id="complete-service-cost" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Fatura Numarası</label>
+                    <input type="text" id="complete-service-invoice" class="form-input" placeholder="Örn: FAT-2023-9912">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('modal-complete-service')">Vazgeç</button>
+                    <button type="submit" class="btn-primary">Tamamla ve Kilidi Aç</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
