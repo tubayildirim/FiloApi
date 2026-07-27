@@ -108,7 +108,7 @@ let expensesChart = null;
 
 async function loadDashboardData() {
     const vehicles = await apiFetch('/vehicles?PageSize=100');
-    const drivers = await apiFetch('/persons?PageSize=100');
+    const drivers = await apiFetch('/person?PageSize=100');
     const services = await apiFetch('/vehicle-services?PageSize=100');
     const fuels = await apiFetch('/vehicle-fuels?PageSize=100');
     const maintenances = await apiFetch('/vehicle-maintenances?PageSize=100');
@@ -293,7 +293,7 @@ async function deleteVehicle(id) {
 
 // ================= DRIVERS CONTROLLER =================
 async function loadDrivers() {
-    const data = await apiFetch('/persons?PageSize=100');
+    const data = await apiFetch('/person?PageSize=100');
     const tbody = document.getElementById('drivers-table-body');
     tbody.innerHTML = '';
 
@@ -349,9 +349,9 @@ async function handleDriverSubmit(e) {
 
     let result;
     if (id) {
-        result = await apiFetch(`/persons/${id}`, { method: 'PUT', body: JSON.stringify(body) });
+        result = await apiFetch(`/person/${id}`, { method: 'PUT', body: JSON.stringify(body) });
     } else {
-        result = await apiFetch('/persons', { method: 'POST', body: JSON.stringify(body) });
+        result = await apiFetch('/person', { method: 'POST', body: JSON.stringify(body) });
     }
 
     if (result !== null) {
@@ -362,7 +362,7 @@ async function handleDriverSubmit(e) {
 
 async function deleteDriver(id) {
     if (confirm('Bu sürücüyü silmek istediğinizden emin misiniz?')) {
-        const result = await apiFetch(`/persons/${id}`, { method: 'DELETE' });
+        const result = await apiFetch(`/person/${id}`, { method: 'DELETE' });
         if (result !== null) {
             loadDrivers();
         }
@@ -400,7 +400,7 @@ async function loadAssignments() {
 
 async function openAddAssignmentModal() {
     const vehicles = await apiFetch('/vehicles?PageSize=100');
-    const drivers = await apiFetch('/persons?PageSize=100');
+    const drivers = await apiFetch('/person?PageSize=100');
 
     const vSelect = document.getElementById('assignment-vehicle-select');
     const dSelect = document.getElementById('assignment-driver-select');
