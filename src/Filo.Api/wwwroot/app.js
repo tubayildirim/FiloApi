@@ -4,7 +4,11 @@ const API_BASE = '/api/v1';
 // Global State for Pagination & Sorting
 const state = {
     vehicles: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
-    drivers: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' }
+    drivers: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
+    assignments: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
+    fuels: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
+    maintenances: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
+    services: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' }
 };
 
 let searchTimeout = null;
@@ -15,8 +19,13 @@ function debounceSearch(type) {
         const val = document.getElementById(`search-${type}`).value;
         state[type].search = val;
         state[type].page = 1; // Aramada ilk sayfaya dön
+        
         if (type === 'vehicles') loadVehicles();
-        if (type === 'drivers') loadDrivers();
+        else if (type === 'drivers') loadDrivers();
+        else if (type === 'assignments') loadAssignments();
+        else if (type === 'fuels') loadFuelExpenses();
+        else if (type === 'maintenances') loadMaintenanceExpenses();
+        else if (type === 'services') loadServiceExpenses();
     }, 500);
 }
 
@@ -38,7 +47,11 @@ function handleSort(type, col) {
     }
     
     if (type === 'vehicles') loadVehicles();
-    if (type === 'drivers') loadDrivers();
+    else if (type === 'drivers') loadDrivers();
+    else if (type === 'assignments') loadAssignments();
+    else if (type === 'fuels') loadFuelExpenses();
+    else if (type === 'maintenances') loadMaintenanceExpenses();
+    else if (type === 'services') loadServiceExpenses();
 }
 
 function updatePagination(type, data) {
@@ -63,14 +76,22 @@ function prevPage(type) {
     if (state[type].page > 1) {
         state[type].page--;
         if (type === 'vehicles') loadVehicles();
-        if (type === 'drivers') loadDrivers();
+        else if (type === 'drivers') loadDrivers();
+        else if (type === 'assignments') loadAssignments();
+        else if (type === 'fuels') loadFuelExpenses();
+        else if (type === 'maintenances') loadMaintenanceExpenses();
+        else if (type === 'services') loadServiceExpenses();
     }
 }
 
 function nextPage(type) {
     state[type].page++;
     if (type === 'vehicles') loadVehicles();
-    if (type === 'drivers') loadDrivers();
+    else if (type === 'drivers') loadDrivers();
+    else if (type === 'assignments') loadAssignments();
+    else if (type === 'fuels') loadFuelExpenses();
+    else if (type === 'maintenances') loadMaintenanceExpenses();
+    else if (type === 'services') loadServiceExpenses();
 }
 
 function buildQuery(type) {
@@ -472,14 +493,20 @@ async function deleteDriver(id) {
 
 // ================= ASSIGNMENTS CONTROLLER =================
 async function loadAssignments() {
-    const data = await apiFetch('/vehicle-matches?PageSize=100');
+    const query = buildQuery('assignments');
+    const data = await apiFetch(`/vehicle-matches${query}`);
     const tbody = document.getElementById('assignments-table-body');
+    if (!tbody) return;
+    
     tbody.innerHTML = '';
 
     if (!data?.items || data.items.length === 0) {
         tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-secondary);">Eşleştirme geçmişi bulunamadı.</td></tr>`;
+        updatePagination('assignments', null);
         return;
     }
+
+    updatePagination('assignments', data);
 
     data.items.forEach(m => {
         const tr = document.createElement('tr');
@@ -603,14 +630,20 @@ function loadAllExpenses() {
 
 // 1. FUEL HARCAMALARI
 async function loadFuelExpenses() {
-    const data = await apiFetch('/vehicle-fuels?PageSize=100');
+    const query = buildQuery('fuels');
+    const data = await apiFetch(`/vehicle-fuels${query}`);
     const tbody = document.getElementById('fuel-table-body');
+    if (!tbody) return;
+    
     tbody.innerHTML = '';
 
     if (!data?.items || data.items.length === 0) {
         tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-secondary);">Yakıt kaydı bulunamadı.</td></tr>`;
+        updatePagination('fuels', null);
         return;
     }
+
+    updatePagination('fuels', data);
 
     data.items.forEach(f => {
         const tr = document.createElement('tr');
@@ -710,14 +743,20 @@ async function deleteFuel(id) {
 
 // 2. MAINTENANCE HARCAMALARI
 async function loadMaintenanceExpenses() {
-    const data = await apiFetch('/vehicle-maintenances?PageSize=100');
+    const query = buildQuery('maintenances');
+    const data = await apiFetch(`/vehicle-maintenances${query}`);
     const tbody = document.getElementById('maintenance-table-body');
+    if (!tbody) return;
+    
     tbody.innerHTML = '';
 
     if (!data?.items || data.items.length === 0) {
         tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-secondary);">Bakım kaydı bulunamadı.</td></tr>`;
+        updatePagination('maintenances', null);
         return;
     }
+
+    updatePagination('maintenances', data);
 
     data.items.forEach(m => {
         const tr = document.createElement('tr');
@@ -827,14 +866,20 @@ async function deleteMaintenance(id) {
 
 // 3. SERVICE / HASAR HARCAMALARI
 async function loadServiceExpenses() {
-    const data = await apiFetch('/vehicle-services?PageSize=100');
+    const query = buildQuery('services');
+    const data = await apiFetch(`/vehicle-services${query}`);
     const tbody = document.getElementById('service-table-body');
+    if (!tbody) return;
+    
     tbody.innerHTML = '';
 
     if (!data?.items || data.items.length === 0) {
         tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; color: var(--text-secondary);">Servis kaydı bulunamadı.</td></tr>`;
+        updatePagination('services', null);
         return;
     }
+
+    updatePagination('services', data);
 
     data.items.forEach(s => {
         const tr = document.createElement('tr');
@@ -1135,3 +1180,21 @@ function exportTableToExcel(tableId, filename) {
 }
 
 
+
+// Client-side text filter for Reports
+function filterReportTable(inputId, tbodyId) {
+    const input = document.getElementById(inputId);
+    const filter = input.value.toLowerCase();
+    const tbody = document.getElementById(tbodyId);
+    if (!tbody) return;
+    const trs = tbody.getElementsByTagName('tr');
+
+    for (let i = 0; i < trs.length; i++) {
+        const text = trs[i].textContent || trs[i].innerText;
+        if (text.toLowerCase().indexOf(filter) > -1) {
+            trs[i].style.display = "";
+        } else {
+            trs[i].style.display = "none";
+        }
+    }
+}

@@ -108,7 +108,6 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
                 </div>
             </section>
 
@@ -186,27 +185,34 @@
             <section id="page-assignments" class="page-view">
                 <div class="panel-card">
                     <div class="panel-header">
-                        <h3>Araç ve Sürücü Eşleştirme</h3>
-                        <button class="btn-primary" onclick="openAddAssignmentModal()">
-                            <i class="fa-solid fa-link"></i> Yeni Eşleştirme Yap
-                        </button>
-                    </div>
-                    <div class="table-wrapper">
-                        <table class="modern-table">
-                            <thead>
-                                <tr>
-                                    <th>Araç</th>
-                                    <th>Sürücü</th>
-                                    <th>Atama Tarihi</th>
-                                    <th>Başlangıç KM</th>
-                                    <th style="width: 100px;">İşlemler</th>
-                                </tr>
-                            </thead>
-                            <tbody id="assignments-table-body">
-                                <!-- Dynamic content -->
-                            </tbody>
-                        </table>
-                    </div>
+                <h2>Atama Yönetimi</h2>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <input type="text" id="search-assignments" class="form-input" placeholder="Ara (Plaka, Ad Soyad)..." onkeyup="debounceSearch('assignments')" style="width: 250px;">
+                    <button class="btn-primary" onclick="openAddAssignmentModal()"><i class="fa-solid fa-plus"></i> Yeni Atama</button>
+                </div>
+            </div>
+            
+            <div class="table-wrapper">
+                <table class="modern-table" id="assignments-table">
+                    <thead>
+                        <tr>
+                            <th onclick="handleSort('assignments', 'vehicle')" style="cursor: pointer;">Araç <i class="fa-solid fa-sort" id="sort-icon-assignments-vehicle"></i></th>
+                            <th onclick="handleSort('assignments', 'person')" style="cursor: pointer;">Sürücü <i class="fa-solid fa-sort" id="sort-icon-assignments-person"></i></th>
+                            <th onclick="handleSort('assignments', 'date')" style="cursor: pointer;">Atama Tarihi <i class="fa-solid fa-sort" id="sort-icon-assignments-date"></i></th>
+                            <th onclick="handleSort('assignments', 'km')" style="cursor: pointer;">Başlangıç KM <i class="fa-solid fa-sort" id="sort-icon-assignments-km"></i></th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody id="assignments-table-body">
+                        <!-- JS Populate -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
+                <button class="btn-secondary" onclick="prevPage('assignments')" id="btn-prev-assignments" disabled>Önceki</button>
+                <span id="page-info-assignments">Sayfa 1 / 1</span>
+                <button class="btn-secondary" onclick="nextPage('assignments')" id="btn-next-assignments" disabled>Sonraki</button>
+            </div>
                 </div>
             </section>
 
@@ -219,54 +225,59 @@
                 </div>
 
                 <!-- Fuel Logs Panel -->
-                <div id="subpanel-fuel" class="panel-card sub-panel active">
-                    <div class="panel-header">
-                        <h3>Yakıt Harcamaları</h3>
-                        <button class="btn-primary" onclick="openAddFuelModal()">
-                            <i class="fa-solid fa-plus"></i> Yakıt Girişi Yap
-                        </button>
+                <div class="sub-panel active" id="subpanel-fuel">
+                        <div class="panel-header" style="margin-bottom: 1rem;">
+                            <h4>Yakıt Kayıtları</h4>
+                            <div style="display: flex; gap: 1rem; align-items: center;">
+                                <input type="text" id="search-fuels" class="form-input" placeholder="Ara (Plaka)..." onkeyup="debounceSearch('fuels')" style="width: 200px;">
+                                <button class="btn-primary" onclick="openAddFuelModal()"><i class="fa-solid fa-plus"></i> Yakıt Ekle</button>
+                            </div>
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="modern-table" id="fuels-table">
+                                <thead>
+                                    <tr>
+                                        <th>Araç</th>
+                                        <th onclick="handleSort('fuels', 'date')" style="cursor: pointer;">Tarih <i class="fa-solid fa-sort" id="sort-icon-fuels-date"></i></th>
+                                        <th onclick="handleSort('fuels', 'km')" style="cursor: pointer;">KM <i class="fa-solid fa-sort" id="sort-icon-fuels-km"></i></th>
+                                        <th onclick="handleSort('fuels', 'liters')" style="cursor: pointer;">Litre <i class="fa-solid fa-sort" id="sort-icon-fuels-liters"></i></th>
+                                        <th onclick="handleSort('fuels', 'price')" style="cursor: pointer;">Birim Fiyat <i class="fa-solid fa-sort" id="sort-icon-fuels-price"></i></th>
+                                        <th onclick="handleSort('fuels', 'total')" style="cursor: pointer;">Toplam Tutar <i class="fa-solid fa-sort" id="sort-icon-fuels-total"></i></th>
+                                        <th>Fiş/Fatura No</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="fuel-table-body"></tbody>
+                            </table>
+                        </div>
+                        <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
+                            <button class="btn-secondary" onclick="prevPage('fuels')" id="btn-prev-fuels" disabled>Önceki</button>
+                            <span id="page-info-fuels">Sayfa 1 / 1</span>
+                            <button class="btn-secondary" onclick="nextPage('fuels')" id="btn-next-fuels" disabled>Sonraki</button>
+                        </div>
                     </div>
-                    <div class="table-wrapper">
-                        <table class="modern-table">
-                            <thead>
-                                <tr>
-                                    <th>Araç</th>
-                                    <th>Tarih</th>
-                                    <th>Kilometre (KM)</th>
-                                    <th>Litre</th>
-                                    <th>Litre Fiyatı</th>
-                                    <th>Toplam Maliyet</th>
-                                    <th>Fatura / Fiş No</th>
-                                    <th style="width: 80px;">İşlem</th>
-                                </tr>
-                            </thead>
-                            <tbody id="fuel-table-body">
-                                <!-- Dynamic content -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
 
                 <!-- Maintenance Panel -->
                 <div id="subpanel-maintenance" class="panel-card sub-panel">
-                    <div class="panel-header">
-                        <h3>Periyodik ve Düzeltici Bakım Kayıtları</h3>
-                        <button class="btn-primary" onclick="openAddMaintenanceModal()">
-                            <i class="fa-solid fa-plus"></i> Bakım Girişi Yap
-                        </button>
+                    <div class="panel-header" style="margin-bottom: 1rem;">
+                        <h4>Periyodik ve Düzeltici Bakım Kayıtları</h4>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <input type="text" id="search-maintenances" class="form-input" placeholder="Ara (Plaka, Açıklama)..." onkeyup="debounceSearch('maintenances')" style="width: 250px;">
+                            <button class="btn-primary" onclick="openAddMaintenanceModal()"><i class="fa-solid fa-plus"></i> Bakım Girişi Yap</button>
+                        </div>
                     </div>
                     <div class="table-wrapper">
-                        <table class="modern-table">
+                        <table class="modern-table" id="maintenances-table">
                             <thead>
                                 <tr>
                                     <th>Araç</th>
-                                    <th>Tarih</th>
-                                    <th>Kilometre (KM)</th>
+                                    <th onclick="handleSort('maintenances', 'date')" style="cursor: pointer;">Tarih <i class="fa-solid fa-sort" id="sort-icon-maintenances-date"></i></th>
+                                    <th onclick="handleSort('maintenances', 'km')" style="cursor: pointer;">KM <i class="fa-solid fa-sort" id="sort-icon-maintenances-km"></i></th>
                                     <th>Açıklama</th>
-                                    <th>Bakım Türü</th>
-                                    <th>Maliyet</th>
-                                    <th>Sonraki Bakım (KM / Tarih)</th>
-                                    <th style="width: 80px;">İşlem</th>
+                                    <th onclick="handleSort('maintenances', 'type')" style="cursor: pointer;">Türü <i class="fa-solid fa-sort" id="sort-icon-maintenances-type"></i></th>
+                                    <th onclick="handleSort('maintenances', 'cost')" style="cursor: pointer;">Tutar <i class="fa-solid fa-sort" id="sort-icon-maintenances-cost"></i></th>
+                                    <th>Sonraki Bakım (KM/Tarih)</th>
+                                    <th>İşlemler</th>
                                 </tr>
                             </thead>
                             <tbody id="maintenance-table-body">
@@ -274,35 +285,46 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
+                        <button class="btn-secondary" onclick="prevPage('maintenances')" id="btn-prev-maintenances" disabled>Önceki</button>
+                        <span id="page-info-maintenances">Sayfa 1 / 1</span>
+                        <button class="btn-secondary" onclick="nextPage('maintenances')" id="btn-next-maintenances" disabled>Sonraki</button>
+                    </div>
                 </div>
 
                 <!-- Service Panel -->
                 <div id="subpanel-service" class="panel-card sub-panel">
-                    <div class="panel-header">
-                        <h3>Kaza, Hasar ve Servis Kayıtları</h3>
-                        <button class="btn-primary" onclick="openAddServiceModal()">
-                            <i class="fa-solid fa-plus"></i> Servis Girişi Yap
-                        </button>
+                    <div class="panel-header" style="margin-bottom: 1rem;">
+                        <h4>Kaza, Hasar ve Servis Kayıtları</h4>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <input type="text" id="search-services" class="form-input" placeholder="Ara (Plaka, Servis Adı)..." onkeyup="debounceSearch('services')" style="width: 250px;">
+                            <button class="btn-primary" onclick="openAddServiceModal()"><i class="fa-solid fa-plus"></i> Servis Girişi Yap</button>
+                        </div>
                     </div>
                     <div class="table-wrapper">
-                        <table class="modern-table">
+                        <table class="modern-table" id="services-table">
                             <thead>
                                 <tr>
                                     <th>Araç</th>
-                                    <th>Servise Giriş</th>
-                                    <th>Servisten Çıkış</th>
-                                    <th>Kilometre (KM)</th>
-                                    <th>Yetkili Servis</th>
+                                    <th onclick="handleSort('services', 'entrydate')" style="cursor: pointer;">Giriş Tarihi <i class="fa-solid fa-sort" id="sort-icon-services-entrydate"></i></th>
+                                    <th onclick="handleSort('services', 'exitdate')" style="cursor: pointer;">Çıkış Tarihi <i class="fa-solid fa-sort" id="sort-icon-services-exitdate"></i></th>
+                                    <th>KM</th>
+                                    <th onclick="handleSort('services', 'company')" style="cursor: pointer;">Yetkili Servis <i class="fa-solid fa-sort" id="sort-icon-services-company"></i></th>
                                     <th>Hasar/Arıza Detayı</th>
-                                    <th>Maliyet / Fatura</th>
+                                    <th onclick="handleSort('services', 'cost')" style="cursor: pointer;">Maliyet/Fatura <i class="fa-solid fa-sort" id="sort-icon-services-cost"></i></th>
                                     <th>Durum</th>
-                                    <th style="width: 100px;">İşlemler</th>
+                                    <th>İşlemler</th>
                                 </tr>
                             </thead>
                             <tbody id="service-table-body">
                                 <!-- Dynamic content -->
                             </tbody>
                         </table>
+                    </div>
+                    <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
+                        <button class="btn-secondary" onclick="prevPage('services')" id="btn-prev-services" disabled>Önceki</button>
+                        <span id="page-info-services">Sayfa 1 / 1</span>
+                        <button class="btn-secondary" onclick="nextPage('services')" id="btn-next-services" disabled>Sonraki</button>
                     </div>
                 </div>
             </section>
@@ -320,7 +342,8 @@
                 <div id="report-all-vehicles" class="panel-card report-panel active">
                     <div class="panel-header">
                         <h3>Tüm Araçlar Raporu</h3>
-                        <div style="display: flex; gap: 0.5rem;">
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <input type="text" id="search-report-all" class="form-input" placeholder="Tabloda Ara..." onkeyup="filterReportTable('search-report-all', 'report-all-vehicles-body')" style="width: 200px; margin-right: 1rem;">
                             <button class="btn-secondary" onclick="exportTableToExcel('table-all-vehicles', 'Tum-Araclar-Raporu.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
                             <button class="btn-primary" onclick="loadReportAllVehicles()"><i class="fa-solid fa-arrows-rotate"></i> Yenile</button>
                         </div>
@@ -347,7 +370,8 @@
                 <div id="report-free-vehicles" class="panel-card report-panel" style="display:none;">
                     <div class="panel-header">
                         <h3>Boştaki Araçlar Raporu</h3>
-                        <div style="display: flex; gap: 0.5rem;">
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <input type="text" id="search-report-free" class="form-input" placeholder="Tabloda Ara..." onkeyup="filterReportTable('search-report-free', 'report-free-vehicles-body')" style="width: 200px; margin-right: 1rem;">
                             <button class="btn-secondary" onclick="exportTableToExcel('table-free-vehicles', 'Bostaki-Araclar-Raporu.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
                             <button class="btn-primary" onclick="loadReportFreeVehicles()"><i class="fa-solid fa-arrows-rotate"></i> Yenile</button>
                         </div>
@@ -372,7 +396,8 @@
                 <div id="report-assigned-vehicles" class="panel-card report-panel" style="display:none;">
                     <div class="panel-header">
                         <h3>Atanmış Araçlar Raporu</h3>
-                        <div style="display: flex; gap: 0.5rem;">
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <input type="text" id="search-report-assigned" class="form-input" placeholder="Tabloda Ara..." onkeyup="filterReportTable('search-report-assigned', 'report-assigned-vehicles-body')" style="width: 200px; margin-right: 1rem;">
                             <button class="btn-secondary" onclick="exportTableToExcel('table-assigned-vehicles', 'Atanmis-Araclar-Raporu.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
                             <button class="btn-primary" onclick="loadReportAssignedVehicles()"><i class="fa-solid fa-arrows-rotate"></i> Yenile</button>
                         </div>
