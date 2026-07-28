@@ -25,7 +25,8 @@ public class VehicleFuelRepository : GenericRepository<VehicleFuel>, IVehicleFue
     public override async Task<(IEnumerable<VehicleFuel> Items, int TotalCount)> GetPagedAsync(
         int pageNumber, 
         int pageSize, 
-        Expression<Func<VehicleFuel, bool>>? predicate = null)
+        Expression<Func<VehicleFuel, bool>>? predicate = null, 
+        Func<IQueryable<VehicleFuel>, IOrderedQueryable<VehicleFuel>>? orderBy = null)
     {
         IQueryable<VehicleFuel> query = _dbSet
             .Include(x => x.Vehicle);
@@ -36,9 +37,17 @@ public class VehicleFuelRepository : GenericRepository<VehicleFuel>, IVehicleFue
         }
 
         int totalCount = await query.CountAsync();
+        
+        if (orderBy != null)
+        {
+            query = orderBy(query);
+        }
+        else
+        {
+            query = query.OrderByDescending(x => x.RefuelingDate).ThenByDescending(x => x.Id);
+        }
+
         var items = await query
-            .OrderByDescending(x => x.RefuelingDate)
-            .ThenByDescending(x => x.Id)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();

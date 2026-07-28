@@ -22,7 +22,7 @@ public class VehicleRepository : GenericRepository<Vehicle>, IVehicleRepository
         return await _dbSet.Include(v => v.Person).FirstOrDefaultAsync(v => v.Id == id);
     }
 
-    public override async Task<(IEnumerable<Vehicle> Items, int TotalCount)> GetPagedAsync(int pageNumber, int pageSize, Expression<Func<Vehicle, bool>>? predicate = null)
+    public override async Task<(IEnumerable<Vehicle> Items, int TotalCount)> GetPagedAsync(int pageNumber, int pageSize, Expression<Func<Vehicle, bool>>? predicate = null, Func<IQueryable<Vehicle>, IOrderedQueryable<Vehicle>>? orderBy = null)
     {
         IQueryable<Vehicle> query = _dbSet.Include(v => v.Person);
         if (predicate != null)
@@ -31,8 +31,17 @@ public class VehicleRepository : GenericRepository<Vehicle>, IVehicleRepository
         }
 
         int totalCount = await query.CountAsync();
+        
+        if (orderBy != null)
+        {
+            query = orderBy(query);
+        }
+        else
+        {
+            query = query.OrderBy(v => v.Id);
+        }
+
         var items = await query
-            .OrderBy(v => v.Id)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
