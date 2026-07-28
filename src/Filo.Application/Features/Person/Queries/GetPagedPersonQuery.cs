@@ -28,11 +28,40 @@ public class GetPagedPersonQueryHandler : IRequestHandler<GetPagedPersonQuery, P
         var paginationParams = request.PaginationParams;
         int pageNumber = paginationParams.PageNumber ?? 1;
         int pageSize = paginationParams.PageSize ?? 10;
-        string cacheKey = $"person_paged_{pageNumber}_{pageSize}";
+        
+        string searchTerm = paginationParams.SearchTerm?.Trim().ToLower() ?? string.Empty;
+        string sortCol = paginationParams.SortColumn?.Trim().ToLower() ?? string.Empty;
+        string sortDir = paginationParams.SortDirection?.Trim().ToLower() ?? string.Empty;
+
+        string cacheKey = $"person_paged_{pageNumber}_{pageSize}_{searchTerm}_{sortCol}_{sortDir}";
 
         return await _cacheService.GetOrCreateAsync(cacheKey, async ct =>
         {
-            var (items, count) = await _unitOfWork.Person.GetPagedAsync(pageNumber, pageSize);
+            // Filtreleme
+            System.Linq.Expressions.Expression<Func<Filo.Domain.Entities.Person, bool>>? predicate = null;
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                predicate = p => p.Name.ToLower().Contains(searchTerm) || 
+                                 p.Surname.ToLower().Contains(searchTerm) || 
+                                 p.Tckn.ToLower().Contains(searchTerm);
+            }
+
+            // Sıralama
+            Func<IQueryable<Filo.Domain.Entities.Person>, IOrderedQueryable<Filo.Domain.Entities.Person>>? orderBy = null;
+            if (!string.IsNullOrEmpty(sortCol))
+            {
+                bool isDesc = sortDir == "desc";
+                orderBy = sortCol switch
+                {
+                    "name" => q => isDesc ? q.OrderByDescending(p => p.Name) : q.OrderBy(p => p.Name),
+                    "surname" => q => isDesc ? q.OrderByDescending(p => p.Surname) : q.OrderBy(p => p.Surname),
+                    "tckn" => q => isDesc ? q.OrderByDescending(p => p.Tckn) : q.OrderBy(p => p.Tckn),
+                    "age" => q => isDesc ? q.OrderByDescending(p => p.Age) : q.OrderBy(p => p.Age),
+                    _ => q => isDesc ? q.OrderByDescending(p => p.Id) : q.OrderBy(p => p.Id)
+                };
+            }
+
+            var (items, count) = await _unitOfWork.Person.GetPagedAsync(pageNumber, pageSize, predicate, orderBy);
             var dtos = items.Adapt<IEnumerable<PersonDto>>();
             return new PagedList<PersonDto>(dtos, count, pageNumber, pageSize);
         }, TimeSpan.FromMinutes(2));

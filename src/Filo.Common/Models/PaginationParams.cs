@@ -17,4 +17,8 @@ public class PaginationParams
         get => _pageSize;
         set => _pageSize = value.HasValue ? (value.Value > MaxPageSize ? MaxPageSize : (value.Value < 1 ? 1 : value.Value)) : 10;
     }
+
+    public string? SearchTerm { get; set; }
+    public string? SortColumn { get; set; }
+    public string? SortDirection { get; set; } // "asc" or "desc"
 }

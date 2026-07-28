@@ -28,11 +28,40 @@ public class GetPagedVehiclesQueryHandler : IRequestHandler<GetPagedVehiclesQuer
         var paginationParams = request.PaginationParams;
         int pageNumber = paginationParams.PageNumber ?? 1;
         int pageSize = paginationParams.PageSize ?? 10;
-        string cacheKey = $"vehicles_paged_{pageNumber}_{pageSize}";
+        
+        string searchTerm = paginationParams.SearchTerm?.Trim().ToLower() ?? string.Empty;
+        string sortCol = paginationParams.SortColumn?.Trim().ToLower() ?? string.Empty;
+        string sortDir = paginationParams.SortDirection?.Trim().ToLower() ?? string.Empty;
+
+        // Benzersiz Cache Anahtarı
+        string cacheKey = $"vehicles_paged_{pageNumber}_{pageSize}_{searchTerm}_{sortCol}_{sortDir}";
 
         return await _cacheService.GetOrCreateAsync(cacheKey, async ct =>
         {
-            var (items, count) = await _unitOfWork.Vehicles.GetPagedAsync(pageNumber, pageSize);
+            // Filtreleme (Arama) Mantığı
+            System.Linq.Expressions.Expression<Func<Filo.Domain.Entities.Vehicle, bool>>? predicate = null;
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                predicate = v => v.PlateNumber.ToLower().Contains(searchTerm) || 
+                                 v.Brand.ToLower().Contains(searchTerm) || 
+                                 v.Model.ToLower().Contains(searchTerm);
+            }
+
+            // Sıralama (Sorting) Mantığı
+            Func<IQueryable<Filo.Domain.Entities.Vehicle>, IOrderedQueryable<Filo.Domain.Entities.Vehicle>>? orderBy = null;
+            if (!string.IsNullOrEmpty(sortCol))
+            {
+                bool isDesc = sortDir == "desc";
+                orderBy = sortCol switch
+                {
+                    "platenumber" => q => isDesc ? q.OrderByDescending(v => v.PlateNumber) : q.OrderBy(v => v.PlateNumber),
+                    "brand" => q => isDesc ? q.OrderByDescending(v => v.Brand) : q.OrderBy(v => v.Brand),
+                    "year" => q => isDesc ? q.OrderByDescending(v => v.Year) : q.OrderBy(v => v.Year),
+                    _ => q => isDesc ? q.OrderByDescending(v => v.Id) : q.OrderBy(v => v.Id)
+                };
+            }
+
+            var (items, count) = await _unitOfWork.Vehicles.GetPagedAsync(pageNumber, pageSize, predicate, orderBy);
             var dtos = items.Adapt<IEnumerable<VehicleDto>>();
             return new PagedList<VehicleDto>(dtos, count, pageNumber, pageSize);
         }, TimeSpan.FromMinutes(2));

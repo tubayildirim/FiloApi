@@ -116,27 +116,34 @@
             <section id="page-vehicles" class="page-view">
                 <div class="panel-card">
                     <div class="panel-header">
-                        <h3>Araç Envanteri</h3>
-                        <button class="btn-primary" onclick="openAddVehicleModal()">
-                            <i class="fa-solid fa-plus"></i> Yeni Araç Ekle
-                        </button>
+                        <h2>Araç Yönetimi</h2>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <input type="text" id="search-vehicles" class="form-input" placeholder="Ara (Plaka, Marka, Model)..." onkeyup="debounceSearch('vehicles')" style="width: 250px;">
+                            <button class="btn-primary" onclick="openVehicleModal()"><i class="fa-solid fa-plus"></i> Yeni Ekle</button>
+                        </div>
                     </div>
+                    
                     <div class="table-wrapper">
-                        <table class="modern-table">
+                        <table class="modern-table" id="vehicles-table">
                             <thead>
                                 <tr>
-                                    <th>Marka / Model</th>
-                                    <th>Plaka</th>
-                                    <th>Yıl</th>
-                                    <th>Renk</th>
-                                    <th>Yakıt / Şanzıman</th>
-                                    <th style="width: 100px;">İşlemler</th>
+                                    <th onclick="handleSort('vehicles', 'platenumber')" style="cursor: pointer;">Plaka <i class="fa-solid fa-sort" id="sort-icon-vehicles-platenumber"></i></th>
+                                    <th onclick="handleSort('vehicles', 'brand')" style="cursor: pointer;">Marka/Model <i class="fa-solid fa-sort" id="sort-icon-vehicles-brand"></i></th>
+                                    <th onclick="handleSort('vehicles', 'year')" style="cursor: pointer;">Yıl <i class="fa-solid fa-sort" id="sort-icon-vehicles-year"></i></th>
+                                    <th>Aylık Tutar</th>
+                                    <th>Durum</th>
+                                    <th>İşlemler</th>
                                 </tr>
                             </thead>
-                            <tbody id="vehicles-table-body">
-                                <!-- Dynamic content -->
+                            <tbody id="vehicles-body">
+                                <!-- JS Populate -->
                             </tbody>
                         </table>
+                    </div>
+                    <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
+                        <button class="btn-secondary" onclick="prevPage('vehicles')" id="btn-prev-vehicles" disabled>Önceki</button>
+                        <span id="page-info-vehicles">Sayfa 1 / 1</span>
+                        <button class="btn-secondary" onclick="nextPage('vehicles')" id="btn-next-vehicles" disabled>Sonraki</button>
                     </div>
                 </div>
             </section>
@@ -145,26 +152,32 @@
             <section id="page-drivers" class="page-view">
                 <div class="panel-card">
                     <div class="panel-header">
-                        <h3>Sürücü Yönetimi</h3>
-                        <button class="btn-primary" onclick="openAddDriverModal()">
-                            <i class="fa-solid fa-plus"></i> Yeni Sürücü Ekle
-                        </button>
+                        <h2>Sürücü Yönetimi</h2>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <input type="text" id="search-drivers" class="form-input" placeholder="Ara (Ad, Soyad, TCKN)..." onkeyup="debounceSearch('drivers')" style="width: 250px;">
+                            <button class="btn-primary" onclick="openDriverModal()"><i class="fa-solid fa-plus"></i> Yeni Ekle</button>
+                        </div>
                     </div>
+
                     <div class="table-wrapper">
-                        <table class="modern-table">
+                        <table class="modern-table" id="drivers-table">
                             <thead>
                                 <tr>
-                                    <th>Ad / Soyad</th>
-                                    <th>TCKN</th>
-                                    <th>Yaş</th>
-                                    <th>Cinsiyet</th>
-                                    <th style="width: 100px;">İşlemler</th>
+                                    <th onclick="handleSort('drivers', 'name')" style="cursor: pointer;">Ad Soyad <i class="fa-solid fa-sort" id="sort-icon-drivers-name"></i></th>
+                                    <th onclick="handleSort('drivers', 'tckn')" style="cursor: pointer;">TCKN <i class="fa-solid fa-sort" id="sort-icon-drivers-tckn"></i></th>
+                                    <th onclick="handleSort('drivers', 'age')" style="cursor: pointer;">Yaş <i class="fa-solid fa-sort" id="sort-icon-drivers-age"></i></th>
+                                    <th>İşlemler</th>
                                 </tr>
                             </thead>
-                            <tbody id="drivers-table-body">
-                                <!-- Dynamic content -->
+                            <tbody id="drivers-body">
+                                <!-- JS Populate -->
                             </tbody>
                         </table>
+                    </div>
+                    <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
+                        <button class="btn-secondary" onclick="prevPage('drivers')" id="btn-prev-drivers" disabled>Önceki</button>
+                        <span id="page-info-drivers">Sayfa 1 / 1</span>
+                        <button class="btn-secondary" onclick="nextPage('drivers')" id="btn-next-drivers" disabled>Sonraki</button>
                     </div>
                 </div>
             </section>

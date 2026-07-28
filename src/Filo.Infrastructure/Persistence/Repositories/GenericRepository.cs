@@ -31,7 +31,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return await _dbSet.Where(predicate).ToListAsync();
     }
 
-    public virtual async Task<(IEnumerable<T> Items, int TotalCount)> GetPagedAsync(int pageNumber, int pageSize, Expression<Func<T, bool>>? predicate = null)
+    public virtual async Task<(IEnumerable<T> Items, int TotalCount)> GetPagedAsync(int pageNumber, int pageSize, Expression<Func<T, bool>>? predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null)
     {
         IQueryable<T> query = _dbSet;
         if (predicate != null)
@@ -40,8 +40,17 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         }
 
         int totalCount = await query.CountAsync();
+        
+        if (orderBy != null)
+        {
+            query = orderBy(query);
+        }
+        else
+        {
+            query = query.OrderBy(x => EF.Property<object>(x, "Id"));
+        }
+
         var items = await query
-            .OrderBy(x => EF.Property<object>(x, "Id"))
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();

@@ -1,6 +1,87 @@
 // API Base URL config (Relative since we are hosted on the same server)
 const API_BASE = '/api/v1';
 
+// Global State for Pagination & Sorting
+const state = {
+    vehicles: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
+    drivers: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' }
+};
+
+let searchTimeout = null;
+
+function debounceSearch(type) {
+    if (searchTimeout) clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+        const val = document.getElementById(`search-${type}`).value;
+        state[type].search = val;
+        state[type].page = 1; // Aramada ilk sayfaya dön
+        if (type === 'vehicles') loadVehicles();
+        if (type === 'drivers') loadDrivers();
+    }, 500);
+}
+
+function handleSort(type, col) {
+    if (state[type].sortCol === col) {
+        state[type].sortDir = state[type].sortDir === 'asc' ? 'desc' : 'asc';
+    } else {
+        state[type].sortCol = col;
+        state[type].sortDir = 'asc';
+    }
+    
+    // Update icons
+    document.querySelectorAll(`th i[id^="sort-icon-${type}"]`).forEach(icon => {
+        icon.className = 'fa-solid fa-sort';
+    });
+    const activeIcon = document.getElementById(`sort-icon-${type}-${col}`);
+    if (activeIcon) {
+        activeIcon.className = state[type].sortDir === 'asc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down';
+    }
+    
+    if (type === 'vehicles') loadVehicles();
+    if (type === 'drivers') loadDrivers();
+}
+
+function updatePagination(type, data) {
+    const prevBtn = document.getElementById(`btn-prev-${type}`);
+    const nextBtn = document.getElementById(`btn-next-${type}`);
+    const info = document.getElementById(`page-info-${type}`);
+    
+    if (!prevBtn || !nextBtn || !info) return;
+
+    if (data) {
+        info.innerText = `Sayfa ${data.currentPage} / ${data.totalPages || 1}`;
+        prevBtn.disabled = !data.hasPrevious;
+        nextBtn.disabled = !data.hasNext;
+    } else {
+        info.innerText = `Sayfa 1 / 1`;
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+    }
+}
+
+function prevPage(type) {
+    if (state[type].page > 1) {
+        state[type].page--;
+        if (type === 'vehicles') loadVehicles();
+        if (type === 'drivers') loadDrivers();
+    }
+}
+
+function nextPage(type) {
+    state[type].page++;
+    if (type === 'vehicles') loadVehicles();
+    if (type === 'drivers') loadDrivers();
+}
+
+function buildQuery(type) {
+    const s = state[type];
+    let query = `?PageNumber=${s.page}&PageSize=${s.pageSize}`;
+    if (s.search) query += `&SearchTerm=${encodeURIComponent(s.search)}`;
+    if (s.sortCol) query += `&SortColumn=${encodeURIComponent(s.sortCol)}`;
+    if (s.sortDir) query += `&SortDirection=${encodeURIComponent(s.sortDir)}`;
+    return query;
+}
+
 // SPA Page routing
 document.querySelectorAll('.sidebar .nav-item').forEach(item => {
     item.addEventListener('click', (e) => {
@@ -218,14 +299,20 @@ function renderChart(fuels, maintenances, services) {
 
 // ================= VEHICLES CONTROLLER =================
 async function loadVehicles() {
-    const data = await apiFetch('/vehicles?PageSize=100');
-    const tbody = document.getElementById('vehicles-table-body');
+    const query = buildQuery('vehicles');
+    const data = await apiFetch(`/vehicles${query}`);
+    const tbody = document.getElementById('vehicles-body');
+    if(!tbody) return;
+    
     tbody.innerHTML = '';
     
     if (!data?.items || data.items.length === 0) {
         tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-secondary);">Envanter boş.</td></tr>`;
+        updatePagination('vehicles', null);
         return;
     }
+
+    updatePagination('vehicles', data);
 
     data.items.forEach(v => {
         const tr = document.createElement('tr');
@@ -301,14 +388,20 @@ async function deleteVehicle(id) {
 
 // ================= DRIVERS CONTROLLER =================
 async function loadDrivers() {
-    const data = await apiFetch('/person?PageSize=100');
-    const tbody = document.getElementById('drivers-table-body');
+    const query = buildQuery('drivers');
+    const data = await apiFetch(`/person${query}`);
+    const tbody = document.getElementById('drivers-body');
+    if(!tbody) return;
+    
     tbody.innerHTML = '';
 
     if (!data?.items || data.items.length === 0) {
         tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-secondary);">Sürücü kaydı bulunamadı.</td></tr>`;
+        updatePagination('drivers', null);
         return;
     }
+
+    updatePagination('drivers', data);
 
     data.items.forEach(d => {
         const tr = document.createElement('tr');

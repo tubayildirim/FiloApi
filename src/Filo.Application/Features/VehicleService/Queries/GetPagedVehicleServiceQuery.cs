@@ -31,7 +31,25 @@ public class GetPagedVehicleServiceQueryHandler : IRequestHandler<GetPagedVehicl
         int pageNumber = paginationParams.PageNumber ?? 1;
         int pageSize = paginationParams.PageSize ?? 10;
 
-        var (items, count) = await _unitOfWork.VehicleServices.GetPagedAsync(pageNumber, pageSize);
+        string sortCol = paginationParams.SortColumn?.Trim().ToLower() ?? string.Empty;
+        string sortDir = paginationParams.SortDirection?.Trim().ToLower() ?? string.Empty;
+
+        // Sıralama
+        System.Func<System.Linq.IQueryable<Filo.Domain.Entities.VehicleService>, System.Linq.IOrderedQueryable<Filo.Domain.Entities.VehicleService>>? orderBy = null;
+        if (!string.IsNullOrEmpty(sortCol))
+        {
+            bool isDesc = sortDir == "desc";
+            orderBy = sortCol switch
+            {
+                "entrydate" => q => isDesc ? q.OrderByDescending(s => s.EntryDate) : q.OrderBy(s => s.EntryDate),
+                "exitdate" => q => isDesc ? q.OrderByDescending(s => s.ExitDate) : q.OrderBy(s => s.ExitDate),
+                "company" => q => isDesc ? q.OrderByDescending(s => s.ServiceCompany) : q.OrderBy(s => s.ServiceCompany),
+                "cost" => q => isDesc ? q.OrderByDescending(s => s.Cost) : q.OrderBy(s => s.Cost),
+                _ => q => isDesc ? q.OrderByDescending(s => s.VehicleServiceId) : q.OrderBy(s => s.VehicleServiceId)
+            };
+        }
+
+        var (items, count) = await _unitOfWork.VehicleServices.GetPagedAsync(pageNumber, pageSize, null, orderBy);
         var dtos = items.Adapt<IEnumerable<VehicleServiceDto>>();
         return new PagedList<VehicleServiceDto>(dtos, count, pageNumber, pageSize);
     }
