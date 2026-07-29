@@ -8,7 +8,13 @@ const state = {
     assignments: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
     fuels: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
     maintenances: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
-    services: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' }
+    services: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
+    reportAll: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
+    reportFree: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
+    reportAssigned: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
+    reportFuel: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
+    reportMaint: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
+    reportService: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' }
 };
 
 let searchTimeout = null;
@@ -26,6 +32,12 @@ function debounceSearch(type) {
         else if (type === 'fuels') loadFuelExpenses();
         else if (type === 'maintenances') loadMaintenanceExpenses();
         else if (type === 'services') loadServiceExpenses();
+        else if (type === 'reportAll') renderClientReport('reportAll');
+        else if (type === 'reportFree') renderClientReport('reportFree');
+        else if (type === 'reportAssigned') renderClientReport('reportAssigned');
+        else if (type === 'reportFuel') renderClientReport('reportFuel');
+        else if (type === 'reportMaint') renderClientReport('reportMaint');
+        else if (type === 'reportService') renderClientReport('reportService');
     }, 500);
 }
 
@@ -52,6 +64,12 @@ function handleSort(type, col) {
     else if (type === 'fuels') loadFuelExpenses();
     else if (type === 'maintenances') loadMaintenanceExpenses();
     else if (type === 'services') loadServiceExpenses();
+    else if (type === 'reportAll') renderClientReport('reportAll');
+    else if (type === 'reportFree') renderClientReport('reportFree');
+    else if (type === 'reportAssigned') renderClientReport('reportAssigned');
+    else if (type === 'reportFuel') renderClientReport('reportFuel');
+    else if (type === 'reportMaint') renderClientReport('reportMaint');
+    else if (type === 'reportService') renderClientReport('reportService');
 }
 
 function updatePagination(type, data) {
@@ -81,6 +99,12 @@ function prevPage(type) {
         else if (type === 'fuels') loadFuelExpenses();
         else if (type === 'maintenances') loadMaintenanceExpenses();
         else if (type === 'services') loadServiceExpenses();
+        else if (type === 'reportAll') renderClientReport('reportAll');
+        else if (type === 'reportFree') renderClientReport('reportFree');
+        else if (type === 'reportAssigned') renderClientReport('reportAssigned');
+        else if (type === 'reportFuel') renderClientReport('reportFuel');
+        else if (type === 'reportMaint') renderClientReport('reportMaint');
+        else if (type === 'reportService') renderClientReport('reportService');
     }
 }
 
@@ -92,6 +116,12 @@ function nextPage(type) {
     else if (type === 'fuels') loadFuelExpenses();
     else if (type === 'maintenances') loadMaintenanceExpenses();
     else if (type === 'services') loadServiceExpenses();
+    else if (type === 'reportAll') renderClientReport('reportAll');
+    else if (type === 'reportFree') renderClientReport('reportFree');
+    else if (type === 'reportAssigned') renderClientReport('reportAssigned');
+    else if (type === 'reportFuel') renderClientReport('reportFuel');
+    else if (type === 'reportMaint') renderClientReport('reportMaint');
+    else if (type === 'reportService') renderClientReport('reportService');
 }
 
 function buildQuery(type) {
@@ -1046,89 +1076,58 @@ function switchReportTab(tabName) {
     else if (tabName === 'expenses') loadReportExpenses();
 }
 
+window._reportDataStore = {
+    reportAll: [],
+    reportFree: [],
+    reportAssigned: [],
+    reportFuel: [],
+    reportMaint: [],
+    reportService: []
+};
+
 async function loadReportAllVehicles() {
     const data = await apiFetch('/vehicles?PageSize=1000');
     const assignmentsData = await apiFetch('/vehicle-matches?PageSize=1000');
-    const tbody = document.getElementById('report-all-vehicles-body');
-    tbody.innerHTML = '';
-    
     if (!data?.items?.length) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align: center;">Araç bulunamadı.</td></tr>`;
+        document.getElementById('report-all-vehicles-body').innerHTML = `<tr><td colspan="7" style="text-align: center;">Araç bulunamadı.</td></tr>`;
         return;
     }
     
     const assignedIds = new Set(assignmentsData?.items?.map(m => m.vehicleId) || []);
-    
-    data.items.forEach(v => {
-        const isAssigned = assignedIds.has(v.id);
-        tbody.innerHTML += `
-            <tr>
-                <td><strong>${v.plateNumber}</strong></td>
-                <td>${v.brand} ${v.model}</td>
-                <td>${v.year}</td>
-                <td>${v.color || '-'}</td>
-                <td>${v.fuelType || '-'}</td>
-                <td>${v.transmissionType || '-'}</td>
-                <td><span class="badge ${isAssigned ? 'warning' : 'success'}">${isAssigned ? 'Atanmış' : 'Boşta'}</span></td>
-            </tr>
-        `;
+    window._reportDataStore.reportAll = data.items.map(v => {
+        v.isAssigned = assignedIds.has(v.id);
+        v.status = v.isAssigned ? 'Atanmış' : 'Boşta';
+        return v;
     });
+    
+    state.reportAll.page = 1;
+    renderClientReport('reportAll');
 }
 
 async function loadReportFreeVehicles() {
     const data = await apiFetch('/vehicles?PageSize=1000');
     const assignmentsData = await apiFetch('/vehicle-matches?PageSize=1000');
-    const tbody = document.getElementById('report-free-vehicles-body');
-    tbody.innerHTML = '';
-    
     const assignedIds = new Set(assignmentsData?.items?.map(m => m.vehicleId) || []);
-    const freeVehicles = data?.items?.filter(v => !assignedIds.has(v.id)) || [];
     
-    if (freeVehicles.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">Boşta araç bulunmuyor.</td></tr>`;
-        return;
-    }
-    
-    freeVehicles.forEach(v => {
-        tbody.innerHTML += `
-            <tr>
-                <td><strong>${v.plateNumber}</strong></td>
-                <td>${v.brand} ${v.model}</td>
-                <td>${v.year}</td>
-                <td>${v.color || '-'}</td>
-                <td>${v.fuelType || '-'}</td>
-            </tr>
-        `;
-    });
+    window._reportDataStore.reportFree = data?.items?.filter(v => !assignedIds.has(v.id)) || [];
+    state.reportFree.page = 1;
+    renderClientReport('reportFree');
 }
 
 async function loadReportAssignedVehicles() {
     const vehiclesData = await apiFetch('/vehicles?PageSize=1000');
     const assignmentsData = await apiFetch('/vehicle-matches?PageSize=1000');
-    
-    const tbody = document.getElementById('report-assigned-vehicles-body');
-    tbody.innerHTML = '';
-    
     const assignedIds = new Set(assignmentsData?.items?.map(m => m.vehicleId) || []);
-    const assignedVehicles = vehiclesData?.items?.filter(v => assignedIds.has(v.id)) || [];
     
-    if (assignedVehicles.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="3" style="text-align: center;">Atanmış araç bulunmuyor.</td></tr>`;
-        return;
-    }
-    
-    assignedVehicles.forEach(v => {
+    window._reportDataStore.reportAssigned = vehiclesData?.items?.filter(v => assignedIds.has(v.id)).map(v => {
         const match = assignmentsData?.items?.find(a => a.vehicleId === v.id);
-        const personStr = match?.person ? `${match.person.name} ${match.person.surname} (${match.person.tckn})` : `Sürücü bilgisi yüklenemedi.`;
-        
-        tbody.innerHTML += `
-            <tr>
-                <td><strong>${v.plateNumber}</strong></td>
-                <td>${v.brand} ${v.model}</td>
-                <td>${personStr}</td>
-            </tr>
-        `;
-    });
+        v.personName = match?.person ? `${match.person.name} ${match.person.surname}` : `Sürücü bilgisi yok`;
+        v.date = match?.assignmentDate;
+        return v;
+    }) || [];
+    
+    state.reportAssigned.page = 1;
+    renderClientReport('reportAssigned');
 }
 
 async function loadReportExpenses() {
@@ -1136,35 +1135,145 @@ async function loadReportExpenses() {
     const maints = await apiFetch('/vehicle-maintenances?PageSize=1000') || { items: [] };
     const services = await apiFetch('/vehicle-services?PageSize=1000') || { items: [] };
     
-    // Yakıt
-    let fuelHtml = '', fuelTotal = 0;
-    fuels.items.forEach(f => {
-        fuelTotal += f.totalPrice;
-        const vInfo = f.vehicle ? `${f.vehicle.brand} ${f.vehicle.plateNumber}` : '-';
-        fuelHtml += `<tr><td>${vInfo}</td><td>${new Date(f.refuelingDate).toLocaleDateString('tr-TR')}</td><td>${f.liters} Lt</td><td>${f.totalPrice.toFixed(2)} TL</td></tr>`;
-    });
-    document.getElementById('report-expenses-fuel-body').innerHTML = fuelHtml || `<tr><td colspan="4" style="text-align: center;">Kayıt yok.</td></tr>`;
-    document.getElementById('report-fuel-total').innerText = `(Toplam: ${fuelTotal.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} TL)`;
+    window._reportDataStore.reportFuel = fuels.items.map(i => { i.date = i.refuelingDate; i.plateNumber = i.vehicle?.plateNumber; return i; });
+    window._reportDataStore.reportMaint = maints.items.map(i => { i.date = i.maintenanceDate; i.plateNumber = i.vehicle?.plateNumber; i.type = i.maintenanceType; return i; });
+    window._reportDataStore.reportService = services.items.map(i => { i.date = i.entryDate; i.plateNumber = i.vehicle?.plateNumber; i.company = i.serviceCompany; return i; });
     
-    // Bakım
-    let maintHtml = '', maintTotal = 0;
-    maints.items.forEach(m => {
-        maintTotal += m.cost;
-        const vInfo = m.vehicle ? `${m.vehicle.brand} ${m.vehicle.plateNumber}` : '-';
-        maintHtml += `<tr><td>${vInfo}</td><td>${new Date(m.maintenanceDate).toLocaleDateString('tr-TR')}</td><td>${m.maintenanceType}</td><td>${m.cost.toFixed(2)} TL</td></tr>`;
-    });
-    document.getElementById('report-expenses-maint-body').innerHTML = maintHtml || `<tr><td colspan="4" style="text-align: center;">Kayıt yok.</td></tr>`;
-    document.getElementById('report-maint-total').innerText = `(Toplam: ${maintTotal.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} TL)`;
+    state.reportFuel.page = 1;
+    state.reportMaint.page = 1;
+    state.reportService.page = 1;
     
-    // Servis
-    let serviceHtml = '', serviceTotal = 0;
-    services.items.forEach(s => {
-        if(s.cost) serviceTotal += s.cost;
-        const vInfo = s.vehicle ? `${s.vehicle.brand} ${s.vehicle.plateNumber}` : '-';
-        serviceHtml += `<tr><td>${vInfo}</td><td>${new Date(s.entryDate).toLocaleDateString('tr-TR')}</td><td>${s.serviceCompany}</td><td>${s.cost ? s.cost.toFixed(2) + ' TL' : '-'}</td></tr>`;
+    renderClientReport('reportFuel');
+    renderClientReport('reportMaint');
+    renderClientReport('reportService');
+}
+
+function renderClientReport(type) {
+    let arr = [...window._reportDataStore[type]];
+    const s = state[type];
+    
+    // 1. Search
+    if (s.search) {
+        const filter = s.search.toLowerCase();
+        arr = arr.filter(item => {
+            return Object.values(item).some(val => {
+                if(val === null || val === undefined) return false;
+                if(typeof val === 'object') {
+                   return Object.values(val).some(nested => String(nested).toLowerCase().includes(filter));
+                }
+                return String(val).toLowerCase().includes(filter);
+            });
+        });
+    }
+    
+    // Totals for expenses (calculated on FILTERED dataset but BEFORE pagination)
+    if (type === 'reportFuel') {
+        const total = arr.reduce((acc, curr) => acc + (curr.totalPrice || 0), 0);
+        document.getElementById('report-fuel-total').innerText = `(Toplam: ${total.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL)`;
+    } else if (type === 'reportMaint') {
+        const total = arr.reduce((acc, curr) => acc + (curr.cost || 0), 0);
+        document.getElementById('report-maint-total').innerText = `(Toplam: ${total.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL)`;
+    } else if (type === 'reportService') {
+        const total = arr.reduce((acc, curr) => acc + (curr.cost || 0), 0);
+        document.getElementById('report-service-total').innerText = `(Toplam: ${total.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL)`;
+    }
+    
+    // 2. Sort
+    if (s.sortCol) {
+        arr.sort((a, b) => {
+            let valA = a[s.sortCol];
+            let valB = b[s.sortCol];
+            
+            if (typeof valA === 'string') valA = valA.toLowerCase();
+            if (typeof valB === 'string') valB = valB.toLowerCase();
+            
+            if (valA < valB) return s.sortDir === 'asc' ? -1 : 1;
+            if (valA > valB) return s.sortDir === 'asc' ? 1 : -1;
+            return 0;
+        });
+    }
+    
+    // 3. Pagination
+    const totalItems = arr.length;
+    const totalPages = Math.ceil(totalItems / s.pageSize) || 1;
+    if (s.page > totalPages) s.page = totalPages;
+    if (s.page < 1) s.page = 1;
+    
+    const startIndex = (s.page - 1) * s.pageSize;
+    const pagedArr = arr.slice(startIndex, startIndex + s.pageSize);
+    
+    // 4. Update UI
+    const prevBtn = document.getElementById(`btn-prev-${type}`);
+    const nextBtn = document.getElementById(`btn-next-${type}`);
+    const info = document.getElementById(`page-info-${type}`);
+    if (prevBtn && nextBtn && info) {
+        info.innerText = `Sayfa ${s.page} / ${totalPages}`;
+        prevBtn.disabled = s.page <= 1;
+        nextBtn.disabled = s.page >= totalPages;
+    }
+    
+    let tbodyId = '';
+    if(type === 'reportAll') tbodyId = 'report-all-vehicles-body';
+    if(type === 'reportFree') tbodyId = 'report-free-vehicles-body';
+    if(type === 'reportAssigned') tbodyId = 'report-assigned-vehicles-body';
+    if(type === 'reportFuel') tbodyId = 'report-expenses-fuel-body';
+    if(type === 'reportMaint') tbodyId = 'report-expenses-maint-body';
+    if(type === 'reportService') tbodyId = 'report-expenses-service-body';
+    
+    const tbody = document.getElementById(tbodyId);
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    
+    if (pagedArr.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align: center; color: var(--text-secondary);">Kayıt bulunamadı.</td></tr>`;
+        return;
+    }
+    
+    pagedArr.forEach(item => {
+        let tr = document.createElement('tr');
+        if(type === 'reportAll') {
+            tr.innerHTML = `
+                <td><strong>${item.plateNumber}</strong></td>
+                <td>${item.brand} ${item.model}</td>
+                <td>${item.year}</td>
+                <td>${item.color || '-'}</td>
+                <td>${item.fuelType || '-'}</td>
+                <td>${item.transmissionType || '-'}</td>
+                <td><span class="badge ${item.isAssigned ? 'warning' : 'success'}">${item.status}</span></td>
+            `;
+        }
+        else if(type === 'reportFree') {
+            tr.innerHTML = `
+                <td><strong>${item.plateNumber}</strong></td>
+                <td>${item.brand} ${item.model}</td>
+                <td>${item.year}</td>
+                <td>${item.color || '-'}</td>
+                <td>${item.fuelType || '-'}</td>
+            `;
+        }
+        else if(type === 'reportAssigned') {
+            const dateStr = item.date ? new Date(item.date).toLocaleDateString('tr-TR') : '-';
+            tr.innerHTML = `
+                <td><strong>${item.plateNumber}</strong></td>
+                <td>${item.brand} ${item.model}</td>
+                <td>${item.personName}</td>
+                <td>${dateStr}</td>
+            `;
+        }
+        else if(type === 'reportFuel') {
+            const vInfo = item.vehicle ? `${item.vehicle.brand} ${item.vehicle.plateNumber}` : '-';
+            tr.innerHTML = `<td>${vInfo}</td><td>${new Date(item.date).toLocaleDateString('tr-TR')}</td><td>${item.liters} Lt</td><td>${item.totalPrice.toFixed(2)} TL</td>`;
+        }
+        else if(type === 'reportMaint') {
+            const vInfo = item.vehicle ? `${item.vehicle.brand} ${item.vehicle.plateNumber}` : '-';
+            tr.innerHTML = `<td>${vInfo}</td><td>${new Date(item.date).toLocaleDateString('tr-TR')}</td><td>${item.type}</td><td>${item.cost.toFixed(2)} TL</td>`;
+        }
+        else if(type === 'reportService') {
+            const vInfo = item.vehicle ? `${item.vehicle.brand} ${item.vehicle.plateNumber}` : '-';
+            tr.innerHTML = `<td>${vInfo}</td><td>${new Date(item.date).toLocaleDateString('tr-TR')}</td><td>${item.company}</td><td>${item.cost ? item.cost.toFixed(2) + ' TL' : '-'}</td>`;
+        }
+        tbody.appendChild(tr);
     });
-    document.getElementById('report-expenses-service-body').innerHTML = serviceHtml || `<tr><td colspan="4" style="text-align: center;">Kayıt yok.</td></tr>`;
-    document.getElementById('report-service-total').innerText = `(Toplam: ${serviceTotal.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} TL)`;
 }
 
 // Generic Excel Export logic using SheetJS
@@ -1177,24 +1286,4 @@ function exportTableToExcel(tableId, filename) {
     
     // Download the Excel file
     XLSX.writeFile(wb, filename);
-}
-
-
-
-// Client-side text filter for Reports
-function filterReportTable(inputId, tbodyId) {
-    const input = document.getElementById(inputId);
-    const filter = input.value.toLowerCase();
-    const tbody = document.getElementById(tbodyId);
-    if (!tbody) return;
-    const trs = tbody.getElementsByTagName('tr');
-
-    for (let i = 0; i < trs.length; i++) {
-        const text = trs[i].textContent || trs[i].innerText;
-        if (text.toLowerCase().indexOf(filter) > -1) {
-            trs[i].style.display = "";
-        } else {
-            trs[i].style.display = "none";
-        }
-    }
 }

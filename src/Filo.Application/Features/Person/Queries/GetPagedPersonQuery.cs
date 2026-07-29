@@ -35,8 +35,7 @@ public class GetPagedPersonQueryHandler : IRequestHandler<GetPagedPersonQuery, P
 
         string cacheKey = $"person_paged_{pageNumber}_{pageSize}_{searchTerm}_{sortCol}_{sortDir}";
 
-        return await _cacheService.GetOrCreateAsync(cacheKey, async ct =>
-        {
+        
             // Filtreleme
             System.Linq.Expressions.Expression<Func<Filo.Domain.Entities.Person, bool>>? predicate = null;
             if (!string.IsNullOrEmpty(searchTerm))
@@ -64,6 +63,6 @@ public class GetPagedPersonQueryHandler : IRequestHandler<GetPagedPersonQuery, P
             var (items, count) = await _unitOfWork.Person.GetPagedAsync(pageNumber, pageSize, predicate, orderBy);
             var dtos = items.Adapt<IEnumerable<PersonDto>>();
             return new PagedList<PersonDto>(dtos, count, pageNumber, pageSize);
-        }, TimeSpan.FromMinutes(2));
+        
     }
 }

@@ -32,12 +32,6 @@ public class GetPagedVehiclesQueryHandler : IRequestHandler<GetPagedVehiclesQuer
         string searchTerm = paginationParams.SearchTerm?.Trim().ToLower() ?? string.Empty;
         string sortCol = paginationParams.SortColumn?.Trim().ToLower() ?? string.Empty;
         string sortDir = paginationParams.SortDirection?.Trim().ToLower() ?? string.Empty;
-
-        // Benzersiz Cache Anahtarı
-        string cacheKey = $"vehicles_paged_{pageNumber}_{pageSize}_{searchTerm}_{sortCol}_{sortDir}";
-
-        return await _cacheService.GetOrCreateAsync(cacheKey, async ct =>
-        {
             // Filtreleme (Arama) Mantığı
             System.Linq.Expressions.Expression<Func<Filo.Domain.Entities.Vehicle, bool>>? predicate = null;
             if (!string.IsNullOrEmpty(searchTerm))
@@ -64,6 +58,6 @@ public class GetPagedVehiclesQueryHandler : IRequestHandler<GetPagedVehiclesQuer
             var (items, count) = await _unitOfWork.Vehicles.GetPagedAsync(pageNumber, pageSize, predicate, orderBy);
             var dtos = items.Adapt<IEnumerable<VehicleDto>>();
             return new PagedList<VehicleDto>(dtos, count, pageNumber, pageSize);
-        }, TimeSpan.FromMinutes(2));
+        
     }
 }

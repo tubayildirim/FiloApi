@@ -118,7 +118,7 @@
                         <h2>Araç Yönetimi</h2>
                         <div style="display: flex; gap: 1rem; align-items: center;">
                             <input type="text" id="search-vehicles" class="form-input" placeholder="Ara (Plaka, Marka, Model)..." onkeyup="debounceSearch('vehicles')" style="width: 250px;">
-                            <button class="btn-primary" onclick="openVehicleModal()"><i class="fa-solid fa-plus"></i> Yeni Ekle</button>
+                            <button class="btn-primary" onclick="openAddVehicleModal()"><i class="fa-solid fa-plus"></i> Yeni Ekle</button>
                         </div>
                     </div>
                     
@@ -154,7 +154,7 @@
                         <h2>Sürücü Yönetimi</h2>
                         <div style="display: flex; gap: 1rem; align-items: center;">
                             <input type="text" id="search-drivers" class="form-input" placeholder="Ara (Ad, Soyad, TCKN)..." onkeyup="debounceSearch('drivers')" style="width: 250px;">
-                            <button class="btn-primary" onclick="openDriverModal()"><i class="fa-solid fa-plus"></i> Yeni Ekle</button>
+                            <button class="btn-primary" onclick="openAddDriverModal()"><i class="fa-solid fa-plus"></i> Yeni Ekle</button>
                         </div>
                     </div>
 
@@ -343,7 +343,7 @@
                     <div class="panel-header">
                         <h3>Tüm Araçlar Raporu</h3>
                         <div style="display: flex; gap: 0.5rem; align-items: center;">
-                            <input type="text" id="search-report-all" class="form-input" placeholder="Tabloda Ara..." onkeyup="filterReportTable('search-report-all', 'report-all-vehicles-body')" style="width: 200px; margin-right: 1rem;">
+                            <input type="text" id="search-reportAll" class="form-input" placeholder="Tabloda Ara..." onkeyup="debounceSearch('reportAll')" style="width: 200px; margin-right: 1rem;">
                             <button class="btn-secondary" onclick="exportTableToExcel('table-all-vehicles', 'Tum-Araclar-Raporu.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
                             <button class="btn-primary" onclick="loadReportAllVehicles()"><i class="fa-solid fa-arrows-rotate"></i> Yenile</button>
                         </div>
@@ -352,17 +352,22 @@
                         <table class="modern-table" id="table-all-vehicles">
                             <thead>
                                 <tr>
-                                    <th>Plaka</th>
-                                    <th>Marka/Model</th>
-                                    <th>Yıl</th>
+                                    <th onclick="handleSort('reportAll', 'plateNumber')" style="cursor: pointer;">Plaka <i class="fa-solid fa-sort" id="sort-icon-reportAll-plateNumber"></i></th>
+                                    <th onclick="handleSort('reportAll', 'brand')" style="cursor: pointer;">Marka/Model <i class="fa-solid fa-sort" id="sort-icon-reportAll-brand"></i></th>
+                                    <th onclick="handleSort('reportAll', 'year')" style="cursor: pointer;">Yıl <i class="fa-solid fa-sort" id="sort-icon-reportAll-year"></i></th>
                                     <th>Renk</th>
-                                    <th>Yakıt</th>
+                                    <th>Yakıt Tipi</th>
                                     <th>Şanzıman</th>
-                                    <th>Durum</th>
+                                    <th onclick="handleSort('reportAll', 'status')" style="cursor: pointer;">Durum <i class="fa-solid fa-sort" id="sort-icon-reportAll-status"></i></th>
                                 </tr>
                             </thead>
                             <tbody id="report-all-vehicles-body"></tbody>
                         </table>
+                    </div>
+                    <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
+                        <button class="btn-secondary" onclick="prevPage('reportAll')" id="btn-prev-reportAll" disabled>Önceki</button>
+                        <span id="page-info-reportAll">Sayfa 1 / 1</span>
+                        <button class="btn-secondary" onclick="nextPage('reportAll')" id="btn-next-reportAll" disabled>Sonraki</button>
                     </div>
                 </div>
 
@@ -371,7 +376,7 @@
                     <div class="panel-header">
                         <h3>Boştaki Araçlar Raporu</h3>
                         <div style="display: flex; gap: 0.5rem; align-items: center;">
-                            <input type="text" id="search-report-free" class="form-input" placeholder="Tabloda Ara..." onkeyup="filterReportTable('search-report-free', 'report-free-vehicles-body')" style="width: 200px; margin-right: 1rem;">
+                            <input type="text" id="search-reportFree" class="form-input" placeholder="Tabloda Ara..." onkeyup="debounceSearch('reportFree')" style="width: 200px; margin-right: 1rem;">
                             <button class="btn-secondary" onclick="exportTableToExcel('table-free-vehicles', 'Bostaki-Araclar-Raporu.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
                             <button class="btn-primary" onclick="loadReportFreeVehicles()"><i class="fa-solid fa-arrows-rotate"></i> Yenile</button>
                         </div>
@@ -380,15 +385,20 @@
                         <table class="modern-table" id="table-free-vehicles">
                             <thead>
                                 <tr>
-                                    <th>Plaka</th>
-                                    <th>Marka/Model</th>
-                                    <th>Yıl</th>
+                                    <th onclick="handleSort('reportFree', 'plateNumber')" style="cursor: pointer;">Plaka <i class="fa-solid fa-sort" id="sort-icon-reportFree-plateNumber"></i></th>
+                                    <th onclick="handleSort('reportFree', 'brand')" style="cursor: pointer;">Marka/Model <i class="fa-solid fa-sort" id="sort-icon-reportFree-brand"></i></th>
+                                    <th onclick="handleSort('reportFree', 'year')" style="cursor: pointer;">Yıl <i class="fa-solid fa-sort" id="sort-icon-reportFree-year"></i></th>
                                     <th>Renk</th>
-                                    <th>Yakıt</th>
+                                    <th>Yakıt Tipi</th>
                                 </tr>
                             </thead>
                             <tbody id="report-free-vehicles-body"></tbody>
                         </table>
+                    </div>
+                    <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
+                        <button class="btn-secondary" onclick="prevPage('reportFree')" id="btn-prev-reportFree" disabled>Önceki</button>
+                        <span id="page-info-reportFree">Sayfa 1 / 1</span>
+                        <button class="btn-secondary" onclick="nextPage('reportFree')" id="btn-next-reportFree" disabled>Sonraki</button>
                     </div>
                 </div>
 
@@ -397,7 +407,7 @@
                     <div class="panel-header">
                         <h3>Atanmış Araçlar Raporu</h3>
                         <div style="display: flex; gap: 0.5rem; align-items: center;">
-                            <input type="text" id="search-report-assigned" class="form-input" placeholder="Tabloda Ara..." onkeyup="filterReportTable('search-report-assigned', 'report-assigned-vehicles-body')" style="width: 200px; margin-right: 1rem;">
+                            <input type="text" id="search-reportAssigned" class="form-input" placeholder="Tabloda Ara..." onkeyup="debounceSearch('reportAssigned')" style="width: 200px; margin-right: 1rem;">
                             <button class="btn-secondary" onclick="exportTableToExcel('table-assigned-vehicles', 'Atanmis-Araclar-Raporu.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
                             <button class="btn-primary" onclick="loadReportAssignedVehicles()"><i class="fa-solid fa-arrows-rotate"></i> Yenile</button>
                         </div>
@@ -406,13 +416,19 @@
                         <table class="modern-table" id="table-assigned-vehicles">
                             <thead>
                                 <tr>
-                                    <th>Plaka</th>
-                                    <th>Marka/Model</th>
-                                    <th>Sürücü (Atanmış)</th>
+                                    <th onclick="handleSort('reportAssigned', 'plateNumber')" style="cursor: pointer;">Plaka <i class="fa-solid fa-sort" id="sort-icon-reportAssigned-plateNumber"></i></th>
+                                    <th onclick="handleSort('reportAssigned', 'brand')" style="cursor: pointer;">Araç <i class="fa-solid fa-sort" id="sort-icon-reportAssigned-brand"></i></th>
+                                    <th onclick="handleSort('reportAssigned', 'personName')" style="cursor: pointer;">Sürücü <i class="fa-solid fa-sort" id="sort-icon-reportAssigned-personName"></i></th>
+                                    <th onclick="handleSort('reportAssigned', 'date')" style="cursor: pointer;">Atama Tarihi <i class="fa-solid fa-sort" id="sort-icon-reportAssigned-date"></i></th>
                                 </tr>
                             </thead>
                             <tbody id="report-assigned-vehicles-body"></tbody>
                         </table>
+                    </div>
+                    <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
+                        <button class="btn-secondary" onclick="prevPage('reportAssigned')" id="btn-prev-reportAssigned" disabled>Önceki</button>
+                        <span id="page-info-reportAssigned">Sayfa 1 / 1</span>
+                        <button class="btn-secondary" onclick="nextPage('reportAssigned')" id="btn-next-reportAssigned" disabled>Sonraki</button>
                     </div>
                 </div>
 
@@ -422,60 +438,84 @@
                     <div class="panel-card">
                         <div class="panel-header">
                             <h3>Yakıt Giderleri <span style="font-size: 0.9rem; color: var(--text-secondary);" id="report-fuel-total"></span></h3>
-                            <button class="btn-secondary" onclick="exportTableToExcel('table-report-fuel', 'Yakit-Giderleri.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                <input type="text" id="search-reportFuel" class="form-input" placeholder="Ara..." onkeyup="debounceSearch('reportFuel')" style="width: 200px;">
+                                <button class="btn-secondary" onclick="exportTableToExcel('table-report-fuel', 'Yakit-Giderleri.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                            </div>
                         </div>
                         <div class="table-wrapper">
                             <table class="modern-table" id="table-report-fuel">
                                 <thead>
                                     <tr>
-                                        <th>Araç</th>
-                                        <th>Tarih</th>
-                                        <th>Litre</th>
-                                        <th>Tutar</th>
+                                        <th onclick="handleSort('reportFuel', 'plateNumber')" style="cursor: pointer;">Araç <i class="fa-solid fa-sort" id="sort-icon-reportFuel-plateNumber"></i></th>
+                                        <th onclick="handleSort('reportFuel', 'date')" style="cursor: pointer;">Tarih <i class="fa-solid fa-sort" id="sort-icon-reportFuel-date"></i></th>
+                                        <th onclick="handleSort('reportFuel', 'liters')" style="cursor: pointer;">Litre <i class="fa-solid fa-sort" id="sort-icon-reportFuel-liters"></i></th>
+                                        <th onclick="handleSort('reportFuel', 'totalPrice')" style="cursor: pointer;">Tutar <i class="fa-solid fa-sort" id="sort-icon-reportFuel-totalPrice"></i></th>
                                     </tr>
                                 </thead>
                                 <tbody id="report-expenses-fuel-body"></tbody>
                             </table>
+                        </div>
+                        <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
+                            <button class="btn-secondary" onclick="prevPage('reportFuel')" id="btn-prev-reportFuel" disabled>Önceki</button>
+                            <span id="page-info-reportFuel">Sayfa 1 / 1</span>
+                            <button class="btn-secondary" onclick="nextPage('reportFuel')" id="btn-next-reportFuel" disabled>Sonraki</button>
                         </div>
                     </div>
 
                     <div class="panel-card">
                         <div class="panel-header">
                             <h3>Bakım Giderleri <span style="font-size: 0.9rem; color: var(--text-secondary);" id="report-maint-total"></span></h3>
-                            <button class="btn-secondary" onclick="exportTableToExcel('table-report-maint', 'Bakim-Giderleri.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                <input type="text" id="search-reportMaint" class="form-input" placeholder="Ara..." onkeyup="debounceSearch('reportMaint')" style="width: 200px;">
+                                <button class="btn-secondary" onclick="exportTableToExcel('table-report-maint', 'Bakim-Giderleri.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                            </div>
                         </div>
                         <div class="table-wrapper">
                             <table class="modern-table" id="table-report-maint">
                                 <thead>
                                     <tr>
-                                        <th>Araç</th>
-                                        <th>Tarih</th>
-                                        <th>Türü</th>
-                                        <th>Tutar</th>
+                                        <th onclick="handleSort('reportMaint', 'plateNumber')" style="cursor: pointer;">Araç <i class="fa-solid fa-sort" id="sort-icon-reportMaint-plateNumber"></i></th>
+                                        <th onclick="handleSort('reportMaint', 'date')" style="cursor: pointer;">Tarih <i class="fa-solid fa-sort" id="sort-icon-reportMaint-date"></i></th>
+                                        <th onclick="handleSort('reportMaint', 'type')" style="cursor: pointer;">Türü <i class="fa-solid fa-sort" id="sort-icon-reportMaint-type"></i></th>
+                                        <th onclick="handleSort('reportMaint', 'cost')" style="cursor: pointer;">Tutar <i class="fa-solid fa-sort" id="sort-icon-reportMaint-cost"></i></th>
                                     </tr>
                                 </thead>
                                 <tbody id="report-expenses-maint-body"></tbody>
                             </table>
+                        </div>
+                        <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
+                            <button class="btn-secondary" onclick="prevPage('reportMaint')" id="btn-prev-reportMaint" disabled>Önceki</button>
+                            <span id="page-info-reportMaint">Sayfa 1 / 1</span>
+                            <button class="btn-secondary" onclick="nextPage('reportMaint')" id="btn-next-reportMaint" disabled>Sonraki</button>
                         </div>
                     </div>
 
                     <div class="panel-card">
                         <div class="panel-header">
                             <h3>Servis/Hasar Giderleri <span style="font-size: 0.9rem; color: var(--text-secondary);" id="report-service-total"></span></h3>
-                            <button class="btn-secondary" onclick="exportTableToExcel('table-report-service', 'Servis-Hasar-Giderleri.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                <input type="text" id="search-reportService" class="form-input" placeholder="Ara..." onkeyup="debounceSearch('reportService')" style="width: 200px;">
+                                <button class="btn-secondary" onclick="exportTableToExcel('table-report-service', 'Servis-Hasar-Giderleri.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                            </div>
                         </div>
                         <div class="table-wrapper">
                             <table class="modern-table" id="table-report-service">
                                 <thead>
                                     <tr>
-                                        <th>Araç</th>
-                                        <th>Tarih</th>
-                                        <th>Servis/Firma</th>
-                                        <th>Tutar</th>
+                                        <th onclick="handleSort('reportService', 'plateNumber')" style="cursor: pointer;">Araç <i class="fa-solid fa-sort" id="sort-icon-reportService-plateNumber"></i></th>
+                                        <th onclick="handleSort('reportService', 'date')" style="cursor: pointer;">Tarih <i class="fa-solid fa-sort" id="sort-icon-reportService-date"></i></th>
+                                        <th onclick="handleSort('reportService', 'company')" style="cursor: pointer;">Servis/Firma <i class="fa-solid fa-sort" id="sort-icon-reportService-company"></i></th>
+                                        <th onclick="handleSort('reportService', 'cost')" style="cursor: pointer;">Tutar <i class="fa-solid fa-sort" id="sort-icon-reportService-cost"></i></th>
                                     </tr>
                                 </thead>
                                 <tbody id="report-expenses-service-body"></tbody>
                             </table>
+                        </div>
+                        <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
+                            <button class="btn-secondary" onclick="prevPage('reportService')" id="btn-prev-reportService" disabled>Önceki</button>
+                            <span id="page-info-reportService">Sayfa 1 / 1</span>
+                            <button class="btn-secondary" onclick="nextPage('reportService')" id="btn-next-reportService" disabled>Sonraki</button>
                         </div>
                     </div>
 
