@@ -45,4 +45,30 @@ public class RbacService : IRbacService
 
         return new List<int>(); // No access
     }
+
+    public async Task<List<int>?> GetAllowedPersonIdsAsync()
+    {
+        if (_currentUserService.IsAdmin || _currentUserService.UserId == null)
+        {
+            return null; // All allowed
+        }
+
+        using var scope = _scopeFactory.CreateScope();
+        var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+
+        if (_currentUserService.IsStaff)
+        {
+            return new List<int> { _currentUserService.UserId.Value };
+        }
+
+        if (_currentUserService.IsManager)
+        {
+            var subordinates = await unitOfWork.Person.GetPagedAsync(1, 1000, p => p.ManagerId == _currentUserService.UserId.Value, null);
+            var subIds = subordinates.Items.Select(p => p.Id).ToList();
+            subIds.Add(_currentUserService.UserId.Value); // Manager can see themselves
+            return subIds;
+        }
+
+        return new List<int>(); // No access
+    }
 }

@@ -1,3 +1,4 @@
+using Filo.Application.Common.Interfaces;
 using Filo.Application.DTOs;
 using Filo.Common.Models;
 using Filo.Domain.Interfaces;
@@ -16,11 +17,13 @@ public class GetPagedPersonQueryHandler : IRequestHandler<GetPagedPersonQuery, P
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICacheService _cacheService;
+    private readonly IRbacService _rbacService;
 
-    public GetPagedPersonQueryHandler(IUnitOfWork unitOfWork, ICacheService cacheService)
+    public GetPagedPersonQueryHandler(IUnitOfWork unitOfWork, ICacheService cacheService, IRbacService rbacService)
     {
         _unitOfWork = unitOfWork;
         _cacheService = cacheService;
+        _rbacService = rbacService;
     }
 
     public async Task<PagedList<PersonDto>> Handle(GetPagedPersonQuery request, CancellationToken cancellationToken)
@@ -58,6 +61,18 @@ public class GetPagedPersonQueryHandler : IRequestHandler<GetPagedPersonQuery, P
                     "age" => q => isDesc ? q.OrderByDescending(p => p.Age) : q.OrderBy(p => p.Age),
                     _ => q => isDesc ? q.OrderByDescending(p => p.Id) : q.OrderBy(p => p.Id)
                 };
+            }
+
+            var allowedPersonIds = await _rbacService.GetAllowedPersonIdsAsync();
+            if (allowedPersonIds != null)
+            {
+                if (predicate == null)
+                    predicate = p => allowedPersonIds.Contains(p.Id);
+                else
+                {
+                    var oldPredicate = predicate;
+                    predicate = p => allowedPersonIds.Contains(p.Id) && oldPredicate.Compile()(p);
+                }
             }
 
             var (items, count) = await _unitOfWork.Person.GetPagedAsync(pageNumber, pageSize, predicate, orderBy);

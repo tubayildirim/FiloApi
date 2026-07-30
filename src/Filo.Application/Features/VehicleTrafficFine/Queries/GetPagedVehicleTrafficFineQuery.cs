@@ -39,7 +39,7 @@ public class GetPagedVehicleTrafficFineQueryHandler : IRequestHandler<GetPagedVe
                 }
             }
         
-        var (items, count) = await _unitOfWork.VehicleTrafficFines.GetPagedAsync(pageNumber, pageSize, null, q => q.OrderByDescending(x => x.Id));
+        var (items, count) = await _unitOfWork.VehicleTrafficFines.GetPagedAsync(pageNumber, pageSize, predicate, q => q.OrderByDescending(x => x.Id));
         var dtos = items.Adapt<IEnumerable<VehicleTrafficFineDto>>();
         return new PagedList<VehicleTrafficFineDto>(dtos, count, pageNumber, pageSize);
     }

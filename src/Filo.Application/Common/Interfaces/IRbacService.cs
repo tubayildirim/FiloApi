@@ -6,4 +6,5 @@ namespace Filo.Application.Common.Interfaces;
 public interface IRbacService
 {
     Task<List<int>?> GetAllowedVehicleIdsAsync();
+    Task<List<int>?> GetAllowedPersonIdsAsync();
 }

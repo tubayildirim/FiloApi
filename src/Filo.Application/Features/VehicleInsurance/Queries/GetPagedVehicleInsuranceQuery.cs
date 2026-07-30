@@ -39,7 +39,7 @@ public class GetPagedVehicleInsuranceQueryHandler : IRequestHandler<GetPagedVehi
                 }
             }
         
-        var (items, count) = await _unitOfWork.VehicleInsurances.GetPagedAsync(pageNumber, pageSize, null, q => q.OrderByDescending(x => x.Id));
+        var (items, count) = await _unitOfWork.VehicleInsurances.GetPagedAsync(pageNumber, pageSize, predicate, q => q.OrderByDescending(x => x.Id));
         var dtos = items.Adapt<IEnumerable<VehicleInsuranceDto>>();
         return new PagedList<VehicleInsuranceDto>(dtos, count, pageNumber, pageSize);
     }

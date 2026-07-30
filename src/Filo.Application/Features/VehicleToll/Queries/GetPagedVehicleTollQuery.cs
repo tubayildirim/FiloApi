@@ -39,7 +39,7 @@ public class GetPagedVehicleTollQueryHandler : IRequestHandler<GetPagedVehicleTo
                 }
             }
         
-        var (items, count) = await _unitOfWork.VehicleTolls.GetPagedAsync(pageNumber, pageSize, null, q => q.OrderByDescending(x => x.Id));
+        var (items, count) = await _unitOfWork.VehicleTolls.GetPagedAsync(pageNumber, pageSize, predicate, q => q.OrderByDescending(x => x.Id));
         var dtos = items.Adapt<IEnumerable<VehicleTollDto>>();
         return new PagedList<VehicleTollDto>(dtos, count, pageNumber, pageSize);
     }
