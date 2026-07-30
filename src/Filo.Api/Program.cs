@@ -33,7 +33,7 @@ using (var scope = app.Services.CreateScope())
     var context = scope.ServiceProvider.GetRequiredService<Filo.Infrastructure.Persistence.AppDbContext>();
     try
     {
-        context.Database.EnsureCreated();
+        context.Database.Migrate();
         
         if (!context.Person.Any())
         {
@@ -50,6 +50,43 @@ using (var scope = app.Services.CreateScope())
             context.SaveChanges();
 
             Log.Information("Database successfully seeded with initial person data.");
+        }
+
+        // Apply RBAC seed to existing/new data
+        var tuba = context.Person.FirstOrDefault(p => p.Name == "Tuba" && p.Surname == "Yıldırım");
+        if (tuba == null)
+        {
+            tuba = new Filo.Domain.Entities.Person { Name = "Tuba", Surname = "Yıldırım", Tckn = "11111111111", Age = 30, Gender = "Kadın", Role = "Admin", CreatedBy = "System", CreatedAt = DateTime.UtcNow };
+            context.Person.Add(tuba);
+            context.SaveChanges();
+        }
+        else if (tuba.Role != "Admin")
+        {
+            tuba.Role = "Admin";
+            context.SaveChanges();
+        }
+
+        var ahmet = context.Person.FirstOrDefault(p => p.Id == 1);
+        if (ahmet != null && ahmet.Role != "Manager")
+        {
+            ahmet.Role = "Manager";
+            context.SaveChanges();
+        }
+
+        var otherStaff = context.Person.Where(p => p.Id != tuba.Id && p.Id != 1).ToList();
+        bool staffUpdated = false;
+        foreach (var staff in otherStaff)
+        {
+            if (staff.Role != "Staff" || staff.ManagerId != 1)
+            {
+                staff.Role = "Staff";
+                staff.ManagerId = 1;
+                staffUpdated = true;
+            }
+        }
+        if (staffUpdated)
+        {
+            context.SaveChanges();
         }
 
         if (!context.Vehicles.Any())
@@ -148,6 +185,7 @@ app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.UseRateLimiter();
+app.UseMiddleware<Filo.Api.Middleware.MockAuthMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 

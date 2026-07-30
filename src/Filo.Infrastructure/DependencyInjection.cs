@@ -25,6 +25,10 @@ public static class DependencyInjection
         services.AddScoped<IVehicleMaintenanceRepository, VehicleMaintenanceRepository>();
         services.AddScoped<IVehicleServiceRepository, VehicleServiceRepository>();
         
+        services.AddHttpContextAccessor();
+        services.AddScoped<Filo.Application.Common.Interfaces.ICurrentUserService, Filo.Infrastructure.Services.CurrentUserService>();
+        services.AddScoped<Filo.Application.Common.Interfaces.IRbacService, Filo.Infrastructure.Services.RbacService>();
+        
         services.AddDistributedMemoryCache();
 #pragma warning disable EXTEXP0018
         services.AddHybridCache();

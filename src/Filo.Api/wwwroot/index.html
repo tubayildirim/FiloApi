@@ -48,9 +48,11 @@
             <!-- Header -->
             <header class="header">
                 <h2 id="page-title">Dashboard</h2>
-                <div class="user-profile">
+                <div class="user-profile" style="display: flex; align-items: center; gap: 10px;">
                     <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=256&auto=format&fit=crop" alt="Kullanıcı">
-                    <span>Tuba Yıldırım</span>
+                    <select id="user-switcher" class="form-input" style="padding: 0.3rem; margin-right: 1rem;" onchange="switchUser(this.value)">
+                        <option value="">Yükleniyor...</option>
+                    </select>
                 </div>
             </header>
 

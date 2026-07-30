@@ -82,6 +82,12 @@ public class AppDbContext : DbContext
             entity.Property(e => e.Tckn).IsRequired().HasMaxLength(11);
             entity.HasIndex(e => e.Tckn).IsUnique();
             entity.Property(e => e.Gender).HasMaxLength(20);
+            entity.Property(e => e.Role).HasMaxLength(50).HasDefaultValue("Staff");
+
+            entity.HasOne(e => e.Manager)
+                  .WithMany(e => e.Subordinates)
+                  .HasForeignKey(e => e.ManagerId)
+                  .OnDelete(DeleteBehavior.SetNull);
             entity.HasQueryFilter(e => !e.IsDeleted);
         });
 

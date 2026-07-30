@@ -1,3 +1,4 @@
+using Filo.Application.Common.Interfaces;
 using Filo.Application.DTOs;
 using Filo.Common.Models;
 using Filo.Domain.Interfaces;
@@ -19,10 +20,12 @@ public sealed class GetPagedVehicleServiceQuery : IRequest<PagedList<VehicleServ
 public class GetPagedVehicleServiceQueryHandler : IRequestHandler<GetPagedVehicleServiceQuery, PagedList<VehicleServiceDto>>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IRbacService _rbacService;
 
-    public GetPagedVehicleServiceQueryHandler(IUnitOfWork unitOfWork)
+    public GetPagedVehicleServiceQueryHandler(IUnitOfWork unitOfWork, IRbacService rbacService)
     {
         _unitOfWork = unitOfWork;
+        _rbacService = rbacService;
     }
 
     public async Task<PagedList<VehicleServiceDto>> Handle(GetPagedVehicleServiceQuery request, CancellationToken cancellationToken)
@@ -48,6 +51,19 @@ public class GetPagedVehicleServiceQueryHandler : IRequestHandler<GetPagedVehicl
                 _ => q => isDesc ? q.OrderByDescending(s => s.VehicleServiceId) : q.OrderBy(s => s.VehicleServiceId)
             };
         }
+
+        System.Linq.Expressions.Expression<Func<Filo.Domain.Entities.VehicleService, bool>>? predicate = null;
+            var allowedIds = await _rbacService.GetAllowedVehicleIdsAsync();
+            if (allowedIds != null)
+            {
+                if (predicate == null)
+                    predicate = v => allowedIds.Contains(v.VehicleId);
+                else
+                {
+                    var oldPredicate = predicate;
+                    predicate = v => allowedIds.Contains(v.VehicleId) && oldPredicate.Compile()(v);
+                }
+            }
 
         var (items, count) = await _unitOfWork.VehicleServices.GetPagedAsync(pageNumber, pageSize, null, orderBy);
         var dtos = items.Adapt<IEnumerable<VehicleServiceDto>>();
