@@ -158,6 +158,9 @@ app.MapVehicleMatchPersonEndpoints();
 app.MapVehicleFuelEndpoints();
 app.MapVehicleMaintenanceEndpoints();
 app.MapVehicleServiceEndpoints();
+app.MapVehicleInsuranceEndpoints();
+app.MapVehicleTrafficFineEndpoints();
+app.MapVehicleTollEndpoints();
 app.MapGet("/docs", (HttpContext context) => Results.Redirect("/scalar/v1"));
 
 try

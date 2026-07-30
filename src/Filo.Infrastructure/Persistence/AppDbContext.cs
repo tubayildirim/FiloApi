@@ -64,6 +64,9 @@ public class AppDbContext : DbContext
     public DbSet<VehicleFuel> VehicleFuels => Set<VehicleFuel>();
     public DbSet<VehicleMaintenance> VehicleMaintenances => Set<VehicleMaintenance>();
     public DbSet<VehicleService> VehicleServices => Set<VehicleService>();
+    public DbSet<VehicleInsurance> VehicleInsurances => Set<VehicleInsurance>();
+    public DbSet<VehicleTrafficFine> VehicleTrafficFines => Set<VehicleTrafficFine>();
+    public DbSet<VehicleToll> VehicleTolls => Set<VehicleToll>();
     public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -179,6 +182,63 @@ public class AppDbContext : DbContext
 
             entity.HasOne(e => e.Vehicle)
                 .WithMany(v => v.VehicleServices)
+                .HasForeignKey(e => e.VehicleId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasQueryFilter(e => !e.IsDeleted);
+        });
+
+        modelBuilder.Entity<VehicleInsurance>(entity =>
+        {
+            entity.ToTable("VehicleInsurances");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).HasColumnName("VehicleInsuranceId");
+            entity.Property(e => e.Cost).HasPrecision(18, 2);
+            entity.Property(e => e.InsuranceType).IsRequired().HasMaxLength(50);
+            entity.Property(e => e.PolicyNumber).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.ProviderCompany).IsRequired().HasMaxLength(200);
+
+            entity.HasOne(e => e.Vehicle)
+                .WithMany()
+                .HasForeignKey(e => e.VehicleId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasQueryFilter(e => !e.IsDeleted);
+        });
+
+        modelBuilder.Entity<VehicleTrafficFine>(entity =>
+        {
+            entity.ToTable("VehicleTrafficFines");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).HasColumnName("VehicleTrafficFineId");
+            entity.Property(e => e.Amount).HasPrecision(18, 2);
+            entity.Property(e => e.DiscountedAmount).HasPrecision(18, 2);
+            entity.Property(e => e.Description).HasMaxLength(500);
+
+            entity.HasOne(e => e.Vehicle)
+                .WithMany()
+                .HasForeignKey(e => e.VehicleId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            entity.HasOne(e => e.Person)
+                .WithMany()
+                .HasForeignKey(e => e.PersonId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            entity.HasQueryFilter(e => !e.IsDeleted);
+        });
+
+        modelBuilder.Entity<VehicleToll>(entity =>
+        {
+            entity.ToTable("VehicleTolls");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).HasColumnName("VehicleTollId");
+            entity.Property(e => e.Amount).HasPrecision(18, 2);
+            entity.Property(e => e.Location).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.Type).IsRequired().HasMaxLength(50);
+
+            entity.HasOne(e => e.Vehicle)
+                .WithMany()
                 .HasForeignKey(e => e.VehicleId)
                 .OnDelete(DeleteBehavior.Cascade);
 

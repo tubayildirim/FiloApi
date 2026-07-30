@@ -118,6 +118,7 @@
                         <h2>Araç Yönetimi</h2>
                         <div style="display: flex; gap: 1rem; align-items: center;">
                             <input type="text" id="search-vehicles" class="form-input" placeholder="Ara (Plaka, Marka, Model)..." onkeyup="debounceSearch('vehicles')" style="width: 250px;">
+                            <button class="btn-secondary" onclick="exportTableToExcel('vehicles-table', 'Araclar.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
                             <button class="btn-primary" onclick="openAddVehicleModal()"><i class="fa-solid fa-plus"></i> Yeni Ekle</button>
                         </div>
                     </div>
@@ -129,8 +130,8 @@
                                     <th onclick="handleSort('vehicles', 'platenumber')" style="cursor: pointer;">Plaka <i class="fa-solid fa-sort" id="sort-icon-vehicles-platenumber"></i></th>
                                     <th onclick="handleSort('vehicles', 'brand')" style="cursor: pointer;">Marka/Model <i class="fa-solid fa-sort" id="sort-icon-vehicles-brand"></i></th>
                                     <th onclick="handleSort('vehicles', 'year')" style="cursor: pointer;">Yıl <i class="fa-solid fa-sort" id="sort-icon-vehicles-year"></i></th>
-                                    <th>Aylık Tutar</th>
-                                    <th>Durum</th>
+                                    <th>Renk</th>
+                                    <th>Yakıt / Şanzıman</th>
                                     <th>İşlemler</th>
                                 </tr>
                             </thead>
@@ -154,6 +155,7 @@
                         <h2>Sürücü Yönetimi</h2>
                         <div style="display: flex; gap: 1rem; align-items: center;">
                             <input type="text" id="search-drivers" class="form-input" placeholder="Ara (Ad, Soyad, TCKN)..." onkeyup="debounceSearch('drivers')" style="width: 250px;">
+                            <button class="btn-secondary" onclick="exportTableToExcel('drivers-table', 'Suruculer.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
                             <button class="btn-primary" onclick="openAddDriverModal()"><i class="fa-solid fa-plus"></i> Yeni Ekle</button>
                         </div>
                     </div>
@@ -188,7 +190,8 @@
                 <h2>Atama Yönetimi</h2>
                 <div style="display: flex; gap: 1rem; align-items: center;">
                     <input type="text" id="search-assignments" class="form-input" placeholder="Ara (Plaka, Ad Soyad)..." onkeyup="debounceSearch('assignments')" style="width: 250px;">
-                    <button class="btn-primary" onclick="openAddAssignmentModal()"><i class="fa-solid fa-plus"></i> Yeni Atama</button>
+                    <button class="btn-secondary" onclick="exportTableToExcel('assignments-table', 'Atamalar.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                            <button class="btn-primary" onclick="openAddAssignmentModal()"><i class="fa-solid fa-plus"></i> Yeni Atama</button>
                 </div>
             </div>
             
@@ -222,6 +225,9 @@
                     <button class="sub-tab-btn active" data-subtab="fuel" onclick="switchSubTab('fuel')">Yakıt Alımı</button>
                     <button class="sub-tab-btn" data-subtab="maintenance" onclick="switchSubTab('maintenance')">Periyodik Bakım</button>
                     <button class="sub-tab-btn" data-subtab="service" onclick="switchSubTab('service')">Servis / Hasar</button>
+                    <button class="sub-tab-btn" data-subtab="insurance" onclick="switchSubTab('insurance')">Kasko / Sigorta</button>
+                    <button class="sub-tab-btn" data-subtab="trafficfine" onclick="switchSubTab('trafficfine')">Trafik Cezası</button>
+                    <button class="sub-tab-btn" data-subtab="toll" onclick="switchSubTab('toll')">HGS / OGS</button>
                 </div>
 
                 <!-- Fuel Logs Panel -->
@@ -230,6 +236,7 @@
                             <h4>Yakıt Kayıtları</h4>
                             <div style="display: flex; gap: 1rem; align-items: center;">
                                 <input type="text" id="search-fuels" class="form-input" placeholder="Ara (Plaka)..." onkeyup="debounceSearch('fuels')" style="width: 200px;">
+                                <button class="btn-secondary" onclick="exportTableToExcel('fuels-table', 'Yakit-Kayıtları.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
                                 <button class="btn-primary" onclick="openAddFuelModal()"><i class="fa-solid fa-plus"></i> Yakıt Ekle</button>
                             </div>
                         </div>
@@ -263,7 +270,8 @@
                         <h4>Periyodik ve Düzeltici Bakım Kayıtları</h4>
                         <div style="display: flex; gap: 1rem; align-items: center;">
                             <input type="text" id="search-maintenances" class="form-input" placeholder="Ara (Plaka, Açıklama)..." onkeyup="debounceSearch('maintenances')" style="width: 250px;">
-                            <button class="btn-primary" onclick="openAddMaintenanceModal()"><i class="fa-solid fa-plus"></i> Bakım Girişi Yap</button>
+                            <button class="btn-secondary" onclick="exportTableToExcel('maintenances-table', 'Bakim-Kayıtları.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                                <button class="btn-primary" onclick="openAddMaintenanceModal()"><i class="fa-solid fa-plus"></i> Bakım Girişi Yap</button>
                         </div>
                     </div>
                     <div class="table-wrapper">
@@ -298,7 +306,8 @@
                         <h4>Kaza, Hasar ve Servis Kayıtları</h4>
                         <div style="display: flex; gap: 1rem; align-items: center;">
                             <input type="text" id="search-services" class="form-input" placeholder="Ara (Plaka, Servis Adı)..." onkeyup="debounceSearch('services')" style="width: 250px;">
-                            <button class="btn-primary" onclick="openAddServiceModal()"><i class="fa-solid fa-plus"></i> Servis Girişi Yap</button>
+                            <button class="btn-secondary" onclick="exportTableToExcel('services-table', 'Servis-Hasar-Kayıtları.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                                <button class="btn-primary" onclick="openAddServiceModal()"><i class="fa-solid fa-plus"></i> Servis Girişi Yap</button>
                         </div>
                     </div>
                     <div class="table-wrapper">
@@ -327,6 +336,113 @@
                         <button class="btn-secondary" onclick="nextPage('services')" id="btn-next-services" disabled>Sonraki</button>
                     </div>
                 </div>
+
+                <!-- Insurance Panel -->
+                <div id="subpanel-insurance" class="panel-card sub-panel">
+                    <div class="panel-header" style="margin-bottom: 1rem;">
+                        <h4>Kasko ve Trafik Sigortası Kayıtları</h4>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <input type="text" id="search-insurances" class="form-input" placeholder="Ara (Plaka)..." onkeyup="debounceSearch('insurances')" style="width: 250px;">
+                            <button class="btn-secondary" onclick="exportTableToExcel('insurances-table', 'Sigorta-Kayıtları.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                            <button class="btn-primary" onclick="openAddInsuranceModal()"><i class="fa-solid fa-plus"></i> Poliçe Ekle</button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="modern-table" id="insurances-table">
+                            <thead>
+                                <tr>
+                                    <th>Araç</th>
+                                    <th onclick="handleSort('insurances', 'type')" style="cursor: pointer;">Poliçe Türü <i class="fa-solid fa-sort" id="sort-icon-insurances-type"></i></th>
+                                    <th>Poliçe No</th>
+                                    <th onclick="handleSort('insurances', 'company')" style="cursor: pointer;">Sigorta Şirketi <i class="fa-solid fa-sort" id="sort-icon-insurances-company"></i></th>
+                                    <th onclick="handleSort('insurances', 'startdate')" style="cursor: pointer;">Başlangıç <i class="fa-solid fa-sort" id="sort-icon-insurances-startdate"></i></th>
+                                    <th onclick="handleSort('insurances', 'enddate')" style="cursor: pointer;">Bitiş <i class="fa-solid fa-sort" id="sort-icon-insurances-enddate"></i></th>
+                                    <th onclick="handleSort('insurances', 'cost')" style="cursor: pointer;">Tutar <i class="fa-solid fa-sort" id="sort-icon-insurances-cost"></i></th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody id="insurance-table-body">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
+                        <button class="btn-secondary" onclick="prevPage('insurances')" id="btn-prev-insurances" disabled>Önceki</button>
+                        <span id="page-info-insurances">Sayfa 1 / 1</span>
+                        <button class="btn-secondary" onclick="nextPage('insurances')" id="btn-next-insurances" disabled>Sonraki</button>
+                    </div>
+                </div>
+
+                <!-- Traffic Fine Panel -->
+                <div id="subpanel-trafficfine" class="panel-card sub-panel">
+                    <div class="panel-header" style="margin-bottom: 1rem;">
+                        <h4>Trafik Cezaları</h4>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <input type="text" id="search-trafficfines" class="form-input" placeholder="Ara (Plaka)..." onkeyup="debounceSearch('trafficfines')" style="width: 250px;">
+                            <button class="btn-secondary" onclick="exportTableToExcel('trafficfines-table', 'Ceza-Kayıtları.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                            <button class="btn-primary" onclick="openAddTrafficFineModal()"><i class="fa-solid fa-plus"></i> Ceza Ekle</button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="modern-table" id="trafficfines-table">
+                            <thead>
+                                <tr>
+                                    <th>Araç</th>
+                                    <th>Sürücü</th>
+                                    <th onclick="handleSort('trafficfines', 'date')" style="cursor: pointer;">Tarih <i class="fa-solid fa-sort" id="sort-icon-trafficfines-date"></i></th>
+                                    <th onclick="handleSort('trafficfines', 'amount')" style="cursor: pointer;">Ceza Tutarı <i class="fa-solid fa-sort" id="sort-icon-trafficfines-amount"></i></th>
+                                    <th>İndirimli Tutar</th>
+                                    <th onclick="handleSort('trafficfines', 'ispaid')" style="cursor: pointer;">Durum <i class="fa-solid fa-sort" id="sort-icon-trafficfines-ispaid"></i></th>
+                                    <th>Açıklama</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody id="trafficfine-table-body">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
+                        <button class="btn-secondary" onclick="prevPage('trafficfines')" id="btn-prev-trafficfines" disabled>Önceki</button>
+                        <span id="page-info-trafficfines">Sayfa 1 / 1</span>
+                        <button class="btn-secondary" onclick="nextPage('trafficfines')" id="btn-next-trafficfines" disabled>Sonraki</button>
+                    </div>
+                </div>
+
+                <!-- Toll Panel -->
+                <div id="subpanel-toll" class="panel-card sub-panel">
+                    <div class="panel-header" style="margin-bottom: 1rem;">
+                        <h4>HGS / OGS Geçişleri</h4>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <input type="text" id="search-tolls" class="form-input" placeholder="Ara (Plaka)..." onkeyup="debounceSearch('tolls')" style="width: 250px;">
+                            <button class="btn-secondary" onclick="exportTableToExcel('tolls-table', 'Gecis-Kayıtları.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                            <button class="btn-primary" onclick="openAddTollModal()"><i class="fa-solid fa-plus"></i> Geçiş Ekle</button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="modern-table" id="tolls-table">
+                            <thead>
+                                <tr>
+                                    <th>Araç</th>
+                                    <th onclick="handleSort('tolls', 'date')" style="cursor: pointer;">Geçiş Tarihi <i class="fa-solid fa-sort" id="sort-icon-tolls-date"></i></th>
+                                    <th onclick="handleSort('tolls', 'location')" style="cursor: pointer;">Gişe / Lokasyon <i class="fa-solid fa-sort" id="sort-icon-tolls-location"></i></th>
+                                    <th onclick="handleSort('tolls', 'amount')" style="cursor: pointer;">Ücret <i class="fa-solid fa-sort" id="sort-icon-tolls-amount"></i></th>
+                                    <th onclick="handleSort('tolls', 'type')" style="cursor: pointer;">Tür <i class="fa-solid fa-sort" id="sort-icon-tolls-type"></i></th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody id="toll-table-body">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
+                        <button class="btn-secondary" onclick="prevPage('tolls')" id="btn-prev-tolls" disabled>Önceki</button>
+                        <span id="page-info-tolls">Sayfa 1 / 1</span>
+                        <button class="btn-secondary" onclick="nextPage('tolls')" id="btn-next-tolls" disabled>Sonraki</button>
+                    </div>
+                </div>
+
             </section>
 
             <!-- ================= REPORTS PAGE ================= -->
@@ -516,6 +632,100 @@
                             <button class="btn-secondary" onclick="prevPage('reportService')" id="btn-prev-reportService" disabled>Önceki</button>
                             <span id="page-info-reportService">Sayfa 1 / 1</span>
                             <button class="btn-secondary" onclick="nextPage('reportService')" id="btn-next-reportService" disabled>Sonraki</button>
+                        </div>
+                    </div>
+
+                    <!-- Insurance Report -->
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <h3>Sigorta/Kasko Giderleri <span style="font-size: 0.9rem; color: var(--text-secondary);" id="report-insurance-total"></span></h3>
+                            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                <input type="text" id="search-reportInsurance" class="form-input" placeholder="Ara..." onkeyup="debounceSearch('reportInsurance')" style="width: 200px;">
+                                <button class="btn-secondary" onclick="exportTableToExcel('table-report-insurance', 'Sigorta-Giderleri.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                            </div>
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="modern-table" id="table-report-insurance">
+                                <thead>
+                                    <tr>
+                                        <th onclick="handleSort('reportInsurance', 'plateNumber')" style="cursor: pointer;">Plaka <i class="fa-solid fa-sort" id="sort-icon-reportInsurance-plateNumber"></i></th>
+                                        <th onclick="handleSort('reportInsurance', 'insuranceType')" style="cursor: pointer;">Tip <i class="fa-solid fa-sort" id="sort-icon-reportInsurance-insuranceType"></i></th>
+                                        <th onclick="handleSort('reportInsurance', 'policyNumber')" style="cursor: pointer;">Poliçe No <i class="fa-solid fa-sort" id="sort-icon-reportInsurance-policyNumber"></i></th>
+                                        <th onclick="handleSort('reportInsurance', 'providerCompany')" style="cursor: pointer;">Şirket <i class="fa-solid fa-sort" id="sort-icon-reportInsurance-providerCompany"></i></th>
+                                        <th onclick="handleSort('reportInsurance', 'endDate')" style="cursor: pointer;">Bitiş Tarihi <i class="fa-solid fa-sort" id="sort-icon-reportInsurance-endDate"></i></th>
+                                        <th onclick="handleSort('reportInsurance', 'cost')" style="cursor: pointer;">Tutar <i class="fa-solid fa-sort" id="sort-icon-reportInsurance-cost"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="report-insurance-table-body">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
+                            <button class="btn-secondary" onclick="prevPage('reportInsurance')" id="btn-prev-reportInsurance" disabled>Önceki</button>
+                            <span id="page-info-reportInsurance">Sayfa 1 / 1</span>
+                            <button class="btn-secondary" onclick="nextPage('reportInsurance')" id="btn-next-reportInsurance" disabled>Sonraki</button>
+                        </div>
+                    </div>
+
+                    <!-- Traffic Fine Report -->
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <h3>Trafik Cezası Giderleri <span style="font-size: 0.9rem; color: var(--text-secondary);" id="report-trafficfine-total"></span></h3>
+                            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                <input type="text" id="search-reportTrafficFine" class="form-input" placeholder="Ara..." onkeyup="debounceSearch('reportTrafficFine')" style="width: 200px;">
+                                <button class="btn-secondary" onclick="exportTableToExcel('table-report-trafficfine', 'Ceza-Giderleri.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                            </div>
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="modern-table" id="table-report-trafficfine">
+                                <thead>
+                                    <tr>
+                                        <th onclick="handleSort('reportTrafficFine', 'plateNumber')" style="cursor: pointer;">Plaka <i class="fa-solid fa-sort" id="sort-icon-reportTrafficFine-plateNumber"></i></th>
+                                        <th onclick="handleSort('reportTrafficFine', 'fineDate')" style="cursor: pointer;">Ceza Tarihi <i class="fa-solid fa-sort" id="sort-icon-reportTrafficFine-fineDate"></i></th>
+                                        <th onclick="handleSort('reportTrafficFine', 'amount')" style="cursor: pointer;">Ceza Tutarı <i class="fa-solid fa-sort" id="sort-icon-reportTrafficFine-amount"></i></th>
+                                        <th onclick="handleSort('reportTrafficFine', 'discountedAmount')" style="cursor: pointer;">İndirimli Tutar <i class="fa-solid fa-sort" id="sort-icon-reportTrafficFine-discountedAmount"></i></th>
+                                        <th onclick="handleSort('reportTrafficFine', 'isPaid')" style="cursor: pointer;">Durum <i class="fa-solid fa-sort" id="sort-icon-reportTrafficFine-isPaid"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="report-trafficfine-table-body">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
+                            <button class="btn-secondary" onclick="prevPage('reportTrafficFine')" id="btn-prev-reportTrafficFine" disabled>Önceki</button>
+                            <span id="page-info-reportTrafficFine">Sayfa 1 / 1</span>
+                            <button class="btn-secondary" onclick="nextPage('reportTrafficFine')" id="btn-next-reportTrafficFine" disabled>Sonraki</button>
+                        </div>
+                    </div>
+
+                    <!-- Toll Report -->
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <h3>HGS / OGS Giderleri <span style="font-size: 0.9rem; color: var(--text-secondary);" id="report-toll-total"></span></h3>
+                            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                <input type="text" id="search-reportToll" class="form-input" placeholder="Ara..." onkeyup="debounceSearch('reportToll')" style="width: 200px;">
+                                <button class="btn-secondary" onclick="exportTableToExcel('table-report-toll', 'HGS-OGS-Giderleri.xlsx')"><i class="fa-solid fa-file-excel"></i> Excel İndir</button>
+                            </div>
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="modern-table" id="table-report-toll">
+                                <thead>
+                                    <tr>
+                                        <th onclick="handleSort('reportToll', 'plateNumber')" style="cursor: pointer;">Plaka <i class="fa-solid fa-sort" id="sort-icon-reportToll-plateNumber"></i></th>
+                                        <th onclick="handleSort('reportToll', 'transitDate')" style="cursor: pointer;">Tarih <i class="fa-solid fa-sort" id="sort-icon-reportToll-transitDate"></i></th>
+                                        <th onclick="handleSort('reportToll', 'location')" style="cursor: pointer;">Lokasyon <i class="fa-solid fa-sort" id="sort-icon-reportToll-location"></i></th>
+                                        <th onclick="handleSort('reportToll', 'amount')" style="cursor: pointer;">Tutar <i class="fa-solid fa-sort" id="sort-icon-reportToll-amount"></i></th>
+                                        <th onclick="handleSort('reportToll', 'type')" style="cursor: pointer;">Tip <i class="fa-solid fa-sort" id="sort-icon-reportToll-type"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="report-toll-table-body">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
+                            <button class="btn-secondary" onclick="prevPage('reportToll')" id="btn-prev-reportToll" disabled>Önceki</button>
+                            <span id="page-info-reportToll">Sayfa 1 / 1</span>
+                            <button class="btn-secondary" onclick="nextPage('reportToll')" id="btn-next-reportToll" disabled>Sonraki</button>
                         </div>
                     </div>
 
@@ -837,5 +1047,142 @@
     <div class="toast-container" id="toast-container"></div>
 
     <script src="app.js"></script>
+
+    <!-- Add Insurance Modal -->
+    <div id="modal-insurance" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Yeni Kasko/Sigorta Poliçesi</h3>
+                <button class="modal-close" onclick="closeModal('modal-insurance')">&times;</button>
+            </div>
+            <form id="insurance-form" onsubmit="handleInsuranceSubmit(event)">
+                <input type="hidden" id="insurance-id">
+                <div class="form-group">
+                    <label>Araç *</label>
+                    <select id="insurance-vehicle-select" class="form-select" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Poliçe Türü *</label>
+                    <select id="insurance-type" class="form-select" required>
+                        <option value="Kasko">Kasko</option>
+                        <option value="Trafik Sigortası">Trafik Sigortası</option>
+                        <option value="İhtiyari Mali Mesuliyet">İhtiyari Mali Mesuliyet</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Poliçe No *</label>
+                    <input type="text" id="insurance-policy-number" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Sigorta Şirketi *</label>
+                    <input type="text" id="insurance-provider" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Başlangıç Tarihi *</label>
+                    <input type="date" id="insurance-start-date" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Bitiş Tarihi *</label>
+                    <input type="date" id="insurance-end-date" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Tutar (TL) *</label>
+                    <input type="number" id="insurance-cost" step="0.01" class="form-input" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('modal-insurance')">Vazgeç</button>
+                    <button type="submit" class="btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Traffic Fine Modal -->
+    <div id="modal-trafficfine" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Yeni Trafik Cezası</h3>
+                <button class="modal-close" onclick="closeModal('modal-trafficfine')">&times;</button>
+            </div>
+            <form id="trafficfine-form" onsubmit="handleTrafficFineSubmit(event)">
+                <input type="hidden" id="trafficfine-id">
+                <div class="form-group">
+                    <label>Araç *</label>
+                    <select id="trafficfine-vehicle-select" class="form-select" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Sürücü (Opsiyonel)</label>
+                    <select id="trafficfine-driver-select" class="form-select">
+                        <option value="">Seçiniz...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ceza Tarihi *</label>
+                    <input type="date" id="trafficfine-date" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Ceza Tutarı (TL) *</label>
+                    <input type="number" id="trafficfine-amount" step="0.01" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>İndirimli Tutar (Erken Ödeme vb.)</label>
+                    <input type="number" id="trafficfine-discounted-amount" step="0.01" class="form-input">
+                </div>
+                <div class="form-group" style="display: flex; gap: 10px; align-items: center; margin-top: 15px;">
+                    <input type="checkbox" id="trafficfine-ispaid" style="width: 20px; height: 20px;">
+                    <label for="trafficfine-ispaid" style="margin: 0; font-weight: normal;">Bu ceza ödendi</label>
+                </div>
+                <div class="form-group">
+                    <label>Açıklama</label>
+                    <textarea id="trafficfine-description" class="form-input" rows="2"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('modal-trafficfine')">Vazgeç</button>
+                    <button type="submit" class="btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Toll Modal -->
+    <div id="modal-toll" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Yeni HGS / OGS Geçişi</h3>
+                <button class="modal-close" onclick="closeModal('modal-toll')">&times;</button>
+            </div>
+            <form id="toll-form" onsubmit="handleTollSubmit(event)">
+                <input type="hidden" id="toll-id">
+                <div class="form-group">
+                    <label>Araç *</label>
+                    <select id="toll-vehicle-select" class="form-select" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Geçiş Tarihi *</label>
+                    <input type="datetime-local" id="toll-date" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Lokasyon / Gişe *</label>
+                    <input type="text" id="toll-location" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Tutar (TL) *</label>
+                    <input type="number" id="toll-amount" step="0.01" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Tip *</label>
+                    <select id="toll-type" class="form-select" required>
+                        <option value="HGS">HGS</option>
+                        <option value="OGS">OGS</option>
+                        <option value="Diğer">Diğer</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('modal-toll')">Vazgeç</button>
+                    <button type="submit" class="btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

@@ -12,6 +12,9 @@ public class UnitOfWork : IUnitOfWork
     private IVehicleFuelRepository? _vehicleFuels;
     private IVehicleMaintenanceRepository? _vehicleMaintenances;
     private IVehicleServiceRepository? _vehicleServices;
+    private IVehicleInsuranceRepository? _vehicleInsurances;
+    private IVehicleTrafficFineRepository? _vehicleTrafficFines;
+    private IVehicleTollRepository? _vehicleTolls;
 
     public UnitOfWork(AppDbContext context)
     {
@@ -24,6 +27,9 @@ public class UnitOfWork : IUnitOfWork
     public IVehicleFuelRepository VehicleFuels => _vehicleFuels ??= new VehicleFuelRepository(_context);
     public IVehicleMaintenanceRepository VehicleMaintenances => _vehicleMaintenances ??= new VehicleMaintenanceRepository(_context);
     public IVehicleServiceRepository VehicleServices => _vehicleServices ??= new VehicleServiceRepository(_context);
+    public IVehicleInsuranceRepository VehicleInsurances => _vehicleInsurances ??= new VehicleInsuranceRepository(_context);
+    public IVehicleTrafficFineRepository VehicleTrafficFines => _vehicleTrafficFines ??= new VehicleTrafficFineRepository(_context);
+    public IVehicleTollRepository VehicleTolls => _vehicleTolls ??= new VehicleTollRepository(_context);
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

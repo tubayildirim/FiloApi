@@ -9,12 +9,18 @@ const state = {
     fuels: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
     maintenances: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
     services: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
+    insurances: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
+    trafficfines: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
+    tolls: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
     reportAll: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
     reportFree: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
     reportAssigned: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
     reportFuel: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
     reportMaint: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
-    reportService: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' }
+    reportService: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
+    reportInsurance: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
+    reportTrafficFine: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' },
+    reportToll: { page: 1, pageSize: 10, search: '', sortCol: '', sortDir: '' }
 };
 
 let searchTimeout = null;
@@ -32,12 +38,18 @@ function debounceSearch(type) {
         else if (type === 'fuels') loadFuelExpenses();
         else if (type === 'maintenances') loadMaintenanceExpenses();
         else if (type === 'services') loadServiceExpenses();
+        else if (type === 'insurances') loadInsurances();
+        else if (type === 'trafficfines') loadTrafficFines();
+        else if (type === 'tolls') loadTolls();
         else if (type === 'reportAll') renderClientReport('reportAll');
         else if (type === 'reportFree') renderClientReport('reportFree');
         else if (type === 'reportAssigned') renderClientReport('reportAssigned');
         else if (type === 'reportFuel') renderClientReport('reportFuel');
         else if (type === 'reportMaint') renderClientReport('reportMaint');
         else if (type === 'reportService') renderClientReport('reportService');
+        else if (type === 'reportInsurance') renderClientReport('reportInsurance');
+        else if (type === 'reportTrafficFine') renderClientReport('reportTrafficFine');
+        else if (type === 'reportToll') renderClientReport('reportToll');
     }, 500);
 }
 
@@ -64,12 +76,19 @@ function handleSort(type, col) {
     else if (type === 'fuels') loadFuelExpenses();
     else if (type === 'maintenances') loadMaintenanceExpenses();
     else if (type === 'services') loadServiceExpenses();
+        else if (type === 'insurances') loadInsurances();
+        else if (type === 'trafficfines') loadTrafficFines();
+        else if (type === 'tolls') loadTolls();
     else if (type === 'reportAll') renderClientReport('reportAll');
     else if (type === 'reportFree') renderClientReport('reportFree');
     else if (type === 'reportAssigned') renderClientReport('reportAssigned');
     else if (type === 'reportFuel') renderClientReport('reportFuel');
     else if (type === 'reportMaint') renderClientReport('reportMaint');
     else if (type === 'reportService') renderClientReport('reportService');
+        else if (type === 'reportInsurance') renderClientReport('reportInsurance');
+        else if (type === 'reportTrafficFine') renderClientReport('reportTrafficFine');
+        else if (type === 'reportToll') renderClientReport('reportToll');
+    showToast('Gider tabloları yenilendi.', 'success');
 }
 
 function updatePagination(type, data) {
@@ -99,12 +118,18 @@ function prevPage(type) {
         else if (type === 'fuels') loadFuelExpenses();
         else if (type === 'maintenances') loadMaintenanceExpenses();
         else if (type === 'services') loadServiceExpenses();
+        else if (type === 'insurances') loadInsurances();
+        else if (type === 'trafficfines') loadTrafficFines();
+        else if (type === 'tolls') loadTolls();
         else if (type === 'reportAll') renderClientReport('reportAll');
         else if (type === 'reportFree') renderClientReport('reportFree');
         else if (type === 'reportAssigned') renderClientReport('reportAssigned');
         else if (type === 'reportFuel') renderClientReport('reportFuel');
         else if (type === 'reportMaint') renderClientReport('reportMaint');
         else if (type === 'reportService') renderClientReport('reportService');
+        else if (type === 'reportInsurance') renderClientReport('reportInsurance');
+        else if (type === 'reportTrafficFine') renderClientReport('reportTrafficFine');
+        else if (type === 'reportToll') renderClientReport('reportToll');
     }
 }
 
@@ -116,12 +141,19 @@ function nextPage(type) {
     else if (type === 'fuels') loadFuelExpenses();
     else if (type === 'maintenances') loadMaintenanceExpenses();
     else if (type === 'services') loadServiceExpenses();
+        else if (type === 'insurances') loadInsurances();
+        else if (type === 'trafficfines') loadTrafficFines();
+        else if (type === 'tolls') loadTolls();
     else if (type === 'reportAll') renderClientReport('reportAll');
     else if (type === 'reportFree') renderClientReport('reportFree');
     else if (type === 'reportAssigned') renderClientReport('reportAssigned');
     else if (type === 'reportFuel') renderClientReport('reportFuel');
     else if (type === 'reportMaint') renderClientReport('reportMaint');
     else if (type === 'reportService') renderClientReport('reportService');
+        else if (type === 'reportInsurance') renderClientReport('reportInsurance');
+        else if (type === 'reportTrafficFine') renderClientReport('reportTrafficFine');
+        else if (type === 'reportToll') renderClientReport('reportToll');
+    showToast('Gider tabloları yenilendi.', 'success');
 }
 
 function buildQuery(type) {
@@ -186,6 +218,14 @@ function switchSubTab(subTabName) {
     
     // İlgili panele pürüzsüz şekilde kaydır
     targetPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Load data if needed
+    if (subTabName === 'fuel') loadFuelExpenses();
+    else if (subTabName === 'maintenance') loadMaintenanceExpenses();
+    else if (subTabName === 'service') loadServiceExpenses();
+    else if (subTabName === 'insurance') loadInsurances();
+    else if (subTabName === 'trafficfine') loadTrafficFines();
+    else if (subTabName === 'toll') loadTolls();
 }
 
 // Universal API fetch wrapper with notifications
@@ -368,8 +408,8 @@ async function loadVehicles() {
     data.items.forEach(v => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
+            <td><span class="badge" style="background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-color); font-weight: bold; font-size: 0.9rem;">${v.plateNumber}</span></td>
             <td><strong>${v.brand}</strong> ${v.model}</td>
-            <td><span class="badge success">${v.plateNumber}</span></td>
             <td>${v.year}</td>
             <td>${v.color || '-'}</td>
             <td>${v.fuelType || '-'} / ${v.transmissionType || '-'}</td>
@@ -656,6 +696,9 @@ function loadAllExpenses() {
     loadFuelExpenses();
     loadMaintenanceExpenses();
     loadServiceExpenses();
+    loadInsurances();
+    loadTrafficFines();
+    loadTolls();
 }
 
 // 1. FUEL HARCAMALARI
@@ -1082,7 +1125,10 @@ window._reportDataStore = {
     reportAssigned: [],
     reportFuel: [],
     reportMaint: [],
-    reportService: []
+    reportService: [],
+    reportInsurance: [],
+    reportTrafficFine: [],
+    reportToll: []
 };
 
 async function loadReportAllVehicles() {
@@ -1102,6 +1148,7 @@ async function loadReportAllVehicles() {
     
     state.reportAll.page = 1;
     renderClientReport('reportAll');
+    showToast('Tüm araçlar tablosu yenilendi.', 'success');
 }
 
 async function loadReportFreeVehicles() {
@@ -1112,6 +1159,7 @@ async function loadReportFreeVehicles() {
     window._reportDataStore.reportFree = data?.items?.filter(v => !assignedIds.has(v.id)) || [];
     state.reportFree.page = 1;
     renderClientReport('reportFree');
+    showToast('Boştaki araçlar tablosu yenilendi.', 'success');
 }
 
 async function loadReportAssignedVehicles() {
@@ -1128,24 +1176,38 @@ async function loadReportAssignedVehicles() {
     
     state.reportAssigned.page = 1;
     renderClientReport('reportAssigned');
+    showToast('Atanmış araçlar tablosu yenilendi.', 'success');
 }
 
 async function loadReportExpenses() {
     const fuels = await apiFetch('/vehicle-fuels?PageSize=1000') || { items: [] };
     const maints = await apiFetch('/vehicle-maintenances?PageSize=1000') || { items: [] };
     const services = await apiFetch('/vehicle-services?PageSize=1000') || { items: [] };
+    const insurances = await apiFetch('/vehicle-insurances?PageSize=1000') || { items: [] };
+    const trafficfines = await apiFetch('/vehicle-traffic-fines?PageSize=1000') || { items: [] };
+    const tolls = await apiFetch('/vehicle-tolls?PageSize=1000') || { items: [] };
     
     window._reportDataStore.reportFuel = fuels.items.map(i => { i.date = i.refuelingDate; i.plateNumber = i.vehicle?.plateNumber; return i; });
     window._reportDataStore.reportMaint = maints.items.map(i => { i.date = i.maintenanceDate; i.plateNumber = i.vehicle?.plateNumber; i.type = i.maintenanceType; return i; });
     window._reportDataStore.reportService = services.items.map(i => { i.date = i.entryDate; i.plateNumber = i.vehicle?.plateNumber; i.company = i.serviceCompany; return i; });
+    window._reportDataStore.reportInsurance = insurances.items.map(i => { i.date = i.startDate; i.plateNumber = i.vehicle?.plateNumber; return i; });
+    window._reportDataStore.reportTrafficFine = trafficfines.items.map(i => { i.date = i.fineDate; i.plateNumber = i.vehicle?.plateNumber; return i; });
+    window._reportDataStore.reportToll = tolls.items.map(i => { i.date = i.transitDate; i.plateNumber = i.vehicle?.plateNumber; return i; });
     
     state.reportFuel.page = 1;
     state.reportMaint.page = 1;
     state.reportService.page = 1;
-    
+    state.reportInsurance.page = 1;
+    state.reportTrafficFine.page = 1;
+    state.reportToll.page = 1;
+
     renderClientReport('reportFuel');
     renderClientReport('reportMaint');
     renderClientReport('reportService');
+    renderClientReport('reportInsurance');
+    renderClientReport('reportTrafficFine');
+    renderClientReport('reportToll');
+    showToast('Gider tabloları yenilendi.', 'success');
 }
 
 function renderClientReport(type) {
@@ -1176,21 +1238,15 @@ function renderClientReport(type) {
     } else if (type === 'reportService') {
         const total = arr.reduce((acc, curr) => acc + (curr.cost || 0), 0);
         document.getElementById('report-service-total').innerText = `(Toplam: ${total.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL)`;
-    }
-    
-    // 2. Sort
-    if (s.sortCol) {
-        arr.sort((a, b) => {
-            let valA = a[s.sortCol];
-            let valB = b[s.sortCol];
-            
-            if (typeof valA === 'string') valA = valA.toLowerCase();
-            if (typeof valB === 'string') valB = valB.toLowerCase();
-            
-            if (valA < valB) return s.sortDir === 'asc' ? -1 : 1;
-            if (valA > valB) return s.sortDir === 'asc' ? 1 : -1;
-            return 0;
-        });
+    } else if (type === 'reportInsurance') {
+        const total = arr.reduce((acc, curr) => acc + (curr.cost || 0), 0);
+        document.getElementById('report-insurance-total').innerText = `(Toplam: ${total.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL)`;
+    } else if (type === 'reportTrafficFine') {
+        const total = arr.reduce((acc, curr) => acc + (curr.amount || 0), 0);
+        document.getElementById('report-trafficfine-total').innerText = `(Toplam: ${total.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL)`;
+    } else if (type === 'reportToll') {
+        const total = arr.reduce((acc, curr) => acc + (curr.amount || 0), 0);
+        document.getElementById('report-toll-total').innerText = `(Toplam: ${total.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL)`;
     }
     
     // 3. Pagination
@@ -1214,11 +1270,14 @@ function renderClientReport(type) {
     
     let tbodyId = '';
     if(type === 'reportAll') tbodyId = 'report-all-vehicles-body';
-    if(type === 'reportFree') tbodyId = 'report-free-vehicles-body';
-    if(type === 'reportAssigned') tbodyId = 'report-assigned-vehicles-body';
-    if(type === 'reportFuel') tbodyId = 'report-expenses-fuel-body';
-    if(type === 'reportMaint') tbodyId = 'report-expenses-maint-body';
-    if(type === 'reportService') tbodyId = 'report-expenses-service-body';
+    else if(type === 'reportFree') tbodyId = 'report-free-vehicles-body';
+    else if(type === 'reportAssigned') tbodyId = 'report-assigned-vehicles-body';
+    else if(type === 'reportFuel') tbodyId = 'report-expenses-fuel-body';
+    else if(type === 'reportMaint') tbodyId = 'report-expenses-maint-body';
+    else if(type === 'reportService') tbodyId = 'report-expenses-service-body';
+    else if(type === 'reportInsurance') tbodyId = 'report-insurance-table-body';
+    else if(type === 'reportTrafficFine') tbodyId = 'report-trafficfine-table-body';
+    else if(type === 'reportToll') tbodyId = 'report-toll-table-body';
     
     const tbody = document.getElementById(tbodyId);
     if (!tbody) return;
@@ -1261,16 +1320,44 @@ function renderClientReport(type) {
             `;
         }
         else if(type === 'reportFuel') {
-            const vInfo = item.vehicle ? `${item.vehicle.brand} ${item.vehicle.plateNumber}` : '-';
+            const vInfo = item.vehicle ? `${item.vehicle.brand} ${item.vehicle.plateNumber}` : item.plateNumber || '-';
             tr.innerHTML = `<td>${vInfo}</td><td>${new Date(item.date).toLocaleDateString('tr-TR')}</td><td>${item.liters} Lt</td><td>${item.totalPrice.toFixed(2)} TL</td>`;
         }
         else if(type === 'reportMaint') {
-            const vInfo = item.vehicle ? `${item.vehicle.brand} ${item.vehicle.plateNumber}` : '-';
+            const vInfo = item.vehicle ? `${item.vehicle.brand} ${item.vehicle.plateNumber}` : item.plateNumber || '-';
             tr.innerHTML = `<td>${vInfo}</td><td>${new Date(item.date).toLocaleDateString('tr-TR')}</td><td>${item.type}</td><td>${item.cost.toFixed(2)} TL</td>`;
         }
         else if(type === 'reportService') {
-            const vInfo = item.vehicle ? `${item.vehicle.brand} ${item.vehicle.plateNumber}` : '-';
+            const vInfo = item.vehicle ? `${item.vehicle.brand} ${item.vehicle.plateNumber}` : item.plateNumber || '-';
             tr.innerHTML = `<td>${vInfo}</td><td>${new Date(item.date).toLocaleDateString('tr-TR')}</td><td>${item.company}</td><td>${item.cost ? item.cost.toFixed(2) + ' TL' : '-'}</td>`;
+        }
+        else if(type === 'reportInsurance') {
+            tr.innerHTML = `
+                <td>${item.plateNumber || '-'}</td>
+                <td>${item.insuranceType || '-'}</td>
+                <td>${item.policyNumber || '-'}</td>
+                <td>${item.providerCompany || '-'}</td>
+                <td>${new Date(item.endDate).toLocaleDateString('tr-TR')}</td>
+                <td>${(item.cost || 0).toLocaleString('tr-TR')} TL</td>
+            `;
+        }
+        else if(type === 'reportTrafficFine') {
+            tr.innerHTML = `
+                <td>${item.plateNumber || '-'}</td>
+                <td>${new Date(item.fineDate).toLocaleDateString('tr-TR')}</td>
+                <td>${(item.amount || 0).toLocaleString('tr-TR')} TL</td>
+                <td>${item.discountedAmount ? (item.discountedAmount).toLocaleString('tr-TR') + ' TL' : '-'}</td>
+                <td>${item.isPaid ? 'Ödendi' : 'Ödenmedi'}</td>
+            `;
+        }
+        else if(type === 'reportToll') {
+            tr.innerHTML = `
+                <td>${item.plateNumber || '-'}</td>
+                <td>${new Date(item.transitDate).toLocaleDateString('tr-TR')}</td>
+                <td>${item.location || '-'}</td>
+                <td>${(item.amount || 0).toLocaleString('tr-TR')} TL</td>
+                <td>${item.type || '-'}</td>
+            `;
         }
         tbody.appendChild(tr);
     });
@@ -1286,4 +1373,300 @@ function exportTableToExcel(tableId, filename) {
     
     // Download the Excel file
     XLSX.writeFile(wb, filename);
+}
+
+// ==========================================
+// INSURANCE, TRAFFIC FINES & TOLLS
+// ==========================================
+async function loadInsurances() {
+    const query = buildQuery('insurances');
+    const data = await apiFetch(`/vehicle-insurances${query}`);
+    const tbody = document.getElementById('insurance-table-body');
+    if (!tbody) return;
+    
+    tbody.innerHTML = '';
+    
+    if (!data?.items || data.items.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-secondary);">Sigorta/Kasko kaydı bulunamadı.</td></tr>`;
+        updatePagination('insurances', null);
+        return;
+    }
+
+    data.items.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${item.vehicle ? item.vehicle.plateNumber : item.vehicleId}</td>
+            <td>${item.insuranceType}</td>
+            <td>${item.policyNumber}</td>
+            <td>${item.providerCompany}</td>
+            <td>${new Date(item.startDate).toLocaleDateString('tr-TR')}</td>
+            <td>${new Date(item.endDate).toLocaleDateString('tr-TR')}</td>
+            <td>${item.cost.toLocaleString('tr-TR')} ₺</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="btn-icon text-danger" onclick="deleteInsurance(${item.id})"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+    updatePagination('insurances', data.currentPage, data.totalPages);
+}
+
+async function loadTrafficFines() {
+    const query = buildQuery('trafficfines');
+    const data = await apiFetch(`/vehicle-traffic-fines${query}`);
+    const tbody = document.getElementById('trafficfine-table-body');
+    if (!tbody) return;
+    
+    tbody.innerHTML = '';
+    
+    if (!data?.items || data.items.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; color: var(--text-secondary);">Trafik cezası kaydı bulunamadı.</td></tr>`;
+        updatePagination('trafficfines', null);
+        return;
+    }
+
+    data.items.forEach(item => {
+        const tr = document.createElement('tr');
+        const driverName = item.person ? `${item.person.name} ${item.person.surname}` : '-';
+        tr.innerHTML = `
+            <td>${item.vehicle ? item.vehicle.plateNumber : item.vehicleId}</td>
+            <td>${driverName}</td>
+            <td>${new Date(item.fineDate).toLocaleDateString('tr-TR')}</td>
+            <td>${item.amount.toLocaleString('tr-TR')} ₺</td>
+            <td>${item.discountedAmount ? item.discountedAmount.toLocaleString('tr-TR') + ' ₺' : '-'}</td>
+            <td>
+                <span class="status-badge ${item.isPaid ? 'status-active' : 'status-maintenance'}">
+                    ${item.isPaid ? 'Ödendi' : 'Ödenmedi'}
+                </span>
+            </td>
+            <td>${item.description || '-'}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="btn-icon text-danger" onclick="deleteTrafficFine(${item.id})"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+    updatePagination('trafficfines', data.currentPage, data.totalPages);
+}
+
+async function loadTolls() {
+    const query = buildQuery('tolls');
+    const data = await apiFetch(`/vehicle-tolls${query}`);
+    const tbody = document.getElementById('toll-table-body');
+    if (!tbody) return;
+    
+    tbody.innerHTML = '';
+    
+    if (!data?.items || data.items.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-secondary);">HGS/OGS geçiş kaydı bulunamadı.</td></tr>`;
+        updatePagination('tolls', null);
+        return;
+    }
+
+    data.items.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${item.vehicle ? item.vehicle.plateNumber : item.vehicleId}</td>
+            <td>${new Date(item.transitDate).toLocaleString('tr-TR')}</td>
+            <td>${item.location}</td>
+            <td>${item.amount.toLocaleString('tr-TR')} ₺</td>
+            <td>
+                <span class="status-badge" style="background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-color);">
+                    ${item.type}
+                </span>
+            </td>
+            <td>
+                <div class="action-buttons">
+                    <button class="btn-icon text-danger" onclick="deleteToll(${item.id})"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+    updatePagination('tolls', data.currentPage, data.totalPages);
+}
+
+// Add these dummy functions to prevent console errors when user clicks "Ekle" for now
+
+
+async function deleteInsurance(id) {
+    if(confirm('Poliçe kaydını silmek istediğinize emin misiniz?')) {
+        await fetch(`${API_BASE}/vehicle-insurances/${id}`, { method: 'DELETE' });
+        loadInsurances();
+    }
+}
+
+async function deleteTrafficFine(id) {
+    if(confirm('Ceza kaydını silmek istediğinize emin misiniz?')) {
+        await fetch(`${API_BASE}/vehicle-traffic-fines/${id}`, { method: 'DELETE' });
+        loadTrafficFines();
+    }
+}
+
+async function deleteToll(id) {
+    if(confirm('Geçiş kaydını silmek istediğinize emin misiniz?')) {
+        await fetch(`${API_BASE}/vehicle-tolls/${id}`, { method: 'DELETE' });
+        loadTolls();
+    }
+}
+
+
+// ===================== CRUD LOGIC FOR NEW MODULES ===================== //
+
+function openAddInsuranceModal() {
+    document.getElementById("insurance-form").reset();
+    populateSelect("insurance-vehicle-select", "/vehicles?pageSize=100", "plateNumber");
+    openModal("modal-insurance");
+}
+
+async function handleInsuranceSubmit(e) {
+    e.preventDefault();
+    const payload = {
+        vehicleId: parseInt(document.getElementById("insurance-vehicle-select").value),
+        insuranceType: document.getElementById("insurance-type").value,
+        policyNumber: document.getElementById("insurance-policy-number").value,
+        providerCompany: document.getElementById("insurance-provider").value,
+        startDate: document.getElementById("insurance-start-date").value,
+        endDate: document.getElementById("insurance-end-date").value,
+        cost: parseFloat(document.getElementById("insurance-cost").value)
+    };
+
+    try {
+        const response = await fetch(`${API_BASE}/vehicle-insurances`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+        const res = await response.json();
+        if(res.isSuccess || response.ok) {
+            closeModal("modal-insurance");
+            loadInsurances();
+            showToast("Sigorta/Kasko başarıyla eklendi.", "success");
+        } else {
+            showToast(res.message || "Ekleme sırasında hata oluştu.", "error");
+        }
+    } catch (err) {
+        console.error(err);
+        showToast("Sunucu hatası", "error");
+    }
+}
+
+async function openAddTrafficFineModal() {
+    document.getElementById("trafficfine-form").reset();
+    
+    const vehicles = await populateSelect("trafficfine-vehicle-select", "/vehicles?pageSize=100", "plateNumber");
+    await populateSelect("trafficfine-driver-select", "/person?pageSize=100", "name", (person) => `${person.name} ${person.surname}`);
+    
+    const vSelect = document.getElementById("trafficfine-vehicle-select");
+    const dSelect = document.getElementById("trafficfine-driver-select");
+    
+    vSelect.onchange = function() {
+        if (!vehicles) return;
+        const selectedVId = parseInt(this.value);
+        if (isNaN(selectedVId)) {
+            dSelect.value = "";
+            return;
+        }
+        const selectedVehicle = vehicles.find(v => v.id === selectedVId);
+        if (selectedVehicle && selectedVehicle.personId) {
+            dSelect.value = selectedVehicle.personId;
+        } else {
+            dSelect.value = "";
+        }
+    };
+    
+    openModal("modal-trafficfine");
+}
+
+async function handleTrafficFineSubmit(e) {
+    e.preventDefault();
+    const payload = {
+        vehicleId: parseInt(document.getElementById("trafficfine-vehicle-select").value),
+        personId: document.getElementById("trafficfine-driver-select").value ? parseInt(document.getElementById("trafficfine-driver-select").value) : null,
+        fineDate: document.getElementById("trafficfine-date").value,
+        amount: parseFloat(document.getElementById("trafficfine-amount").value),
+        discountedAmount: document.getElementById("trafficfine-discounted-amount").value ? parseFloat(document.getElementById("trafficfine-discounted-amount").value) : null,
+        isPaid: document.getElementById("trafficfine-ispaid").checked,
+        description: document.getElementById("trafficfine-description").value
+    };
+
+    try {
+        const response = await fetch(`${API_BASE}/vehicle-traffic-fines`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+        const res = await response.json();
+        if(res.isSuccess || response.ok) {
+            closeModal("modal-trafficfine");
+            loadTrafficFines();
+            showToast("Ceza başarıyla eklendi.", "success");
+        } else {
+            showToast(res.message || "Ekleme sırasında hata oluştu.", "error");
+        }
+    } catch (err) {
+        console.error(err);
+        showToast("Sunucu hatası", "error");
+    }
+}
+
+function openAddTollModal() {
+    document.getElementById("toll-form").reset();
+    populateSelect("toll-vehicle-select", "/vehicles?pageSize=100", "plateNumber");
+    openModal("modal-toll");
+}
+
+async function handleTollSubmit(e) {
+    e.preventDefault();
+    const payload = {
+        vehicleId: parseInt(document.getElementById("toll-vehicle-select").value),
+        transitDate: document.getElementById("toll-date").value,
+        location: document.getElementById("toll-location").value,
+        amount: parseFloat(document.getElementById("toll-amount").value),
+        type: document.getElementById("toll-type").value
+    };
+
+    try {
+        const response = await fetch(`${API_BASE}/vehicle-tolls`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+        const res = await response.json();
+        if(res.isSuccess || response.ok) {
+            closeModal("modal-toll");
+            loadTolls();
+            showToast("Geçiş başarıyla eklendi.", "success");
+        } else {
+            showToast(res.message || "Ekleme sırasında hata oluştu.", "error");
+        }
+    } catch (err) {
+        console.error(err);
+        showToast("Sunucu hatası", "error");
+    }
+}
+
+async function populateSelect(selectId, endpoint, textFieldName, textFn = null) {
+    const select = document.getElementById(selectId);
+    select.innerHTML = '<option value="">Seçiniz...</option>';
+    try {
+        const response = await fetch(`${API_BASE}${endpoint.startsWith('/') ? endpoint : '/' + endpoint}`);
+        const data = await response.json();
+        
+        const items = (data.data && data.data.items) ? data.data.items : data.data;
+        if (items && Array.isArray(items)) {
+            items.forEach(item => {
+                const text = textFn ? textFn(item) : (item[textFieldName] || item.id);
+                select.innerHTML += `<option value="${item.id}">${text}</option>`;
+            });
+        }
+        return items;
+    } catch (e) {
+        console.error('Error populating select for ' + selectId, e);
+        return null;
+    }
 }
