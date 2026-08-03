@@ -1643,22 +1643,10 @@ async function populateSelect(selectId, endpoint, textFieldName, textFn = null) 
 
 // --- RBAC User Switcher ---
 async function loadUsersForSwitcher() {
-    const userId = localStorage.getItem('filo_active_user_id') || '1';
-    const data = await fetch('/api/v1/person?PageSize=1000', {
-        headers: { 'x-user-id': userId }
-    }).then(res => res.json());
-    // If we only get 1 result (self), try fetching as admin to get all users for the switcher
-    if (data && data.data && data.data.items && data.data.items.length <= 1) {
-        const adminData = await fetch('/api/v1/person?PageSize=1000', {
-            headers: { 'x-user-id': '1' }
-        }).then(res => res.json());
-        if (adminData && adminData.data && adminData.data.items && adminData.data.items.length > data.data.items.length) {
-            // Use admin list for switcher only so users can switch roles
-            populateSwitcher(adminData.data.items, userId);
-            return;
-        }
-    }
+    // Fetch WITHOUT x-user-id so RBAC middleware is not applied and ALL users are returned
+    const data = await fetch('/api/v1/person?PageSize=1000').then(res => res.json());
     if (data && data.data && data.data.items) {
+        const userId = localStorage.getItem('filo_active_user_id') || data.data.items[0].id.toString();
         populateSwitcher(data.data.items, userId);
     }
 }
