@@ -1496,21 +1496,21 @@ async function loadTolls() {
 
 async function deleteInsurance(id) {
     if(confirm('Poliçe kaydını silmek istediğinize emin misiniz?')) {
-        await fetch(`${API_BASE}/vehicle-insurances/${id}`, { method: 'DELETE' });
+        await apiFetch(`/vehicle-insurances/${id}`, { method: 'DELETE' });
         loadInsurances();
     }
 }
 
 async function deleteTrafficFine(id) {
     if(confirm('Ceza kaydını silmek istediğinize emin misiniz?')) {
-        await fetch(`${API_BASE}/vehicle-traffic-fines/${id}`, { method: 'DELETE' });
+        await apiFetch(`/vehicle-traffic-fines/${id}`, { method: 'DELETE' });
         loadTrafficFines();
     }
 }
 
 async function deleteToll(id) {
     if(confirm('Geçiş kaydını silmek istediğinize emin misiniz?')) {
-        await fetch(`${API_BASE}/vehicle-tolls/${id}`, { method: 'DELETE' });
+        await apiFetch(`/vehicle-tolls/${id}`, { method: 'DELETE' });
         loadTolls();
     }
 }
@@ -1536,23 +1536,13 @@ async function handleInsuranceSubmit(e) {
         cost: parseFloat(document.getElementById("insurance-cost").value)
     };
 
-    try {
-        const response = await fetch(`${API_BASE}/vehicle-insurances`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        });
-        const res = await response.json();
-        if(res.isSuccess || response.ok) {
-            closeModal("modal-insurance");
-            loadInsurances();
-            showToast("Sigorta/Kasko başarıyla eklendi.", "success");
-        } else {
-            showToast(res.message || "Ekleme sırasında hata oluştu.", "error");
-        }
-    } catch (err) {
-        console.error(err);
-        showToast("Sunucu hatası", "error");
+    const res = await apiFetch(`/vehicle-insurances`, {
+        method: "POST",
+        body: JSON.stringify(payload)
+    });
+    if(res) {
+        closeModal("modal-insurance");
+        loadInsurances();
     }
 }
 
@@ -1595,23 +1585,13 @@ async function handleTrafficFineSubmit(e) {
         description: document.getElementById("trafficfine-description").value
     };
 
-    try {
-        const response = await fetch(`${API_BASE}/vehicle-traffic-fines`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        });
-        const res = await response.json();
-        if(res.isSuccess || response.ok) {
-            closeModal("modal-trafficfine");
-            loadTrafficFines();
-            showToast("Ceza başarıyla eklendi.", "success");
-        } else {
-            showToast(res.message || "Ekleme sırasında hata oluştu.", "error");
-        }
-    } catch (err) {
-        console.error(err);
-        showToast("Sunucu hatası", "error");
+    const res = await apiFetch(`/vehicle-traffic-fines`, {
+        method: "POST",
+        body: JSON.stringify(payload)
+    });
+    if(res) {
+        closeModal("modal-trafficfine");
+        loadTrafficFines();
     }
 }
 
@@ -1631,23 +1611,13 @@ async function handleTollSubmit(e) {
         type: document.getElementById("toll-type").value
     };
 
-    try {
-        const response = await fetch(`${API_BASE}/vehicle-tolls`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        });
-        const res = await response.json();
-        if(res.isSuccess || response.ok) {
-            closeModal("modal-toll");
-            loadTolls();
-            showToast("Geçiş başarıyla eklendi.", "success");
-        } else {
-            showToast(res.message || "Ekleme sırasında hata oluştu.", "error");
-        }
-    } catch (err) {
-        console.error(err);
-        showToast("Sunucu hatası", "error");
+    const res = await apiFetch(`/vehicle-tolls`, {
+        method: "POST",
+        body: JSON.stringify(payload)
+    });
+    if(res) {
+        closeModal("modal-toll");
+        loadTolls();
     }
 }
 
@@ -1655,10 +1625,8 @@ async function populateSelect(selectId, endpoint, textFieldName, textFn = null) 
     const select = document.getElementById(selectId);
     select.innerHTML = '<option value="">Seçiniz...</option>';
     try {
-        const response = await fetch(`${API_BASE}${endpoint.startsWith('/') ? endpoint : '/' + endpoint}`);
-        const data = await response.json();
-        
-        const items = (data.data && data.data.items) ? data.data.items : data.data;
+        const data = await apiFetch(`${endpoint.startsWith('/') ? endpoint : '/' + endpoint}`);
+        const items = (data && data.data && data.data.items) ? data.data.items : (data && data.data ? data.data : null);
         if (items && Array.isArray(items)) {
             items.forEach(item => {
                 const text = textFn ? textFn(item) : (item[textFieldName] || item.id);
@@ -1675,24 +1643,41 @@ async function populateSelect(selectId, endpoint, textFieldName, textFn = null) 
 
 // --- RBAC User Switcher ---
 async function loadUsersForSwitcher() {
-    const data = await fetch('/api/v1/person?PageSize=1000').then(res => res.json());
-    if (data && data.data && data.data.items) {
-        const select = document.getElementById('user-switcher');
-        if(!select) return;
-        select.innerHTML = '';
-        data.data.items.forEach(p => {
-            const opt = document.createElement('option');
-            opt.value = p.id;
-            opt.textContent = `${p.name} ${p.surname} (${p.role})`;
-            select.appendChild(opt);
-        });
-        
-        const activeUser = localStorage.getItem('filo_active_user_id') || data.data.items[0].id.toString();
-        select.value = activeUser;
-        localStorage.setItem('filo_active_user_id', activeUser);
-        
-        applyRbacRules(data.data.items.find(x => x.id.toString() === activeUser));
+    const userId = localStorage.getItem('filo_active_user_id') || '1';
+    const data = await fetch('/api/v1/person?PageSize=1000', {
+        headers: { 'x-user-id': userId }
+    }).then(res => res.json());
+    // If we only get 1 result (self), try fetching as admin to get all users for the switcher
+    if (data && data.data && data.data.items && data.data.items.length <= 1) {
+        const adminData = await fetch('/api/v1/person?PageSize=1000', {
+            headers: { 'x-user-id': '1' }
+        }).then(res => res.json());
+        if (adminData && adminData.data && adminData.data.items && adminData.data.items.length > data.data.items.length) {
+            // Use admin list for switcher only so users can switch roles
+            populateSwitcher(adminData.data.items, userId);
+            return;
+        }
     }
+    if (data && data.data && data.data.items) {
+        populateSwitcher(data.data.items, userId);
+    }
+}
+
+function populateSwitcher(items, activeUser) {
+    if (!items) return;
+    const select = document.getElementById('user-switcher');
+    if (!select) return;
+    select.innerHTML = '';
+    items.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = `${p.name} ${p.surname} (${p.role})`;
+        select.appendChild(opt);
+    });
+    const stored = localStorage.getItem('filo_active_user_id') || items[0].id.toString();
+    select.value = stored;
+    localStorage.setItem('filo_active_user_id', stored);
+    applyRbacRules(items.find(x => x.id.toString() === stored));
 }
 
 function switchUser(userId) {
